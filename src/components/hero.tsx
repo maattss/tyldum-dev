@@ -6,9 +6,9 @@ export function Hero() {
   const t = useTranslations("hero");
 
   return (
-    <section className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
-      <div className="mb-8">
-        <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border-4 border-primary/10 sm:h-40 sm:w-40">
+    <section className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
+      <div className="mb-8 animate-fade-in">
+        <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background sm:h-44 sm:w-44 glow animate-float">
           {/* Replace with your profile photo: /public/images/profile.jpg */}
           <Image
             src="/images/profile-placeholder.svg"
@@ -19,19 +19,21 @@ export function Hero() {
           />
         </div>
       </div>
-      <div className="space-y-4">
-        <p className="text-lg text-muted-foreground">{t("greeting")}</p>
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          {t("name")}
+      <div className="space-y-6">
+        <p className="text-lg text-muted-foreground animate-fade-in-delay-1">
+          {t("greeting")}
+        </p>
+        <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl animate-fade-in-delay-1">
+          <span className="gradient-text">{t("name")}</span>
         </h1>
-        <p className="text-xl text-muted-foreground sm:text-2xl">
+        <p className="text-xl font-medium text-foreground/80 sm:text-2xl animate-fade-in-delay-2">
           {t("tagline")}
         </p>
-        <p className="mx-auto max-w-md text-muted-foreground">
+        <p className="mx-auto max-w-lg text-muted-foreground leading-relaxed animate-fade-in-delay-2">
           {t("description")}
         </p>
       </div>
-      <div className="mt-8">
+      <div className="mt-10 animate-fade-in-delay-3">
         <SocialLinks />
       </div>
     </section>
