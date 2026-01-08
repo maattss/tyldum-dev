@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "greeting": "Hei, jeg er",
+    "name": "Mats Tyldum",
+    "tagline": "Teknologileder | Utvikler | Problemløser",
+    "description": "Teknologileder hos Sparebanken Norge med lidenskap for å bygge gode team og leveranser."
+  },
+  "about": {
+    "title": "Om meg",
+    "role": "Teknologileder",
+    "company": "Sparebanken Norge",
+    "location": "Bergen, Norge",
+    "education": "Master i informatikk fra NTNU"
+  },
+  "social": {
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "theme": {
+    "light": "Lys",
+    "dark": "Mørk",
+    "system": "System",
+    "toggle": "Bytt tema"
+  },
+  "language": {
+    "select": "Velg språk"
+  },
+  "footer": {
+    "copyright": "© {year} Mats Tyldum. Alle rettigheter reservert."
+  },
+  "blog": {
+    "title": "Blogg",
+    "readMore": "Les mer",
+    "noPosts": "Ingen innlegg enda."
+  }
+}

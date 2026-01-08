@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Mats Tyldum",
+    "tagline": "Technology Leader | Developer | Problem Solver",
+    "description": "Technology leader at Sparebanken Norge with a passion for building great teams and deliveries."
+  },
+  "about": {
+    "title": "About me",
+    "role": "Technology Leader",
+    "company": "Sparebanken Norge",
+    "location": "Bergen, Norway",
+    "education": "Master's degree in Computer Science from NTNU"
+  },
+  "social": {
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "toggle": "Toggle theme"
+  },
+  "language": {
+    "select": "Select language"
+  },
+  "footer": {
+    "copyright": "© {year} Mats Tyldum. All rights reserved."
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Read more",
+    "noPosts": "No posts yet."
+  }
+}
