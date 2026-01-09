@@ -6,12 +6,11 @@ export function Hero() {
   const t = useTranslations("hero");
 
   return (
-    <section className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
+    <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
       <div className="mb-8 animate-fade-in">
         <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background sm:h-44 sm:w-44 glow animate-float">
-          {/* Replace with your profile photo: /public/images/profile.jpg */}
           <Image
-            src="/images/profile-placeholder.svg"
+            src="/images/profile.jpg"
             alt={t("name")}
             fill
             className="object-cover"
