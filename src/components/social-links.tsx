@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin } from "lucide-react";
 
-export function SocialLinks() {
-  const t = useTranslations("social");
+export async function SocialLinks() {
+  const t = await getTranslations("social");
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-4">

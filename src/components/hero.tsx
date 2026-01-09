@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { SocialLinks } from "./social-links";
 
-export function Hero() {
-  const t = useTranslations("hero");
+export async function Hero() {
+  const t = await getTranslations("hero");
 
   return (
     <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">

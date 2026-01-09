@@ -1,8 +1,13 @@
 {
+  "metadata": {
+    "title": "Mats Tyldum | Teknologileder",
+    "description": "Personlig nettside for Mats Tyldum - Teknologileder hos Sparebanken Norge",
+    "keywords": "Mats Tyldum, teknologileder, utvikler, Bergen, Sparebanken Norge"
+  },
   "hero": {
     "greeting": "Hei, jeg er",
     "name": "Mats Tyldum",
-    "tagline": "Teknologileder",
+    "tagline": "Teknologileder, Sparebanken Norge",
     "description": "Nysgjerrig på hva jeg driver med eller vil du ta prat? Sjekk ut GitHub-profilen min eller send meg en melding på LinkedIn."
   },
   "about": {
@@ -32,5 +37,109 @@
     "title": "Blogg",
     "readMore": "Les mer",
     "noPosts": "Ingen innlegg enda."
+  },
+  "nav": {
+    "home": "Hjem",
+    "cv": "CV",
+    "blog": "Blogg"
+  },
+  "cv": {
+    "name": "Mats Tyldum",
+    "title": "Teknologileder",
+    "downloadPdf": "Last ned PDF",
+    "summary": "Teknologileder i bank med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
+    "contact": {
+      "location": "Bergen, Norge",
+      "email": "ma.tyldum@gmail.com",
+      "phone": "902 64 226"
+    },
+    "experience": {
+      "title": "Erfaring",
+      "items": [
+        {
+          "role": "Teknologileder",
+          "company": "Sparebanken Norge",
+          "period": "2024 - Nå",
+          "description": "Leder utviklingsteam med ansvar for digitale bankløsninger.",
+          "highlights": []
+        },
+        {
+          "role": "Team Lead og Utvikler",
+          "company": "Sparebanken Vest",
+          "period": "2022 - 2024",
+          "description": "Ansvarlig for betalingstjenester.",
+          "highlights": []
+        },
+        {
+          "role": "Utvikler",
+          "company": "Bouvet",
+          "period": "2019 - 2022",
+          "description": "Konsulent utleid til Equinor. Deltid under studier.",
+          "highlights": []
+        },
+        {
+          "role": "IT Internship",
+          "company": "ConocoPhillips",
+          "period": "2018",
+          "description": "Utviklet løsning for uthenting og visualisering av brønndata.",
+          "highlights": []
+        },
+        {
+          "role": "Studentassistent",
+          "company": "Universitetet i Stavanger",
+          "period": "2018",
+          "description": "Objektorientert programmering og Algoritmer og datastrukturer.",
+          "highlights": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Utdanning",
+      "items": [
+        {
+          "degree": "Master i datateknologi",
+          "school": "NTNU",
+          "period": "2019 - 2021",
+          "description": "Spesialisering i programvareutvikling."
+        },
+        {
+          "degree": "Bachelor i datateknologi",
+          "school": "Universitetet i Stavanger",
+          "period": "2017 - 2019",
+          "description": ""
+        },
+        {
+          "degree": "Bachelor i petroleum",
+          "school": "Universitetet i Stavanger",
+          "period": "2014 - 2017",
+          "description": "Spesialisering i reservoarteknologi. Utveksling ved University of Adelaide."
+        }
+      ]
+    },
+    "skills": {
+      "title": "Ferdigheter",
+      "categories": [
+        {
+          "name": "Frontend",
+          "items": ["React", "TypeScript", "Next.js", "React Native"]
+        },
+        {
+          "name": "Backend",
+          "items": [".NET", "C#", "Node.js", "GraphQL"]
+        },
+        {
+          "name": "Cloud & DevOps",
+          "items": ["Azure", "Firebase", "Docker", "CI/CD"]
+        },
+        {
+          "name": "Ledelse",
+          "items": ["Teamledelse", "Agile/Scrum", "Teknisk arkitektur"]
+        }
+      ]
+    },
+    "certifications": {
+      "title": "Sertifiseringer",
+      "items": []
+    }
   }
 }

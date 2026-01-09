@@ -1,8 +1,13 @@
 {
+  "metadata": {
+    "title": "Mats Tyldum | Technology Leader",
+    "description": "Personal website for Mats Tyldum - Technology Leader at Sparebanken Norge",
+    "keywords": "Mats Tyldum, technology leader, developer, Bergen, Sparebanken Norge"
+  },
   "hero": {
     "greeting": "Hi, I'm",
     "name": "Mats Tyldum",
-    "tagline": "Technology Leader",
+    "tagline": "Technology Leader at Sparebanken Norge",
     "description": "Want to chat or see what I'm working on? Find me on LinkedIn or check out my GitHub."
   },
   "about": {
@@ -32,5 +37,109 @@
     "title": "Blog",
     "readMore": "Read more",
     "noPosts": "No posts yet."
+  },
+  "nav": {
+    "home": "Home",
+    "cv": "CV",
+    "blog": "Blog"
+  },
+  "cv": {
+    "name": "Mats Tyldum",
+    "title": "Technology Leader",
+    "downloadPdf": "Download PDF",
+    "summary": "Technology leader in banking with a developer background. Enjoy combining technical work and leadership.",
+    "contact": {
+      "location": "Bergen, Norway",
+      "email": "ma.tyldum@gmail.com",
+      "phone": "+47 902 64 226"
+    },
+    "experience": {
+      "title": "Experience",
+      "items": [
+        {
+          "role": "Technology Leader",
+          "company": "Sparebanken Norge",
+          "period": "2024 - Present",
+          "description": "Leading development team responsible for digital banking solutions.",
+          "highlights": []
+        },
+        {
+          "role": "Team Lead & Developer",
+          "company": "Sparebanken Vest",
+          "period": "2022 - 2024",
+          "description": "Responsible for payment services.",
+          "highlights": []
+        },
+        {
+          "role": "Developer",
+          "company": "Bouvet",
+          "period": "2019 - 2022",
+          "description": "Consultant contracted to Equinor. Part-time during studies.",
+          "highlights": []
+        },
+        {
+          "role": "IT Internship",
+          "company": "ConocoPhillips",
+          "period": "2018",
+          "description": "Developed solution for extracting and visualizing well data.",
+          "highlights": []
+        },
+        {
+          "role": "Teaching Assistant",
+          "company": "University of Stavanger",
+          "period": "2018",
+          "description": "Object-oriented programming and Algorithms and data structures.",
+          "highlights": []
+        }
+      ]
+    },
+    "education": {
+      "title": "Education",
+      "items": [
+        {
+          "degree": "MSc in Computer Science",
+          "school": "NTNU",
+          "period": "2019 - 2021",
+          "description": "Specialization in software development."
+        },
+        {
+          "degree": "BSc in Computer Science",
+          "school": "University of Stavanger",
+          "period": "2017 - 2019",
+          "description": ""
+        },
+        {
+          "degree": "BSc in Petroleum Engineering",
+          "school": "University of Stavanger",
+          "period": "2014 - 2017",
+          "description": "Specialization in reservoir technology. Exchange at University of Adelaide."
+        }
+      ]
+    },
+    "skills": {
+      "title": "Skills",
+      "categories": [
+        {
+          "name": "Frontend",
+          "items": ["React", "TypeScript", "Next.js", "React Native"]
+        },
+        {
+          "name": "Backend",
+          "items": [".NET", "C#", "Node.js", "GraphQL"]
+        },
+        {
+          "name": "Cloud & DevOps",
+          "items": ["Azure", "Firebase", "Docker", "CI/CD"]
+        },
+        {
+          "name": "Leadership",
+          "items": ["Team Leadership", "Agile/Scrum", "Technical Architecture"]
+        }
+      ]
+    },
+    "certifications": {
+      "title": "Certifications",
+      "items": []
+    }
   }
 }
