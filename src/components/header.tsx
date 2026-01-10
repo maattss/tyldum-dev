@@ -25,7 +25,7 @@ export async function Header() {
   const locale = await getLocale();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 pt-[env(safe-area-inset-top)]">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <nav className="flex items-center gap-6">
           <HeaderNavLinks locale={locale} homeLabel="tyldum.dev" cvLabel={t("cv")} />

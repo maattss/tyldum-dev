@@ -15,10 +15,7 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fcfcfc" },
-    { media: "(prefers-color-scheme: dark)", color: "#211f26" },
-  ],
+  viewportFit: "cover",
 };
 
 const geistSans = Geist({

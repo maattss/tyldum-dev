@@ -8,7 +8,7 @@ export async function Footer() {
   return (
     <footer className="mt-auto">
       <Separator />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
         <p className="text-center text-sm text-muted-foreground">
           {t("copyright", { year })}
         </p>
