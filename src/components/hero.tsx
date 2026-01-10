@@ -8,7 +8,8 @@ export async function Hero() {
   return (
     <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center">
       <div className="mb-8">
-        <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background sm:h-44 sm:w-44 glow">
+        {/* Using content-visibility for better paint performance */}
+        <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background sm:h-44 sm:w-44 glow animate-float-delayed">
           <Image
             src="/images/profile.jpg"
             alt={t("name")}

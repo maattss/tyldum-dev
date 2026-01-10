@@ -3,6 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Critical: reduce animation work on initial paint */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -174,14 +185,19 @@
   animation: float 6s ease-in-out infinite;
 }
 
-/* Gradient text */
+/* Delayed float animation - starts after LCP to not block initial render */
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Gradient text - static gradient for better FCP, animation disabled */
 .gradient-text {
   background: linear-gradient(135deg, oklch(0.55 0.2 260) 0%, oklch(0.6 0.22 300) 50%, oklch(0.55 0.2 260) 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradient-shift 4s ease infinite;
 }
 
 .dark .gradient-text {
@@ -201,44 +217,19 @@
   box-shadow: 0 0 40px -10px oklch(0.7 0.18 260 / 0.4);
 }
 
-/* Background gradient orbs */
+/* Background gradient orbs - using CSS gradients instead of blur filter for better performance */
 .bg-gradient-blur {
   position: fixed;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
+  background: 
+    radial-gradient(ellipse 600px 600px at calc(100% + 100px) -200px, oklch(0.7 0.15 260 / 0.15), transparent 70%),
+    radial-gradient(ellipse 600px 600px at -100px calc(100% + 200px), oklch(0.7 0.15 300 / 0.15), transparent 70%);
 }
 
-.bg-gradient-blur::before,
-.bg-gradient-blur::after {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.3;
-}
-
-.bg-gradient-blur::before {
-  background: oklch(0.7 0.15 260);
-  top: -200px;
-  right: -100px;
-}
-
-.bg-gradient-blur::after {
-  background: oklch(0.7 0.15 300);
-  bottom: -200px;
-  left: -100px;
-}
-
-.dark .bg-gradient-blur::before {
-  background: oklch(0.5 0.2 260);
-  opacity: 0.15;
-}
-
-.dark .bg-gradient-blur::after {
-  background: oklch(0.5 0.2 300);
-  opacity: 0.15;
+.dark .bg-gradient-blur {
+  background: 
+    radial-gradient(ellipse 600px 600px at calc(100% + 100px) -200px, oklch(0.5 0.2 260 / 0.08), transparent 70%),
+    radial-gradient(ellipse 600px 600px at -100px calc(100% + 200px), oklch(0.5 0.2 300 / 0.08), transparent 70%);
 }

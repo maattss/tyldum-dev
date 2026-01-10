@@ -17,6 +17,34 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 176, 256, 384, 512],
     formats: ["image/avif", "image/webp"],
   },
+  // Performance optimizations
+  experimental: {
+    // Optimize package imports for better tree-shaking
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-dropdown-menu"],
+  },
+  // Compression and caching headers
+  async headers() {
+    return [
+      {
+        source: "/:all*(svg|jpg|jpeg|png|webp|avif|ico|woff|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withNextIntl(withMDX(nextConfig));
