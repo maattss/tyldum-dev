@@ -16,6 +16,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "oklch(0.99 0.002 280)" },
+    { media: "(prefers-color-scheme: dark)", color: "oklch(0.13 0.01 280)" },
+  ],
 };
 
 const geistSans = Geist({
