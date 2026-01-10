@@ -17,8 +17,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "oklch(0.99 0.002 280)" },
-    { media: "(prefers-color-scheme: dark)", color: "oklch(0.13 0.01 280)" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafd" },
+    { media: "(prefers-color-scheme: dark)", color: "#1b1b1f" },
   ],
 };
 
@@ -49,6 +49,15 @@ export async function generateMetadata({
     description: t("description"),
     keywords: t("keywords").split(", "),
     authors: [{ name: "Mats Tyldum" }],
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+        { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      ],
+      apple: [{ url: "/apple-touch-icon.png" }],
+    },
+    manifest: "/site.webmanifest",
     openGraph: {
       title: t("title"),
       description: t("description"),
@@ -82,15 +91,6 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({
   children,
-  params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  const messages = await getMessages();
-
-  return (
     <html lang={locale} suppressHydrationWarning>
       <head>
         {/* Preload LCP image for faster render */}
@@ -100,6 +100,10 @@ export default async function LocaleLayout({
           as="image"
           type="image/jpeg"
           fetchPriority="high"
+        />
+        <PersonJsonLd />
+        <WebsiteJsonLd />
+        {/* Inline script to set theme before paint - prevents FOUC */}
         />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />

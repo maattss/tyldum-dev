@@ -34,7 +34,7 @@
     "copyright": "© {year} Mats Tyldum. Alle rettigheter reservert."
   },
   "blog": {
-    "title": "Blogg",
+    "title": "Mats Tyldum | Blogg",
     "readMore": "Les mer",
     "noPosts": "Ingen innlegg enda."
   },
@@ -45,7 +45,7 @@
   },
   "cv": {
     "name": "Mats Tyldum",
-    "title": "Teknologileder",
+    "title": "Mats Tyldum | CV",
     "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
     "contact": {
       "location": "Bergen, Norge",
