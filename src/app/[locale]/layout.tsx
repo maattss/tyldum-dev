@@ -91,6 +91,15 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({
   children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const messages = await getMessages();
+
+  return (
     <html lang={locale} suppressHydrationWarning>
       <head>
         {/* Preload LCP image for faster render */}
@@ -101,15 +110,6 @@ export default async function LocaleLayout({
           type="image/jpeg"
           fetchPriority="high"
         />
-        <PersonJsonLd />
-        <WebsiteJsonLd />
-        {/* Inline script to set theme before paint - prevents FOUC */}
-        />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
         <PersonJsonLd />
         <WebsiteJsonLd />
         {/* Inline script to set theme before paint - prevents FOUC */}
