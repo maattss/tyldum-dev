@@ -183,12 +183,14 @@
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* Delayed float animation - starts after LCP to not block initial render */
 .animate-float-delayed {
   animation: float 6s ease-in-out infinite;
   animation-delay: 0.5s;
+  will-change: transform;
 }
 
 /* Gradient text - static gradient for better FCP, animation disabled */
@@ -217,44 +219,21 @@
   box-shadow: 0 0 40px -10px oklch(0.7 0.18 260 / 0.4);
 }
 
-/* Background gradient orbs - using CSS gradients instead of blur filter for better performance */
+/* Background gradient orbs - using CSS gradients for max performance */
 .bg-gradient-blur {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
+  /* Use radial gradients directly instead of blurred elements */
+  background-image: 
+    radial-gradient(circle at 80% 20%, oklch(0.7 0.15 260 / 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, oklch(0.7 0.15 300 / 0.3) 0%, transparent 40%);
 }
 
-.bg-gradient-blur::before,
-.bg-gradient-blur::after {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.3;
-}
-
-.bg-gradient-blur::before {
-  background: oklch(0.7 0.15 260);
-  top: -200px;
-  right: -100px;
-}
-
-.bg-gradient-blur::after {
-  background: oklch(0.7 0.15 300);
-  bottom: -200px;
-  left: -100px;
-}
-
-.dark .bg-gradient-blur::before {
-  background: oklch(0.5 0.2 260);
-  opacity: 0.15;
-}
-
-.dark .bg-gradient-blur::after {
-  background: oklch(0.5 0.2 300);
-  opacity: 0.15;
+.dark .bg-gradient-blur {
+  background-image: 
+    radial-gradient(circle at 80% 20%, oklch(0.5 0.2 260 / 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, oklch(0.5 0.2 300 / 0.15) 0%, transparent 50%);
 }
