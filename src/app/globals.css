@@ -222,14 +222,39 @@
   position: fixed;
   inset: 0;
   z-index: -1;
+  overflow: hidden;
   pointer-events: none;
-  background: 
-    radial-gradient(ellipse 600px 600px at calc(100% + 100px) -200px, oklch(0.7 0.15 260 / 0.15), transparent 70%),
-    radial-gradient(ellipse 600px 600px at -100px calc(100% + 200px), oklch(0.7 0.15 300 / 0.15), transparent 70%);
 }
 
-.dark .bg-gradient-blur {
-  background: 
-    radial-gradient(ellipse 600px 600px at calc(100% + 100px) -200px, oklch(0.5 0.2 260 / 0.08), transparent 70%),
-    radial-gradient(ellipse 600px 600px at -100px calc(100% + 200px), oklch(0.5 0.2 300 / 0.08), transparent 70%);
+.bg-gradient-blur::before,
+.bg-gradient-blur::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+}
+
+.bg-gradient-blur::before {
+  background: oklch(0.7 0.15 260);
+  top: -200px;
+  right: -100px;
+}
+
+.bg-gradient-blur::after {
+  background: oklch(0.7 0.15 300);
+  bottom: -200px;
+  left: -100px;
+}
+
+.dark .bg-gradient-blur::before {
+  background: oklch(0.5 0.2 260);
+  opacity: 0.15;
+}
+
+.dark .bg-gradient-blur::after {
+  background: oklch(0.5 0.2 300);
+  opacity: 0.15;
 }
