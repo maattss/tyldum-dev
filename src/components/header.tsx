@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
 import { ThemeToggle } from "./theme-toggle";
 import { LanguageToggle } from "./language-toggle";

@@ -1,12 +1,16 @@
 // Blog page - Currently hidden, uncomment in header navigation when ready
-import { useTranslations, useLocale } from "next-intl";
+import { getTranslations, getLocale } from "next-intl/server";
 import { getBlogPosts } from "@/lib/blog";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function BlogPage() {
-  const t = useTranslations("blog");
-  const locale = useLocale();
+export function generateStaticParams() {
+  return [{ locale: "no" }, { locale: "en" }];
+}
+
+export default async function BlogPage() {
+  const t = await getTranslations("blog");
+  const locale = await getLocale();
   const posts = getBlogPosts(locale);
 
   return (

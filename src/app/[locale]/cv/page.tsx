@@ -1,7 +1,29 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return [{ locale: "no" }, { locale: "en" }];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "cv" });
+
+  return {
+    title: `${t("name")} - ${t("title")}`,
+    description: t("summary"),
+    alternates: {
+      canonical: `https://tyldum.dev/${locale}/cv`,
+      languages: {
+        no: "https://tyldum.dev/no/cv",
+        en: "https://tyldum.dev/en/cv",
+      },
+    },
+  };
 }
 
 export default async function CVPage() {

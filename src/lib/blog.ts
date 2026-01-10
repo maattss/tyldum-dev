@@ -2,6 +2,12 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
+interface BlogFrontmatter {
+  title?: string;
+  description?: string;
+  date?: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -25,15 +31,15 @@ export function getBlogPosts(locale: string): BlogPost[] {
   const posts = files
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => {
-      const filePath = path.join(localeDirectory, file);
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const { data, content } = matter(fileContent);
+      const fullPath = path.join(localeDirectory, file);
+      const fileContent = fs.readFileSync(fullPath, "utf8");
+      const { data, content } = matter(fileContent) as { data: BlogFrontmatter; content: string };
 
       return {
         slug: file.replace(".mdx", ""),
-        title: data.title || "",
-        description: data.description || "",
-        date: data.date || "",
+        title: data.title ?? "",
+        description: data.description ?? "",
+        date: data.date ?? "",
         locale,
         content,
       };
@@ -44,20 +50,20 @@ export function getBlogPosts(locale: string): BlogPost[] {
 }
 
 export function getBlogPost(slug: string, locale: string): BlogPost | null {
-  const filePath = path.join(contentDirectory, locale, `${slug}.mdx`);
+  const fullPath = path.join(contentDirectory, locale, `${slug}.mdx`);
 
-  if (!fs.existsSync(filePath)) {
+  if (!fs.existsSync(fullPath)) {
     return null;
   }
 
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(fileContent);
+  const fileContent = fs.readFileSync(fullPath, "utf8");
+  const { data, content } = matter(fileContent) as { data: BlogFrontmatter; content: string };
 
   return {
     slug,
-    title: data.title || "",
-    description: data.description || "",
-    date: data.date || "",
+    title: data.title ?? "",
+    description: data.description ?? "",
+    date: data.date ?? "",
     locale,
     content,
   };

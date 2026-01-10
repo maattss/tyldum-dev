@@ -19,7 +19,7 @@ export function PersonJsonLd() {
       addressCountry: "Norway",
     },
     sameAs: [
-      "https://www.linkedin.com/in/matstyldum/",
+      "https://www.linkedin.com/in/mtyldum/",
       "https://github.com/maattss",
     ],
   };
