@@ -46,8 +46,7 @@
   "cv": {
     "name": "Mats Tyldum",
     "title": "Technology Leader",
-    "downloadPdf": "Download PDF",
-    "summary": "Technology leader in banking with a developer background. Enjoy combining technical work and leadership.",
+    "summary": "Technology leader with a developer background. Enjoy combining technical work and leadership.",
     "contact": {
       "location": "Bergen, Norway",
       "email": "ma.tyldum@gmail.com",
@@ -60,21 +59,21 @@
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
           "period": "2024 - Present",
-          "description": "Leading development team responsible for digital banking solutions.",
+          "description": "Responsible for a development team responsible for banking solutions.",
           "highlights": []
         },
         {
           "role": "Team Lead & Developer",
           "company": "Sparebanken Vest",
           "period": "2022 - 2024",
-          "description": "Responsible for payment services.",
+          "description": "In a team responsible for payment services.",
           "highlights": []
         },
         {
           "role": "Developer",
           "company": "Bouvet",
           "period": "2019 - 2022",
-          "description": "Consultant contracted to Equinor. Part-time during studies.",
+          "description": "Consultant at Equinor. Part-time during studies.",
           "highlights": []
         },
         {
@@ -88,7 +87,7 @@
           "role": "Teaching Assistant",
           "company": "University of Stavanger",
           "period": "2018",
-          "description": "Object-oriented programming and Algorithms and data structures.",
+          "description": "In the subjects: object-oriented programming, computer architecture and algorithms and data structures.",
           "highlights": []
         }
       ]
@@ -112,7 +111,7 @@
           "degree": "BSc in Petroleum Engineering",
           "school": "University of Stavanger",
           "period": "2014 - 2017",
-          "description": "Specialization in reservoir technology. Exchange at University of Adelaide."
+          "description": "Specialization in reservoir technology. One semester exchange at University of Adelaide."
         }
       ]
     },

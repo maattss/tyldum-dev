@@ -4,7 +4,7 @@ export default function Loading() {
       <section className="flex flex-col items-center justify-center px-4 py-16 sm:py-24 text-center animate-pulse">
         {/* Profile image skeleton */}
         <div className="mb-8">
-          <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full ring-4 ring-primary/20 ring-offset-4 ring-offset-background sm:h-44 sm:w-44 bg-muted" />
+          <div className="relative mx-auto h-36 w-36 overflow-hidden rounded-full sm:h-44 sm:w-44 bg-muted" />
         </div>
 
         {/* Content skeleton */}

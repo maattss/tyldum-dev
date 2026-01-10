@@ -46,12 +46,11 @@
   "cv": {
     "name": "Mats Tyldum",
     "title": "Teknologileder",
-    "downloadPdf": "Last ned PDF",
-    "summary": "Teknologileder i bank med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
+    "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
     "contact": {
       "location": "Bergen, Norge",
       "email": "ma.tyldum@gmail.com",
-      "phone": "902 64 226"
+      "phone": "+47 902 64 226"
     },
     "experience": {
       "title": "Erfaring",
@@ -60,25 +59,25 @@
           "role": "Teknologileder",
           "company": "Sparebanken Norge",
           "period": "2024 - Nå",
-          "description": "Leder utviklingsteam med ansvar for digitale bankløsninger.",
+          "description": "Ansvarlig for utviklingsteam med ansvar for bankløsninger.",
           "highlights": []
         },
         {
           "role": "Team Lead og Utvikler",
           "company": "Sparebanken Vest",
           "period": "2022 - 2024",
-          "description": "Ansvarlig for betalingstjenester.",
+          "description": "I team ansvarlig for betalingstjenester.",
           "highlights": []
         },
         {
           "role": "Utvikler",
           "company": "Bouvet",
           "period": "2019 - 2022",
-          "description": "Konsulent utleid til Equinor. Deltid under studier.",
+          "description": "Konsulent hos Equinor. Deltid under studier.",
           "highlights": []
         },
         {
-          "role": "IT Internship",
+          "role": "IT-Praktikant",
           "company": "ConocoPhillips",
           "period": "2018",
           "description": "Utviklet løsning for uthenting og visualisering av brønndata.",
@@ -88,7 +87,7 @@
           "role": "Studentassistent",
           "company": "Universitetet i Stavanger",
           "period": "2018",
-          "description": "Objektorientert programmering og Algoritmer og datastrukturer.",
+          "description": "I fagene objektorientert programmering, datamaskinarkitektur og algoritmer og datastrukturer.",
           "highlights": []
         }
       ]
@@ -112,7 +111,7 @@
           "degree": "Bachelor i petroleum",
           "school": "Universitetet i Stavanger",
           "period": "2014 - 2017",
-          "description": "Spesialisering i reservoarteknologi. Utveksling ved University of Adelaide."
+          "description": "Spesialisering i reservoarteknologi. Et semester utveksling ved University of Adelaide."
         }
       ]
     },
