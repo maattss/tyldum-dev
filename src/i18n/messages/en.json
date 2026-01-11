@@ -54,12 +54,14 @@
     },
     "experience": {
       "title": "Experience",
+      "showMore": "Show earlier experience",
+      "showLess": "Hide earlier experience",
       "items": [
         {
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
           "period": "2024 - Present",
-          "description": "Responsible for a development team responsible for banking solutions.",
+          "description": "Leading a larger team developing and maintaining payment services.",
           "highlights": []
         },
         {
@@ -88,6 +90,13 @@
           "company": "University of Stavanger",
           "period": "2018",
           "description": "In the subjects: object-oriented programming, computer architecture and algorithms and data structures.",
+          "highlights": []
+        },
+        {
+          "role": "Store Employee",
+          "company": "Jysk",
+          "period": "2012 - 2018",
+          "description": "",
           "highlights": []
         }
       ]

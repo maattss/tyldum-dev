@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { CollapsibleExperience } from "@/components/collapsible-experience";
 
 export function generateStaticParams() {
   return [{ locale: "no" }, { locale: "en" }];
@@ -73,43 +74,60 @@ export default async function CVPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-6">
             {t("experience.title")}
           </h2>
-          <div className="space-y-8">
-            {(
-              t.raw("experience.items") as Array<{
-                role: string;
-                company: string;
-                period: string;
-                description: string;
-                highlights: string[];
-              }>
-            ).map((job, index) => (
-              <div
-                key={index}
-                className="group relative pl-6 border-l border-border/50 hover:border-primary/50 transition-colors duration-200"
-              >
-                <div className="absolute left-0 top-1.5 w-2 h-2 -translate-x-[4.5px] rounded-full bg-border group-hover:bg-primary transition-colors duration-200" />
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-                  <div>
-                    <h3 className="font-semibold text-foreground">{job.role}</h3>
-                    <p className="text-primary/80 text-sm">{job.company}</p>
+          {(() => {
+            const allJobs = t.raw("experience.items") as Array<{
+              role: string;
+              company: string;
+              period: string;
+              description: string;
+              highlights: string[];
+            }>;
+            // Split at index 3 - first 3 are recent (2019+), rest are earlier
+            const recentJobs = allJobs.slice(0, 3);
+            const earlierJobs = allJobs.slice(3);
+
+            return (
+              <div className="space-y-8">
+                {/* Recent experience */}
+                {recentJobs.map((job, index) => (
+                  <div
+                    key={index}
+                    className="group relative pl-6 border-l border-border/50 hover:border-primary/50 transition-colors duration-200"
+                  >
+                    <div className="absolute left-0 top-1.5 w-2 h-2 -translate-x-[4.5px] rounded-full bg-border group-hover:bg-primary transition-colors duration-200" />
+                    <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+                      <div>
+                        <h3 className="font-semibold text-foreground">{job.role}</h3>
+                        <p className="text-primary/80 text-sm">{job.company}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground font-medium tabular-nums">
+                        {job.period}
+                      </p>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{job.description}</p>
+                    {job.highlights.length > 0 && (
+                      <ul className="mt-2 space-y-1">
+                        {job.highlights.map((highlight, i) => (
+                          <li key={i} className="text-sm text-muted-foreground pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground/50">
+                            {highlight}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                  <p className="text-xs text-muted-foreground font-medium tabular-nums">
-                    {job.period}
-                  </p>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{job.description}</p>
-                {job.highlights.length > 0 && (
-                  <ul className="mt-2 space-y-1">
-                    {job.highlights.map((highlight, i) => (
-                      <li key={i} className="text-sm text-muted-foreground pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground/50">
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
+                ))}
+
+                {/* Earlier experience - collapsible */}
+                {earlierJobs.length > 0 && (
+                  <CollapsibleExperience
+                    items={earlierJobs}
+                    showMoreLabel={t("experience.showMore")}
+                    showLessLabel={t("experience.showLess")}
+                  />
                 )}
               </div>
-            ))}
-          </div>
+            );
+          })()}
         </section>
 
         {/* Education */}
