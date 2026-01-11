@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Mats Tyldum | Technology Leader",
+    "title": "tyldum.dev | Home",
     "description": "Personal website for Mats Tyldum - Technology Leader at Sparebanken Norge",
     "keywords": "Mats Tyldum, technology leader, developer, Bergen, Sparebanken Norge"
   },
@@ -34,7 +34,7 @@
     "copyright": "© {year} Mats Tyldum. All rights reserved."
   },
   "blog": {
-    "title": "Mats Tyldum | CV",
+    "title": "tyldum.dev | Blog",
     "readMore": "Read more",
     "noPosts": "No posts yet."
   },
@@ -45,7 +45,7 @@
   },
   "cv": {
     "name": "Mats Tyldum",
-    "title": "Mats Tyldum | CV",
+    "title": "tyldum.dev | CV",
     "summary": "Technology leader with a developer background. Enjoy combining technical work and leadership.",
     "contact": {
       "location": "Bergen, Norway",

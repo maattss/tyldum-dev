@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Mats Tyldum | Teknologileder",
+    "title": "tyldum.dev | Hjem",
     "description": "Personlig nettside for Mats Tyldum - Teknologileder hos Sparebanken Norge",
     "keywords": "Mats Tyldum, teknologileder, utvikler, Bergen, Sparebanken Norge"
   },
@@ -34,7 +34,7 @@
     "copyright": "© {year} Mats Tyldum. Alle rettigheter reservert."
   },
   "blog": {
-    "title": "Mats Tyldum | Blogg",
+    "title": "tyldum.dev | Blogg",
     "readMore": "Les mer",
     "noPosts": "Ingen innlegg enda."
   },
@@ -45,7 +45,7 @@
   },
   "cv": {
     "name": "Mats Tyldum",
-    "title": "Mats Tyldum | CV",
+    "title": "tyldum.dev | CV",
     "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
     "contact": {
       "location": "Bergen, Norge",

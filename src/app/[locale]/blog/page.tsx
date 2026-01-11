@@ -3,9 +3,23 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { getBlogPosts } from "@/lib/blog";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return [{ locale: "no" }, { locale: "en" }];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "blog" });
+
+  return {
+    title: t("title"),
+  };
 }
 
 export default async function BlogPage() {

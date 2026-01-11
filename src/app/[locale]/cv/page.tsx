@@ -14,7 +14,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "cv" });
 
   return {
-    title: `${t("name")} - ${t("title")}`,
+    title: t("title"),
     description: t("summary"),
     alternates: {
       canonical: `https://tyldum.dev/${locale}/cv`,
