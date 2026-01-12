@@ -16,6 +16,7 @@ test.describe('Performance Tests', () => {
     const resourcePriorities: { url: string; priority: string }[] = [];
     
     page.on('request', request => {
+      // Note: resourcePriority is an experimental API not yet in Playwright types
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const priority = (request as any).resourcePriority?.();
       if (priority) {
