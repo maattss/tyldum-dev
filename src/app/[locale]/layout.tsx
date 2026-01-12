@@ -15,6 +15,8 @@ import "../globals.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5, // Allow zoom for accessibility
+  userScalable: true, // Better for accessibility
   viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#fafafd" },
@@ -110,6 +112,10 @@ export default async function LocaleLayout({
           type="image/jpeg"
           fetchPriority="high"
         />
+        {/* iOS-specific meta tags */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="format-detection" content="telephone=no" />
         <PersonJsonLd />
         <WebsiteJsonLd />
         {/* Inline script to set theme before paint - prevents FOUC */}
@@ -121,6 +127,12 @@ export default async function LocaleLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
+        style={{
+          // Prevent pull-to-refresh on iOS Safari
+          overscrollBehavior: 'none',
+          // Ensure smooth scrolling on iOS
+          WebkitOverflowScrolling: 'touch',
+        } as React.CSSProperties}
       >
         <ThemeProvider
           attribute="class"

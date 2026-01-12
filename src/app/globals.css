@@ -133,26 +133,50 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* iOS Safari optimizations */
+  html {
+    /* Prevent text size adjustment on orientation change */
+    -webkit-text-size-adjust: 100%;
+    /* Enable momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Improve font rendering on iOS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Optimize touch interactions for iOS */
+  a, button, [role="button"] {
+    /* Remove tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    /* Prevent callout on long press */
+    -webkit-touch-callout: none;
+  }
+  
+  /* Prevent iOS input zoom */
+  input, textarea, select {
+    font-size: max(16px, 1em);
+  }
 }
 
-/* Animations */
+/* Animations - optimized for iOS Safari with GPU acceleration */
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translate3d(0, 10px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translate3d(0, -10px, 0);
   }
 }
 
@@ -230,10 +254,16 @@
   background-image: 
     radial-gradient(circle at 80% 20%, oklch(0.7 0.15 260 / 0.3) 0%, transparent 40%),
     radial-gradient(circle at 20% 80%, oklch(0.7 0.15 300 / 0.3) 0%, transparent 40%);
+  /* Force GPU acceleration on iOS */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .dark .bg-gradient-blur {
   background-image: 
     radial-gradient(circle at 80% 20%, oklch(0.5 0.2 260 / 0.15) 0%, transparent 50%),
     radial-gradient(circle at 20% 80%, oklch(0.5 0.2 300 / 0.15) 0%, transparent 50%);
+  /* Force GPU acceleration on iOS */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
