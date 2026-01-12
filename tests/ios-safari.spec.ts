@@ -65,6 +65,7 @@ test.describe('iOS Safari Optimizations', () => {
       const body = document.body;
       const computed = window.getComputedStyle(body);
       return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         webkitOverflowScrolling: (body.style as any).WebkitOverflowScrolling,
         overscrollBehavior: computed.overscrollBehavior,
       };
@@ -91,6 +92,7 @@ test.describe('iOS Safari Optimizations', () => {
       const html = document.documentElement;
       const computed = window.getComputedStyle(html);
       return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         webkitFontSmoothing: (html.style as any).webkitFontSmoothing || computed.getPropertyValue('-webkit-font-smoothing'),
         webkitTextSizeAdjust: computed.getPropertyValue('-webkit-text-size-adjust'),
       };

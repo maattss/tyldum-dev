@@ -16,6 +16,7 @@ test.describe('Performance Tests', () => {
     const resourcePriorities: { url: string; priority: string }[] = [];
     
     page.on('request', request => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const priority = (request as any).resourcePriority?.();
       if (priority) {
         resourcePriorities.push({
@@ -44,7 +45,9 @@ test.describe('Performance Tests', () => {
         let clsValue = 0;
         const observer = new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             if ((entry as any).hadRecentInput) continue;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             clsValue += (entry as any).value;
           }
         });
@@ -138,12 +141,7 @@ test.describe('Performance Tests', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     
-    // Should use modern formats like WebP or AVIF
-    const hasModernFormats = imageFormats.some(format => 
-      format.includes('webp') || format.includes('avif')
-    );
-    
-    // At minimum, should try to use modern formats
+    // At minimum, should have images loaded
     expect(imageFormats.length).toBeGreaterThan(0);
   });
 
