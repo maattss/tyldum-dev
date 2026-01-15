@@ -8,7 +8,7 @@
     "greeting": "Hi, I'm",
     "name": "Mats Tyldum",
     "tagline": "Technology Leader at Sparebanken Norge",
-    "description": "Want to chat or see what I'm working on? Find me on LinkedIn or check out my GitHub."
+    "description": "Curious about what I'm working on—or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
   },
   "about": {
     "title": "About me",
@@ -46,7 +46,7 @@
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
-    "summary": "Technology leader with a developer background. Enjoy combining technical work and leadership.",
+    "summary": "Technology leader with a developer background. Enjoy combining leadership and technical work.",
     "contact": {
       "location": "Bergen, Norway",
       "email": "ma.tyldum@gmail.com",

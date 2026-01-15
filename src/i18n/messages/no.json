@@ -5,10 +5,10 @@
     "keywords": "Mats Tyldum, teknologileder, utvikler, Bergen, Sparebanken Norge"
   },
   "hero": {
-    "greeting": "Hei, jeg er",
+    "greeting": "Hei!",
     "name": "Mats Tyldum",
     "tagline": "Teknologileder, Sparebanken Norge",
-    "description": "Nysgjerrig på hva jeg driver med eller vil du ta prat? Sjekk ut GitHub-profilen min eller send meg en melding på LinkedIn."
+    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn."
   },
   "about": {
     "title": "Om meg",
@@ -46,7 +46,7 @@
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
-    "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere teknisk arbeid og ledelse.",
+    "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere ledelse og teknisk arbeid.",
     "contact": {
       "location": "Bergen, Norge",
       "email": "ma.tyldum@gmail.com",
