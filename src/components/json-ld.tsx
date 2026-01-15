@@ -4,6 +4,7 @@ export function PersonJsonLd() {
     "@type": "Person",
     name: "Mats Tyldum",
     url: "https://tyldum.dev",
+    image: "https://tyldum.dev/android-chrome-512x512.png",
     jobTitle: "Technology Leader",
     worksFor: {
       "@type": "Organization",
@@ -38,6 +39,7 @@ export function WebsiteJsonLd() {
     "@type": "WebSite",
     name: "Mats Tyldum",
     url: "https://tyldum.dev",
+    image: "https://tyldum.dev/android-chrome-512x512.png",
     description: "Personal website for Mats Tyldum - Technology Leader",
     author: {
       "@type": "Person",

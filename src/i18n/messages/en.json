@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "tyldum.dev | Home",
+    "title": "tyldum.dev | Mats Tyldum",
     "description": "Personal website for Mats Tyldum - Technology Leader at Sparebanken Norge",
     "keywords": "Mats Tyldum, technology leader, developer, Bergen, Sparebanken Norge"
   },
@@ -61,35 +61,35 @@
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
           "period": "2024 - Present",
-          "description": "Leading a larger team developing and maintaining payment services.",
+          "description": "Leading a larger team responsible for developing and maintaining the bank’s payment services.",
           "highlights": []
         },
         {
           "role": "Team Lead & Developer",
           "company": "Sparebanken Vest",
           "period": "2022 - 2024",
-          "description": "In a team responsible for payment services.",
+          "description": "Team lead and developer in a team responsible for the bank’s payment services.",
           "highlights": []
         },
         {
           "role": "Developer",
           "company": "Bouvet",
           "period": "2019 - 2022",
-          "description": "Consultant at Equinor. Part-time during studies.",
+          "description": "Developer (part-time alongside studies, 2019–2021). Consulting engagement at Equinor, 2021–2022.",
           "highlights": []
         },
         {
           "role": "IT Internship",
           "company": "ConocoPhillips",
           "period": "2018",
-          "description": "Developed solution for extracting and visualizing well data.",
+          "description": "Developed a solution for extracting, structuring, and visualizing well data.",
           "highlights": []
         },
         {
           "role": "Teaching Assistant",
           "company": "University of Stavanger",
           "period": "2018",
-          "description": "In the subjects: object-oriented programming, computer architecture and algorithms and data structures.",
+          "description": "Teaching assistant in object-oriented programming, computer architecture, and algorithms & data structures.",
           "highlights": []
         },
         {

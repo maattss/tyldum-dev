@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "tyldum.dev | Hjem",
+    "title": "tyldum.dev | Mats Tyldum",
     "description": "Personlig nettside for Mats Tyldum - Teknologileder hos Sparebanken Norge",
     "keywords": "Mats Tyldum, teknologileder, utvikler, Bergen, Sparebanken Norge"
   },
@@ -61,35 +61,35 @@
           "role": "Teknologileder",
           "company": "Sparebanken Norge",
           "period": "2024 - Nå",
-          "description": "Leder for et større team som utvikler og forvalter betalingstjenester.",
+          "description": "Leder et større team med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
           "highlights": []
         },
         {
           "role": "Team Lead og Utvikler",
           "company": "Sparebanken Vest",
           "period": "2022 - 2024",
-          "description": "I team ansvarlig for betalingstjenester.",
+          "description": "Team lead og utvikler i et team med ansvar for bankens betalingstjenester.",
           "highlights": []
         },
         {
           "role": "Utvikler",
           "company": "Bouvet",
           "period": "2019 - 2022",
-          "description": "Konsulent hos Equinor. Deltid under studier.",
+          "description": "Utvikler (deltid ved siden av studier 2019–2021). Konsulentoppdrag hos Equinor 2021–2022.",
           "highlights": []
         },
         {
           "role": "IT Internship",
           "company": "ConocoPhillips",
           "period": "2018",
-          "description": "Utviklet løsning for uthenting og visualisering av brønndata.",
+          "description": "Utviklet løsning for uthenting, strukturering og visualisering av brønndata.",
           "highlights": []
         },
         {
           "role": "Studentassistent",
           "company": "Universitetet i Stavanger",
           "period": "2018",
-          "description": "I fagene objektorientert programmering, datamaskinarkitektur og algoritmer og datastrukturer.",
+          "description": "Studentassistent i objektorientert programmering, datamaskinarkitektur samt algoritmer og datastrukturer.",
           "highlights": []
         },
         {

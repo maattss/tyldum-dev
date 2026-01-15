@@ -65,6 +65,14 @@ export async function generateMetadata({
       siteName: "tyldum.dev",
       locale: locale === "no" ? "no_NO" : "en_US",
       type: "website",
+      images: [
+        {
+          url: "/android-chrome-512x512.png",
+          width: 512,
+          height: 512,
+          alt: "Mats Tyldum",
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
