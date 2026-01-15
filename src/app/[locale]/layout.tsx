@@ -45,7 +45,10 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
-    title: t("title"),
+    title: {
+      template: "tyldum.dev | %s",
+      default: t("title"),
+    },
     description: t("description"),
     keywords: t("keywords").split(", "),
     authors: [{ name: "Mats Tyldum" }],

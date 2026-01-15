@@ -15,7 +15,9 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "cv" });
 
   return {
-    title: t("title"),
+    title: {
+      absolute: t("title"),
+    },
     description: t("summary"),
     alternates: {
       canonical: `https://tyldum.dev/${locale}/cv`,
@@ -39,7 +41,7 @@ export default async function CVPage() {
           <h1 className="text-4xl font-bold gradient-text mb-1">
             {t("name")}
           </h1>
-          <p className="text-lg text-muted-foreground">{t("title")}</p>
+          <p className="text-lg text-muted-foreground">{t("subtitle")}</p>
           <p className="text-sm text-muted-foreground/70 mt-1">{t("contact.location")}</p>
           <div className="flex flex-wrap justify-center gap-3 mt-4 text-sm text-muted-foreground">
             <a
