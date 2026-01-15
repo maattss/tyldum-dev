@@ -31,7 +31,7 @@
     "select": "Velg språk"
   },
   "footer": {
-    "copyright": "© {year} Mats Tyldum. Alle rettigheter reservert."
+    "copyright": "© {year} Mats Tyldum. Alle rettigheter forbeholdt."
   },
   "blog": {
     "title": "tyldum.dev | Blogg",
@@ -120,7 +120,7 @@
           "degree": "Bachelor i petroleum",
           "school": "Universitetet i Stavanger",
           "period": "2014 - 2017",
-          "description": "Spesialisering i reservoarteknologi. Et semester utveksling ved University of Adelaide."
+          "description": "Spesialisering i reservoarteknologi. Utveksling ved University of Adelaide (1 semester)."
         }
       ]
     },
