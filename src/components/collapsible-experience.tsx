@@ -34,11 +34,11 @@ function ExperienceEntry({ job }: { job: ExperienceItem }) {
         {job.description}
       </p>
       {job.highlights.length > 0 && (
-        <ul className="mt-2 space-y-1 list-disc list-inside">
+        <ul className="mt-2 space-y-1">
           {job.highlights.map((highlight, i) => (
             <li
               key={i}
-              className="text-sm text-muted-foreground"
+              className="text-sm text-muted-foreground pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground/50"
             >
               {highlight}
             </li>
@@ -67,7 +67,7 @@ export function CollapsibleExperience({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="space-y-8 pb-8 pl-6">
+          <div className="space-y-8 pb-8">
             {items.map((job, index) => (
               <ExperienceEntry key={index} job={job} />
             ))}
