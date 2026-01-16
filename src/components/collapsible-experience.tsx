@@ -67,7 +67,7 @@ export function CollapsibleExperience({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="space-y-8 pb-8">
+          <div className="space-y-8 pb-8 pl-6">
             {items.map((job, index) => (
               <ExperienceEntry key={index} job={job} />
             ))}
