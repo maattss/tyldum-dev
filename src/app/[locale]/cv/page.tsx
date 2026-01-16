@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
+import { PrintButton } from "@/components/print-button";
 
 export function generateStaticParams() {
   return [{ locale: "no" }, { locale: "en" }];
@@ -46,7 +47,7 @@ export default async function CVPage() {
           <div className="flex flex-wrap justify-center gap-3 mt-4 text-sm text-muted-foreground">
             <a
               href="https://linkedin.com/in/mtyldum"
-              className="hover:text-primary transition-colors duration-200"
+              className="hover:text-primary transition-colors duration-200 hover:-translate-y-0.5 transform inline-block"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -55,12 +56,15 @@ export default async function CVPage() {
             <span className="text-border">•</span>
             <a
               href="https://github.com/maattss"
-              className="hover:text-primary transition-colors duration-200"
+              className="hover:text-primary transition-colors duration-200 hover:-translate-y-0.5 transform inline-block"
               target="_blank"
               rel="noopener noreferrer"
             >
               GitHub
             </a>
+          </div>
+          <div className="mt-6 print:hidden">
+            <PrintButton label={t("downloadCV")} />
           </div>
         </header>
 
@@ -182,15 +186,15 @@ export default async function CVPage() {
                 items: string[];
               }>
             ).map((category, index) => (
-              <div key={index}>
-                <h3 className="text-xs font-medium text-foreground/70 uppercase tracking-wide mb-3">
+              <div key={index} className="group">
+                <h3 className="text-xs font-medium text-foreground/70 uppercase tracking-wide mb-3 group-hover:text-primary transition-colors duration-200">
                   {category.name}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {category.items.map((skill, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 bg-secondary/50 hover:bg-secondary text-secondary-foreground rounded-md text-xs transition-colors duration-200 print:border print:border-foreground/20 print:bg-transparent"
+                      className="px-2.5 py-1 bg-secondary/50 hover:bg-primary/10 hover:text-primary text-secondary-foreground rounded-md text-xs transition-all duration-200 hover:scale-105 cursor-default print:border print:border-foreground/20 print:bg-transparent"
                     >
                       {skill}
                     </span>

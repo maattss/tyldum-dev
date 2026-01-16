@@ -10,7 +10,7 @@ export async function SocialLinks() {
       <Button 
         size="lg" 
         asChild
-        className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+        className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1 group"
       >
         <a
           href="https://www.linkedin.com/in/mtyldum/"
@@ -18,7 +18,7 @@ export async function SocialLinks() {
           rel="noopener noreferrer"
           className="gap-2"
         >
-          <Linkedin className="h-5 w-5" />
+          <Linkedin className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
           {t("linkedin")}
         </a>
       </Button>
@@ -26,7 +26,7 @@ export async function SocialLinks() {
         variant="outline" 
         size="lg" 
         asChild
-        className="w-full sm:w-auto border-2 hover:bg-accent transition-all hover:-translate-y-0.5"
+        className="w-full sm:w-auto border-2 hover:bg-accent hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 group"
       >
         <a
           href="https://github.com/maattss"
@@ -34,7 +34,7 @@ export async function SocialLinks() {
           rel="noopener noreferrer"
           className="gap-2"
         >
-          <Github className="h-5 w-5" />
+          <Github className="h-5 w-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
           {t("github")}
         </a>
       </Button>

@@ -47,6 +47,7 @@
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
     "subtitle": "Teknologileder",
+    "downloadCV": "Last ned PDF",
     "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere ledelse og teknisk arbeid.",
     "contact": {
       "location": "Bergen, Norge",
@@ -130,19 +131,19 @@
       "categories": [
         {
           "name": "Frontend",
-          "items": ["React", "TypeScript", "Next.js", "React Native"]
+          "items": ["React", "TypeScript", "Next.js"]
         },
         {
           "name": "Backend",
-          "items": [".NET", "C#", "Node.js", "GraphQL"]
+          "items": [".NET", "C#", "REST/OpenAPI", "MongoDB"]
         },
         {
           "name": "Cloud & DevOps",
-          "items": ["Azure", "Firebase", "Docker", "CI/CD"]
+          "items": ["Azure", "Kubernetes", "Docker", "GitHub Actions"]
         },
         {
           "name": "Ledelse",
-          "items": ["Teamledelse", "Agile/Scrum", "Teknisk arkitektur"]
+          "items": ["Teamledelse", "Teknologistrategi", "Teknisk arkitektur"]
         }
       ]
     },
