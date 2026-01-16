@@ -34,11 +34,11 @@ function ExperienceEntry({ job }: { job: ExperienceItem }) {
         {job.description}
       </p>
       {job.highlights.length > 0 && (
-        <ul className="mt-2 space-y-1">
+        <ul className="mt-2 space-y-1 list-disc list-inside">
           {job.highlights.map((highlight, i) => (
             <li
               key={i}
-              className="text-sm text-muted-foreground pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground/50"
+              className="text-sm text-muted-foreground"
             >
               {highlight}
             </li>
