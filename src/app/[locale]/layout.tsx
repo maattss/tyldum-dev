@@ -45,6 +45,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
+    metadataBase: new URL("https://tyldum.dev"),
     title: {
       template: "tyldum.dev | %s",
       default: t("title"),
