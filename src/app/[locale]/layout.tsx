@@ -114,20 +114,12 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* Preload LCP image for faster render */}
-        <link
-          rel="preload"
-          href="/images/profile.jpg"
-          as="image"
-          type="image/jpeg"
-          fetchPriority="high"
-        />
         <PersonJsonLd />
         <WebsiteJsonLd />
         {/* Inline script to set theme before paint - prevents FOUC */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(isDark){d.classList.add('dark')}}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(isDark){d.classList.add('dark')}}catch(e){}})();(function(){try{var s='color:#06b6d4;font-weight:bold;font-size:12px;font-family:Consolas,Monaco,monospace;line-height:1.3';var h='color:#22d3ee;font-weight:900;font-size:11px;letter-spacing:1px';var t='color:#e2e8f0;font-size:12px';var m='color:#94a3b8;font-size:11px';var a='color:#a78bfa;font-weight:bold;font-size:12px';var l='color:#22d3ee;font-size:12px;text-decoration:underline';var f='color:#64748b;font-size:10px;font-style:italic';console.log('%c\\n╔══════════════════════════╗',s);console.log('%c   %cDEVELOPER CONSOLE%c   ',s,h,s);console.log('%c╠══════════════════════════╣',s);console.log('%c  %cWelcome explorer 👋%c   ',s,t,s);console.log('%c  %cOpen source site%c       ',s,m,s);console.log('%c  %c→%c %cgithub.com/maattss%c ',s,a,s,l,s);console.log('%c  %cNext.js · TS · CSS%c   ',s,f,s);console.log('%c╚══════════════════════════╝\\n',s)}catch(e){}})()`,
           }}
         />
       </head>
