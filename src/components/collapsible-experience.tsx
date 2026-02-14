@@ -19,33 +19,28 @@ interface CollapsibleExperienceProps {
 
 function ExperienceEntry({ job }: { job: ExperienceItem }) {
   return (
-    <div className="group relative pl-6 border-l border-border/50 hover:border-primary/50 transition-colors duration-200">
-      <div className="absolute left-0 top-1.5 w-2 h-2 -translate-x-[4.5px] rounded-full bg-border group-hover:bg-primary transition-colors duration-200" />
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
+    <article className="border-l-2 border-border pl-5">
+      <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
         <div>
           <h3 className="font-semibold text-foreground">{job.role}</h3>
-          <p className="text-primary/80 text-sm">{job.company}</p>
+          <p className="text-sm text-muted-foreground">{job.company}</p>
         </div>
-        <p className="text-xs text-muted-foreground font-medium tabular-nums">
-          {job.period}
-        </p>
+        <p className="font-mono text-xs text-muted-foreground">{job.period}</p>
       </div>
-      <p className="text-sm text-muted-foreground leading-relaxed">
-        {job.description}
-      </p>
+      {job.description && <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>}
       {job.highlights.length > 0 && (
         <ul className="mt-2 space-y-1">
           {job.highlights.map((highlight, i) => (
             <li
               key={i}
-              className="text-sm text-muted-foreground pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-muted-foreground/50"
+              className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
             >
               {highlight}
             </li>
           ))}
         </ul>
       )}
-    </div>
+    </article>
   );
 }
 
@@ -78,7 +73,7 @@ export function CollapsibleExperience({
       {/* Toggle button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group"
+        className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
       >
         <ChevronDown
           className={`w-4 h-4 transition-transform duration-300 ${

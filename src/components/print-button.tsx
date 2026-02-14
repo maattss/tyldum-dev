@@ -13,7 +13,7 @@ export function PrintButton({ label }: PrintButtonProps) {
       variant="outline"
       size="sm"
       onClick={() => window.print()}
-      className="gap-2 hover:-translate-y-0.5 transition-all duration-200"
+      className="gap-2 border-border bg-card hover:bg-secondary"
     >
       <Printer className="h-4 w-4" />
       {label}
