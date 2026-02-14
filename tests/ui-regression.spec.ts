@@ -4,6 +4,7 @@ const routes = [
   { name: "home-no", path: "/no" },
   { name: "home-en", path: "/en" },
   { name: "cv-no", path: "/no/cv" },
+  { name: "cv-en", path: "/en/cv" },
 ] as const;
 
 const themes = ["dark", "light"] as const;
