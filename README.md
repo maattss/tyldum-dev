@@ -1,6 +1,6 @@
 # 🌐 tyldum.dev
 
-> Where code meets coffee ☕ and Norwegian mountains 🏔️
+> Where technology meets creativity ✨
 
 Hey there! 👋 This is the digital home of Mats Tyldum — a tech leader who still loves to code.
 
@@ -77,8 +77,8 @@ Every push to `main` triggers an automatic deployment to Vercel. It's like havin
 
 <div align="center">
 
-**Built with ❤️ in Bergen, Norway 🇳🇴**
+**Built with ❤️ and TypeScript** 💙
 
-*Powered by too much coffee and just enough TypeScript* ☕💙
+*Crafted in Bergen, Norway* 🇳🇴
 
 </div>
