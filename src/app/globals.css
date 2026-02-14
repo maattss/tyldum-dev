@@ -58,71 +58,71 @@
 
 :root {
   --radius: 0.5rem;
-  --background: #f6f8fb;
-  --foreground: #0f172a;
+  --background: #f4f7fc;
+  --foreground: #0b1426;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #0b1426;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #10233f;
-  --primary-foreground: #f8fafc;
-  --secondary: #e9eef5;
-  --secondary-foreground: #10233f;
-  --muted: #eef2f7;
-  --muted-foreground: #475569;
-  --accent: #dce9e7;
-  --accent-foreground: #0f3d3a;
+  --popover-foreground: #0b1426;
+  --primary: #0a4ddb;
+  --primary-foreground: #f8fbff;
+  --secondary: #e7eefb;
+  --secondary-foreground: #123470;
+  --muted: #edf2fb;
+  --muted-foreground: #3b4d69;
+  --accent: #d8f3f0;
+  --accent-foreground: #0b5a53;
   --destructive: #b42318;
-  --border: #d9e1ea;
-  --input: #d9e1ea;
-  --ring: #0f766e;
-  --chart-1: #10233f;
-  --chart-2: #0f766e;
-  --chart-3: #335f8a;
-  --chart-4: #6c8fb5;
-  --chart-5: #9bb1c9;
+  --border: #d5def0;
+  --input: #d5def0;
+  --ring: #00a39f;
+  --chart-1: #0a4ddb;
+  --chart-2: #00a39f;
+  --chart-3: #2f6de5;
+  --chart-4: #5b8ef2;
+  --chart-5: #8ab0f8;
   --sidebar: #ffffff;
-  --sidebar-foreground: #0f172a;
-  --sidebar-primary: #10233f;
-  --sidebar-primary-foreground: #f8fafc;
-  --sidebar-accent: #e9eef5;
-  --sidebar-accent-foreground: #0f172a;
-  --sidebar-border: #d9e1ea;
-  --sidebar-ring: #0f766e;
+  --sidebar-foreground: #0b1426;
+  --sidebar-primary: #0a4ddb;
+  --sidebar-primary-foreground: #f8fbff;
+  --sidebar-accent: #e7eefb;
+  --sidebar-accent-foreground: #0b1426;
+  --sidebar-border: #d5def0;
+  --sidebar-ring: #00a39f;
 }
 
 .dark {
-  --background: #0b1220;
-  --foreground: #e2e8f0;
-  --card: #111a2d;
-  --card-foreground: #e2e8f0;
-  --popover: #111a2d;
-  --popover-foreground: #e2e8f0;
-  --primary: #5f8cc7;
-  --primary-foreground: #08111f;
-  --secondary: #172338;
-  --secondary-foreground: #d9e3f0;
-  --muted: #1a2538;
-  --muted-foreground: #93a5bd;
-  --accent: #123c3a;
-  --accent-foreground: #d7f3ef;
+  --background: #070f1d;
+  --foreground: #dde8ff;
+  --card: #0d172c;
+  --card-foreground: #dde8ff;
+  --popover: #0d172c;
+  --popover-foreground: #dde8ff;
+  --primary: #6ea1ff;
+  --primary-foreground: #04112a;
+  --secondary: #13203a;
+  --secondary-foreground: #cdddf8;
+  --muted: #14233e;
+  --muted-foreground: #91a9cc;
+  --accent: #0e3d3b;
+  --accent-foreground: #d8f7f4;
   --destructive: #ef4444;
-  --border: #2a3a52;
-  --input: #2a3a52;
-  --ring: #4db3a8;
-  --chart-1: #5f8cc7;
-  --chart-2: #4db3a8;
-  --chart-3: #86a9d1;
-  --chart-4: #a4bfdc;
-  --chart-5: #c4d5e8;
-  --sidebar: #111a2d;
-  --sidebar-foreground: #e2e8f0;
-  --sidebar-primary: #5f8cc7;
-  --sidebar-primary-foreground: #08111f;
-  --sidebar-accent: #172338;
-  --sidebar-accent-foreground: #d9e3f0;
-  --sidebar-border: #2a3a52;
-  --sidebar-ring: #4db3a8;
+  --border: #223454;
+  --input: #223454;
+  --ring: #39c7bf;
+  --chart-1: #6ea1ff;
+  --chart-2: #39c7bf;
+  --chart-3: #9ebdff;
+  --chart-4: #81d5cd;
+  --chart-5: #c2d4ff;
+  --sidebar: #0d172c;
+  --sidebar-foreground: #dde8ff;
+  --sidebar-primary: #6ea1ff;
+  --sidebar-primary-foreground: #04112a;
+  --sidebar-accent: #13203a;
+  --sidebar-accent-foreground: #cdddf8;
+  --sidebar-border: #223454;
+  --sidebar-ring: #39c7bf;
 }
 
 @layer base {
@@ -132,7 +132,7 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.35), transparent 28rem);
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.4), transparent 28rem);
     background-attachment: fixed;
   }
 }
@@ -164,12 +164,12 @@
   overflow: hidden;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 88% 12%, rgb(16 35 63 / 0.08) 0%, transparent 44%),
-    radial-gradient(circle at 14% 84%, rgb(15 118 110 / 0.07) 0%, transparent 42%);
+    radial-gradient(circle at 88% 12%, rgb(10 77 219 / 0.12) 0%, transparent 44%),
+    radial-gradient(circle at 14% 84%, rgb(0 163 159 / 0.1) 0%, transparent 42%);
 }
 
 .dark .bg-gradient-blur {
   background-image:
-    radial-gradient(circle at 88% 12%, rgb(95 140 199 / 0.15) 0%, transparent 44%),
-    radial-gradient(circle at 14% 84%, rgb(77 179 168 / 0.12) 0%, transparent 42%);
+    radial-gradient(circle at 88% 12%, rgb(110 161 255 / 0.2) 0%, transparent 44%),
+    radial-gradient(circle at 14% 84%, rgb(57 199 191 / 0.16) 0%, transparent 42%);
 }
