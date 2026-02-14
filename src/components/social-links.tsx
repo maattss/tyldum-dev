@@ -10,7 +10,7 @@ export async function SocialLinks() {
       <Button
         size="lg"
         asChild
-        className="w-full sm:w-auto bg-primary hover:bg-primary/95 text-primary-foreground"
+        className="w-full sm:w-auto bg-primary text-primary-foreground shadow-[0_18px_45px_-25px_rgba(78,167,252,0.95)] hover:bg-primary/90"
       >
         <a
           href="https://www.linkedin.com/in/mtyldum/"
@@ -26,7 +26,7 @@ export async function SocialLinks() {
         variant="outline"
         size="lg"
         asChild
-        className="w-full sm:w-auto border-border bg-card hover:bg-secondary"
+        className="w-full sm:w-auto border-border bg-card/75 hover:bg-secondary/75 backdrop-blur-sm"
       >
         <a
           href="https://github.com/maattss"

@@ -8,7 +8,12 @@
     "greeting": "Hei!",
     "name": "Mats Tyldum",
     "tagline": "Teknologileder, Sparebanken Norge",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn."
+    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn.",
+    "cards": {
+      "role": "Rolle",
+      "location": "Lokasjon",
+      "education": "Utdanning"
+    }
   },
   "about": {
     "title": "Om meg",
