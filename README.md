@@ -1,10 +1,6 @@
 # 🌐 tyldum.dev
 
-> Where technology meets creativity ✨
-
-Hey there! 👋 This is the digital home of Mats Tyldum — a tech leader who still loves to code.
-
-**Live site:** [tyldum.dev](https://tyldum.dev)
+Hey there! 👋 This is the digital home of Mats Tyldum. **Check it out:** [tyldum.dev](https://tyldum.dev)
 
 ## 🚀 Tech Stack (aka the fun stuff)
 
