@@ -9,7 +9,8 @@ const withMDX = createMDX({
 });
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
+  // Disabled for build stability across restricted CI/build environments.
+  reactCompiler: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     // Optimize image sizes for the profile image (144px mobile, 176px desktop, up to 3x DPI)
