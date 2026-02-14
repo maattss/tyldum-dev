@@ -49,6 +49,24 @@ test.describe("status bar theme color", () => {
     }).toBe("#f7f9fd|default");
   });
 
+  test("does not keep prefers-color-scheme theme-color tags after bootstrap", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.addInitScript(() => {
+      window.localStorage.setItem("theme", "light");
+    });
+
+    await page.goto("/en");
+
+    await expect.poll(async () => {
+      return page.evaluate(() => {
+        return document.head.querySelectorAll('meta[name="theme-color"][media]')
+          .length;
+      });
+    }).toBe(0);
+  });
+
   test("does not use a bright top gradient in dark mode", async ({ page }) => {
     await page.emulateMedia({ colorScheme: "light" });
     await page.addInitScript(() => {
