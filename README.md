@@ -1,6 +1,6 @@
 # 🌐 tyldum.dev
 
-Hey there! 👋 This is the digital home of Mats Tyldum. **Check it out:** [tyldum.dev](https://tyldum.dev)
+Hey there! 👋 **Check out the site:** [tyldum.dev](https://tyldum.dev)
 
 ## 🚀 Tech Stack (aka the fun stuff)
 
