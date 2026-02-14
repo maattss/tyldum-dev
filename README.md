@@ -1,59 +1,63 @@
-# tyldum.dev
+# 🌐 tyldum.dev
 
-Personal website for Mats Tyldum — [tyldum.dev](https://tyldum.dev)
+> Where technology meets creativity ✨
 
-## Tech Stack
+Hey there! 👋 This is the digital home of Mats Tyldum — a tech leader who still loves to code.
 
-- **Framework:** Next.js 16 with App Router
-- **Styling:** Tailwind CSS 4 + custom animations
-- **UI Components:** Radix UI primitives
-- **i18n:** next-intl (Norwegian/English)
-- **Blog:** MDX with gray-matter
-- **Deployment:** Vercel
+**Live site:** [tyldum.dev](https://tyldum.dev)
 
-## Project Structure
+## 🚀 Tech Stack (aka the fun stuff)
+
+- **Framework:** Next.js 16 with App Router ⚡ (because life's too short for slow websites)
+- **Styling:** Tailwind CSS 4 + custom animations 🎨 (making pixels dance since 2024)
+- **UI Components:** Radix UI primitives 🧩 (accessible AND beautiful)
+- **i18n:** next-intl 🇳🇴🇬🇧 (Norwegian/English - because why pick one?)
+- **Blog:** MDX with gray-matter 📝 (markdown on steroids)
+- **Deployment:** Vercel 🚢 (push to main and watch the magic happen)
+
+## 📂 Project Structure (aka where the magic lives)
 
 ```
 src/
 ├── app/
-│   ├── [locale]/          # Locale-based routing (no, en)
-│   │   ├── blog/          # Blog pages (hidden for now)
-│   │   ├── layout.tsx     # Root layout with providers
-│   │   └── page.tsx       # Home page
-│   └── globals.css        # Theme + custom animations
+│   ├── [locale]/          # 🌍 Locale-based routing (no, en)
+│   │   ├── blog/          # 📰 Blog pages (hiding until I have time to write)
+│   │   ├── layout.tsx     # 🎯 Root layout with providers
+│   │   └── page.tsx       # 🏠 Home sweet home page
+│   └── globals.css        # 🎨 Theme + custom animations (the secret sauce)
 ├── components/
-│   ├── ui/                # Radix-based UI primitives
-│   ├── hero.tsx           # Main hero section
-│   ├── header.tsx         # Site header
-│   ├── footer.tsx         # Site footer
-│   └── ...                # Theme/language toggles, social links
+│   ├── ui/                # 🧱 Radix-based UI primitives
+│   ├── hero.tsx           # 🦸 Main hero section (not all heroes wear capes)
+│   ├── header.tsx         # 📍 Site header
+│   ├── footer.tsx         # 👟 Site footer (the unsung hero)
+│   └── ...                # 🌓 Theme/language toggles, social links
 ├── i18n/
-│   ├── config.ts          # Locale config
-│   ├── messages/          # Translation JSON files
-│   └── ...                # next-intl setup
+│   ├── config.ts          # 🗺️ Locale config
+│   ├── messages/          # 💬 Translation JSON files
+│   └── ...                # 🔧 next-intl setup
 ├── lib/
-│   ├── blog.ts            # Blog post utilities
-│   └── utils.ts           # cn() helper
-└── proxy.ts               # next-intl middleware
+│   ├── blog.ts            # 📚 Blog post utilities
+│   └── utils.ts           # 🛠️ cn() helper (the real MVP)
+└── proxy.ts               # 🚦 next-intl middleware
 
 content/
 └── blog/
-    ├── en/                # English blog posts (.mdx)
-    └── no/                # Norwegian blog posts (.mdx)
+    ├── en/                # 🇬🇧 English blog posts (.mdx)
+    └── no/                # 🇳🇴 Norwegian blog posts (.mdx)
 ```
 
-## Development
+## 🛠️ Development (let's get this party started)
 
 ```bash
-pnpm install
-pnpm dev
+pnpm install  # Install all the goodies
+pnpm dev      # Fire up the dev server 🔥
 ```
 
-Open [http://localhost:3000](http://localhost:3000)
+Then head over to [http://localhost:3000](http://localhost:3000) and watch the magic unfold! ✨
 
-## Adding Blog Posts
+## ✍️ Adding Blog Posts (when inspiration strikes)
 
-Create an `.mdx` file in `content/blog/{locale}/`:
+Drop an `.mdx` file in `content/blog/{locale}/` with this simple frontmatter:
 
 ```mdx
 ---
@@ -62,9 +66,19 @@ description: "Short description"
 date: "2026-01-09"
 ---
 
-Your content here...
+Your brilliant thoughts here... 💭
 ```
 
-## Deployment
+## 🚀 Deployment (set it and forget it)
 
-Deployed automatically to Vercel on push to `main`.
+Every push to `main` triggers an automatic deployment to Vercel. It's like having a robot butler for your code! 🤖
+
+---
+
+<div align="center">
+
+**Built with ❤️ and TypeScript** 💙
+
+*Crafted in Bergen, Norway* 🇳🇴
+
+</div>
