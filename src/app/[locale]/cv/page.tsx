@@ -58,8 +58,8 @@ export default async function CVPage() {
     <div className="container mx-auto max-w-4xl px-4 py-10 sm:py-14">
       <div className="space-y-12">
         <header className="border-b border-border pb-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-            <div>
+          <div className="flex items-start justify-between gap-6">
+            <div className="min-w-0">
               <h1 className="text-4xl font-semibold tracking-tight text-foreground">{t("name")}</h1>
               <p className="mt-1 text-lg text-muted-foreground">{t("subtitle")}</p>
               <p className="mt-3 text-sm text-muted-foreground">{t("contact.location")}</p>
@@ -88,7 +88,7 @@ export default async function CVPage() {
               </div>
             </div>
 
-            <div className="print:hidden">
+            <div className="print:hidden shrink-0">
               <div className="relative h-28 w-28 overflow-hidden rounded-2xl border border-border/90 bg-card ring-1 ring-white/10 shadow-[0_24px_80px_-50px_rgba(47,185,255,0.65)]">
                 <Image
                   src="/images/profile.jpg"
