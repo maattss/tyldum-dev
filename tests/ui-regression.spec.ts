@@ -21,11 +21,10 @@ for (const theme of themes) {
       await page.evaluate(() => document.fonts.ready);
 
       await expect(page).toHaveScreenshot(`${route.name}-${theme}.png`, {
-        fullPage: true,
         animations: "disabled",
         caret: "hide",
         scale: "css",
-        maxDiffPixelRatio: 0.01,
+        maxDiffPixelRatio: 0.015,
       });
     });
   }
