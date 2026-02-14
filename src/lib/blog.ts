@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { cache } from "react";
 
 interface BlogFrontmatter {
   title?: string;
@@ -19,7 +20,7 @@ export interface BlogPost {
 
 const contentDirectory = path.join(process.cwd(), "content/blog");
 
-export function getBlogPosts(locale: string): BlogPost[] {
+function readBlogPosts(locale: string): BlogPost[] {
   const localeDirectory = path.join(contentDirectory, locale);
 
   if (!fs.existsSync(localeDirectory)) {
@@ -49,22 +50,9 @@ export function getBlogPosts(locale: string): BlogPost[] {
   return posts;
 }
 
-export function getBlogPost(slug: string, locale: string): BlogPost | null {
-  const fullPath = path.join(contentDirectory, locale, `${slug}.mdx`);
+export const getBlogPosts = cache((locale: string): BlogPost[] => readBlogPosts(locale));
 
-  if (!fs.existsSync(fullPath)) {
-    return null;
-  }
-
-  const fileContent = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContent) as { data: BlogFrontmatter; content: string };
-
-  return {
-    slug,
-    title: data.title ?? "",
-    description: data.description ?? "",
-    date: data.date ?? "",
-    locale,
-    content,
-  };
-}
+export const getBlogPost = cache((slug: string, locale: string): BlogPost | null => {
+  const posts = getBlogPosts(locale);
+  return posts.find((post) => post.slug === slug) ?? null;
+});

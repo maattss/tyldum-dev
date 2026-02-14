@@ -32,10 +32,17 @@ const colors = [
   "#FF3D00",
 ];
 
-export function triggerConfetti(element: HTMLElement = document.body): void {
+export function triggerConfetti(): void {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return;
+  }
+
+  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
   const canvas = document.createElement("canvas");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = Math.floor(window.innerWidth * pixelRatio);
+  canvas.height = Math.floor(window.innerHeight * pixelRatio);
+  canvas.style.width = `${window.innerWidth}px`;
+  canvas.style.height = `${window.innerHeight}px`;
   canvas.style.position = "fixed";
   canvas.style.top = "0";
   canvas.style.left = "0";
@@ -44,14 +51,18 @@ export function triggerConfetti(element: HTMLElement = document.body): void {
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    document.body.removeChild(canvas);
+    return;
+  }
+  ctx.scale(pixelRatio, pixelRatio);
 
   const particles: Particle[] = [];
 
   // Create confetti particles
   for (let i = 0; i < 80; i++) {
     particles.push({
-      x: Math.random() * canvas.width,
+      x: Math.random() * window.innerWidth,
       y: -10,
       vx: (Math.random() - 0.5) * 8,
       vy: Math.random() * 5 + 2,
@@ -66,7 +77,7 @@ export function triggerConfetti(element: HTMLElement = document.body): void {
 
   function animate() {
     if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     let hasActive = false;
 

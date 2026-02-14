@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
@@ -19,7 +18,7 @@ export function ThemeToggle() {
   const { setTheme } = useTheme();
   const t = useTranslations("theme");
   const clickCountRef = useRef(0);
-  const clickTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleThemeChange = (theme: string) => {
     clickCountRef.current += 1;

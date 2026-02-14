@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
+import { useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,11 +19,14 @@ export function LanguageToggle() {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   const switchLocale = (newLocale: Locale) => {
     const segments = pathname.split("/");
     segments[1] = newLocale;
-    router.push(segments.join("/"));
+    startTransition(() => {
+      router.replace(segments.join("/"));
+    });
   };
 
   return (
@@ -37,6 +41,7 @@ export function LanguageToggle() {
         {locales.map((loc) => (
           <DropdownMenuItem
             key={loc}
+            disabled={isPending}
             onClick={() => switchLocale(loc)}
             className={locale === loc ? "bg-accent" : ""}
           >

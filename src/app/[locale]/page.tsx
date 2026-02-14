@@ -1,9 +1,10 @@
 import { Hero } from "@/components/hero";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { locales } from "@/i18n/config";
 
 export function generateStaticParams() {
-  return [{ locale: "no" }, { locale: "en" }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({

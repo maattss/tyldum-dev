@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
+import { locales } from "@/i18n/config";
 import "../globals.css";
 
 // Export viewport for optimal initial render
@@ -99,7 +100,7 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return [{ locale: "no" }, { locale: "en" }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
@@ -111,6 +112,10 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   const messages = await getMessages();
+  const clientMessages = {
+    language: messages.language,
+    theme: messages.theme,
+  };
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -132,7 +137,7 @@ export default async function LocaleLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={clientMessages}>
             <div className="bg-gradient-blur" aria-hidden="true" />
             <Header />
             <main className="flex-1">{children}</main>
