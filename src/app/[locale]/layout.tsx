@@ -17,7 +17,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#08090a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f9fd" },
+    { media: "(prefers-color-scheme: dark)", color: "#08090a" },
+  ],
 };
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -127,7 +130,7 @@ export default async function LocaleLayout({
         <WebsiteJsonLd />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);var color=isDark?'#08090a':'#f7f9fd';if(isDark){d.classList.add('dark')}else{d.classList.remove('dark')}d.style.backgroundColor=color;var themeMeta=document.head.querySelector('meta[name="theme-color"]:not([media])');if(!themeMeta){themeMeta=document.createElement('meta');themeMeta.name='theme-color';document.head.appendChild(themeMeta)}themeMeta.setAttribute('content',color);var appleMeta=document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]:not([media])');if(!appleMeta){appleMeta=document.createElement('meta');appleMeta.name='apple-mobile-web-app-status-bar-style';document.head.appendChild(appleMeta)}appleMeta.setAttribute('content',isDark?'black-translucent':'default')}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)||(t===null);var color=isDark?'#08090a':'#f7f9fd';if(isDark){d.classList.add('dark')}else{d.classList.remove('dark')}d.style.backgroundColor=color;var themeMeta=document.head.querySelector('meta[name="theme-color"]:not([media])');if(!themeMeta){themeMeta=document.createElement('meta');themeMeta.name='theme-color';document.head.appendChild(themeMeta)}themeMeta.setAttribute('content',color);var appleMeta=document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]:not([media])');if(!appleMeta){appleMeta=document.createElement('meta');appleMeta.name='apple-mobile-web-app-status-bar-style';document.head.appendChild(appleMeta)}appleMeta.setAttribute('content',isDark?'black-translucent':'default')}catch(e){}})()`,
           }}
         />
       </head>
