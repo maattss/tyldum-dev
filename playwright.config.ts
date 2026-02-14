@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const platformProjectName = `chromium-${process.platform}`;
+
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: false,
@@ -17,7 +19,7 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "chromium",
+      name: platformProjectName,
       use: {
         ...devices["Desktop Chrome"],
       },
