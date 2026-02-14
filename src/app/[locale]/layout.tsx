@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -17,23 +16,25 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafd" },
-    { media: "(prefers-color-scheme: dark)", color: "#1b1b1f" },
+    { media: "(prefers-color-scheme: light)", color: "#f6f8fb" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1220" },
   ],
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const ibmPlexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   preload: true,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
-  preload: false, // Not critical for FCP
+  preload: false,
 });
 
 export async function generateMetadata({
@@ -116,15 +117,14 @@ export default async function LocaleLayout({
       <head>
         <PersonJsonLd />
         <WebsiteJsonLd />
-        {/* Inline script to set theme before paint - prevents FOUC */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(isDark){d.classList.add('dark')}}catch(e){}})();(function(){try{var s='color:#06b6d4;font-weight:bold;font-size:12px;font-family:Consolas,Monaco,monospace;line-height:1.3';var h='color:#22d3ee;font-weight:900;font-size:11px;letter-spacing:1px';var t='color:#e2e8f0;font-size:12px';var m='color:#94a3b8;font-size:11px';var a='color:#a78bfa;font-weight:bold;font-size:12px';var l='color:#22d3ee;font-size:12px;text-decoration:underline';var f='color:#64748b;font-size:10px;font-style:italic';console.log('%c\\n╔══════════════════════════╗',s);console.log('%c   %cDEVELOPER CONSOLE%c   ',s,h,s);console.log('%c╠══════════════════════════╣',s);console.log('%c  %cWelcome explorer 👋%c   ',s,t,s);console.log('%c  %cOpen source site%c       ',s,m,s);console.log('%c  %c→%c %cgithub.com/maattss%c ',s,a,s,l,s);console.log('%c  %cNext.js · TS · CSS%c   ',s,f,s);console.log('%c╚══════════════════════════╝\\n',s)}catch(e){}})()`,
+            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(isDark){d.classList.add('dark')}}catch(e){}})()`,
           }}
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
+        className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <ThemeProvider
           attribute="class"

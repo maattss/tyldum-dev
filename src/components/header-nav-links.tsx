@@ -20,12 +20,12 @@ function NavLink({ href, label, locale, isCvLink = false }: NavLinkProps) {
   return (
     <Link
       href={href}
-      className="group relative text-sm font-medium transition-colors duration-200"
+      className="group relative pb-1 text-sm font-medium transition-colors duration-150"
     >
-      <span className={isActive ? "gradient-text font-semibold" : "text-muted-foreground group-hover:text-foreground"}>
+      <span className={isActive ? "text-foreground font-semibold" : "text-muted-foreground group-hover:text-foreground"}>
         {label}
       </span>
-      <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
+      <span className={`absolute bottom-0 left-0 h-px bg-primary transition-all duration-200 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
     </Link>
   );
 }
