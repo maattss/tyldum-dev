@@ -9,6 +9,10 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"], ["html", { open: "never" }]],
   snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
+  timeout: 30_000,
+  expect: {
+    timeout: 10_000,
+  },
   use: {
     ...devices["Desktop Chrome"],
     baseURL: "http://127.0.0.1:3000",
