@@ -168,17 +168,11 @@
   pointer-events: none;
   background-image:
     radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.16) 0%, transparent 38%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.1) 0%, transparent 42%),
-    linear-gradient(rgb(15 21 35 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(15 21 35 / 0.05) 1px, transparent 1px);
-  background-size: auto, auto, 30px 30px, 30px 30px;
+    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.1) 0%, transparent 42%);
 }
 
 .dark .bg-gradient-blur {
   background-image:
     radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%),
-    linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
-  background-size: auto, auto, 30px 30px, 30px 30px;
+    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
 }
