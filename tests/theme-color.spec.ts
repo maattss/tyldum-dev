@@ -24,4 +24,19 @@ test.describe("status bar theme color", () => {
       });
     }).toBe("#08090a|black-translucent");
   });
+
+  test("does not use a bright top gradient in dark mode", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.addInitScript(() => {
+      window.localStorage.setItem("theme", "dark");
+    });
+
+    await page.goto("/en");
+
+    await expect.poll(async () => {
+      return page.evaluate(() => {
+        return getComputedStyle(document.body).backgroundImage;
+      });
+    }).not.toContain("255, 255, 255");
+  });
 });
