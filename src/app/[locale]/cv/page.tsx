@@ -83,7 +83,7 @@ export default async function CVPage() {
               </div>
             </div>
 
-            <div className="print:hidden">
+            <div className="print:hidden hidden sm:block">
               <PrintButton label={t("downloadCV")} />
             </div>
           </div>

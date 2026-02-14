@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
@@ -9,6 +9,7 @@ import { ThemeColorSync } from "@/components/theme-color-sync";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
+import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { locales } from "@/i18n/config";
 import "../globals.css";
 
@@ -19,20 +20,52 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-const ibmPlexSans = IBM_Plex_Sans({
+const ibmPlexSans = localFont({
   variable: "--font-plex-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  src: [
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   display: "swap",
   preload: true,
+  fallback: ["system-ui", "sans-serif"],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const ibmPlexMono = localFont({
   variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  src: [
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
   display: "swap",
   preload: false,
+  fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
 export async function generateMetadata({
@@ -147,6 +180,7 @@ export default async function LocaleLayout({
             <Footer />
           </NextIntlClientProvider>
         </ThemeProvider>
+        <WebVitalsReporter />
         <Analytics />
         <SpeedInsights />
       </body>

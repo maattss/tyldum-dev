@@ -1,31 +1,38 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const port = 4173;
-const baseURL = `http://127.0.0.1:${port}`;
+const platformProjectName = `chromium-${process.platform}`;
 
 export default defineConfig({
   testDir: "./tests",
-  fullyParallel: true,
+  fullyParallel: false,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  reporter: [["list"], ["html", { open: "never" }]],
+  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
   timeout: 30_000,
   expect: {
     timeout: 10_000,
   },
   use: {
-    baseURL,
-    trace: "retain-on-failure",
-  },
-  webServer: {
-    command: `pnpm exec next dev --port ${port}`,
-    url: `${baseURL}/en`,
-    timeout: 120_000,
-    reuseExistingServer: !process.env.CI,
+    ...devices["Desktop Chrome"],
+    baseURL: "http://127.0.0.1:3000",
+    viewport: { width: 1366, height: 900 },
+    deviceScaleFactor: 1,
+    trace: "on-first-retry",
+    video: "off",
   },
   projects: [
     {
-      name: "webkit-mobile",
+      name: platformProjectName,
       use: {
-        ...devices["iPhone 13"],
+        ...devices["Desktop Chrome"],
       },
     },
   ],
+  webServer: {
+    command: "pnpm exec next start --hostname 127.0.0.1 --port 3000",
+    url: "http://127.0.0.1:3000/no",
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+  },
 });
