@@ -68,13 +68,3 @@ Your brilliant thoughts here... 💭
 ## 🚀 Deployment (set it and forget it)
 
 Every push to `main` triggers an automatic deployment to Vercel. It's like having a robot butler for your code! 🤖
-
----
-
-<div align="center">
-
-**Built with ❤️ and TypeScript** 💙
-
-*Crafted in Bergen, Norway* 🇳🇴
-
-</div>
