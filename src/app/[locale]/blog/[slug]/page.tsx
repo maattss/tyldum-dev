@@ -7,13 +7,13 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
+import { locales } from "@/i18n/config";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const locales = ["no", "en"];
   const params: { locale: string; slug: string }[] = [];
 
   for (const locale of locales) {

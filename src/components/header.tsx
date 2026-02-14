@@ -1,24 +1,7 @@
-import { Suspense } from "react";
 import { getTranslations, getLocale } from "next-intl/server";
-import dynamic from "next/dynamic";
 import { HeaderNavLinks } from "./header-nav-links";
-
-// Lazy load toggles - they're not critical for LCP
-const ThemeToggle = dynamic(
-  () => import("./theme-toggle").then((mod) => mod.ThemeToggle),
-  {
-    ssr: true,
-    loading: () => <div className="h-9 w-9" />,
-  }
-);
-
-const LanguageToggle = dynamic(
-  () => import("./language-toggle").then((mod) => mod.LanguageToggle),
-  {
-    ssr: true,
-    loading: () => <div className="h-9 w-9" />,
-  }
-);
+import { ThemeToggle } from "./theme-toggle";
+import { LanguageToggle } from "./language-toggle";
 
 export async function Header() {
   const t = await getTranslations("nav");
@@ -31,12 +14,8 @@ export async function Header() {
           <HeaderNavLinks locale={locale} homeLabel="tyldum.dev" cvLabel={t("cv")} />
         </nav>
         <div className="flex items-center gap-1.5">
-          <Suspense fallback={<div className="h-9 w-9" />}>
-            <LanguageToggle />
-          </Suspense>
-          <Suspense fallback={<div className="h-9 w-9" />}>
-            <ThemeToggle />
-          </Suspense>
+          <LanguageToggle />
+          <ThemeToggle />
         </div>
       </div>
     </header>

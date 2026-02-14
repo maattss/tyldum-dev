@@ -6,17 +6,10 @@ import { usePathname } from "next/navigation";
 interface NavLinkProps {
   href: string;
   label: string;
-  locale: string;
-  isCvLink?: boolean;
+  isActive: boolean;
 }
 
-function NavLink({ href, label, locale, isCvLink = false }: NavLinkProps) {
-  const pathname = usePathname();
-  
-  const isActive = isCvLink
-    ? pathname.startsWith(`/${locale}/cv`)
-    : (pathname === `/${locale}` || pathname === `/${locale}/`) && !pathname.includes("/cv");
-
+function NavLink({ href, label, isActive }: NavLinkProps) {
   return (
     <Link
       href={href}
@@ -41,10 +34,18 @@ interface HeaderNavLinksProps {
 }
 
 export function HeaderNavLinks({ locale, homeLabel, cvLabel }: HeaderNavLinksProps) {
+  const pathname = usePathname();
+  const normalizedPathname =
+    pathname.endsWith("/") && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+  const localeRoot = `/${locale}`;
+  const localeCv = `/${locale}/cv`;
+  const isCvActive = normalizedPathname === localeCv || normalizedPathname.startsWith(`${localeCv}/`);
+  const isHomeActive = normalizedPathname === localeRoot && !isCvActive;
+
   return (
     <>
-      <NavLink href={`/${locale}`} label={homeLabel} locale={locale} />
-      <NavLink href={`/${locale}/cv`} label={cvLabel} locale={locale} isCvLink />
+      <NavLink href={localeRoot} label={homeLabel} isActive={isHomeActive} />
+      <NavLink href={localeCv} label={cvLabel} isActive={isCvActive} />
     </>
   );
 }

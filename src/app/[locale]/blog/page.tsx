@@ -4,9 +4,10 @@ import { getBlogPosts } from "@/lib/blog";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { locales } from "@/i18n/config";
 
 export function generateStaticParams() {
-  return [{ locale: "no" }, { locale: "en" }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
