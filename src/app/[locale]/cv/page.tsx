@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
 import { PrintButton } from "@/components/print-button";
 import { locales } from "@/i18n/config";
@@ -81,10 +82,23 @@ export default async function CVPage() {
                   GitHub
                 </a>
               </div>
+
+              <div className="mt-4 print:hidden">
+                <PrintButton label={t("downloadCV")} />
+              </div>
             </div>
 
             <div className="print:hidden hidden sm:block">
-              <PrintButton label={t("downloadCV")} />
+              <div className="relative h-28 w-28 overflow-hidden rounded-2xl border border-border/90 bg-card ring-1 ring-white/10 shadow-[0_24px_80px_-50px_rgba(47,185,255,0.65)]">
+                <Image
+                  src="/images/profile.jpg"
+                  alt={t("name")}
+                  width={112}
+                  height={112}
+                  sizes="112px"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </header>
