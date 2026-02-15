@@ -3,13 +3,13 @@ import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeColorSync } from "@/components/theme-color-sync";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { WebVitalsReporter } from "@/components/web-vitals-reporter";
+import { SpeedInsightsClient } from "@/components/speed-insights-client";
 import { locales } from "@/i18n/config";
 import "../globals.css";
 
@@ -182,7 +182,7 @@ export default async function LocaleLayout({
         </ThemeProvider>
         <WebVitalsReporter />
         <Analytics />
-        <SpeedInsights />
+        <SpeedInsightsClient />
       </body>
     </html>
   );
