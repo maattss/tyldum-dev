@@ -31,20 +31,25 @@ interface HeaderNavLinksProps {
   locale: string;
   homeLabel: string;
   cvLabel: string;
+  readingLabel: string;
 }
 
-export function HeaderNavLinks({ locale, homeLabel, cvLabel }: HeaderNavLinksProps) {
+export function HeaderNavLinks({ locale, homeLabel, cvLabel, readingLabel }: HeaderNavLinksProps) {
   const pathname = usePathname();
   const normalizedPathname =
     pathname.endsWith("/") && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
   const localeRoot = `/${locale}`;
   const localeCv = `/${locale}/cv`;
+  const localeReading = `/${locale}/reading`;
   const isCvActive = normalizedPathname === localeCv || normalizedPathname.startsWith(`${localeCv}/`);
+  const isReadingActive =
+    normalizedPathname === localeReading || normalizedPathname.startsWith(`${localeReading}/`);
   const isHomeActive = normalizedPathname === localeRoot && !isCvActive;
 
   return (
     <>
       <NavLink href={localeRoot} label={homeLabel} isActive={isHomeActive} />
+      <NavLink href={localeReading} label={readingLabel} isActive={isReadingActive} />
       <NavLink href={localeCv} label={cvLabel} isActive={isCvActive} />
     </>
   );
