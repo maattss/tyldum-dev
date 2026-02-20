@@ -49,8 +49,8 @@ export function HeaderNavLinks({ locale, homeLabel, cvLabel, readingLabel }: Hea
   return (
     <>
       <NavLink href={localeRoot} label={homeLabel} isActive={isHomeActive} />
-      <NavLink href={localeReading} label={readingLabel} isActive={isReadingActive} />
       <NavLink href={localeCv} label={cvLabel} isActive={isCvActive} />
+      <NavLink href={localeReading} label={readingLabel} isActive={isReadingActive} />
     </>
   );
 }

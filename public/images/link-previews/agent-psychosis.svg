@@ -1,0 +1,7 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#0B1020"/>
+  <rect x="24" y="24" width="592" height="312" rx="14" fill="#111827"/>
+  <text x="48" y="112" fill="#A5B4FC" font-size="24" font-family="Arial, sans-serif">lucumr.pocoo.org</text>
+  <text x="48" y="170" fill="#F3F4F6" font-size="38" font-weight="700" font-family="Arial, sans-serif">The Agent</text>
+  <text x="48" y="214" fill="#F3F4F6" font-size="38" font-weight="700" font-family="Arial, sans-serif">Psychosis</text>
+</svg>

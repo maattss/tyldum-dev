@@ -1,0 +1,7 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#09090B"/>
+  <rect x="24" y="24" width="592" height="312" rx="14" fill="#18181B"/>
+  <text x="48" y="116" fill="#E4E4E7" font-size="24" font-family="Arial, sans-serif">X post</text>
+  <text x="48" y="180" fill="#FAFAFA" font-size="40" font-weight="700" font-family="Arial, sans-serif">@mattshumer_</text>
+  <text x="48" y="222" fill="#FAFAFA" font-size="36" font-weight="700" font-family="Arial, sans-serif">status update</text>
+</svg>

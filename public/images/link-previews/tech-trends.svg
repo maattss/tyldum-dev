@@ -1,0 +1,7 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#1A1A1A"/>
+  <rect x="24" y="24" width="592" height="312" rx="14" fill="#262626"/>
+  <text x="48" y="112" fill="#86EFAC" font-size="24" font-family="Arial, sans-serif">Deloitte</text>
+  <text x="48" y="176" fill="#FAFAFA" font-size="42" font-weight="700" font-family="Arial, sans-serif">Tech Trends</text>
+  <text x="48" y="220" fill="#FAFAFA" font-size="42" font-weight="700" font-family="Arial, sans-serif">2026</text>
+</svg>

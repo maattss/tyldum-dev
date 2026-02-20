@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { locales } from "@/i18n/config";
 
 export function generateStaticParams() {
@@ -19,37 +20,32 @@ export async function generateMetadata({
   };
 }
 
-export default async function ReadingPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function ReadingPage() {
   const t = await getTranslations("reading");
   const featuredLinks = [
     {
       title: "Dark Flow",
       href: "https://www.fast.ai/posts/2026-01-28-dark-flow/",
-      publishedAt: "2026-01-28",
       source: "fast.ai",
+      previewImage: "/images/link-previews/dark-flow.svg",
     },
     {
       title: "The Agent Psychosis",
       href: "https://lucumr.pocoo.org/2026/1/18/agent-psychosis/",
-      publishedAt: "2026-01-18",
       source: "lucumr.pocoo.org",
+      previewImage: "/images/link-previews/agent-psychosis.svg",
     },
     {
       title: "Tech Trends 2026",
       href: "https://www.deloitte.com/us/en/insights/topics/technology-management/tech-trends.html",
-      publishedAt: "2026-01-01",
       source: "Deloitte",
+      previewImage: "/images/link-previews/tech-trends.svg",
     },
     {
       title: "mattshumer_ on X",
       href: "https://x.com/mattshumer_/status/2021256989876109403?s=20",
-      publishedAt: "2025-01-01",
       source: "X",
+      previewImage: "/images/link-previews/mattshumer-x.svg",
     },
   ];
 
@@ -70,18 +66,18 @@ export default async function ReadingPage({
                 rel="noreferrer"
                 className="group block rounded-xl border border-border bg-background/60 p-4 transition-colors hover:bg-muted/40"
               >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Image
+                    src={link.previewImage}
+                    alt={`Preview thumbnail for ${link.title}`}
+                    className="h-16 w-full rounded-md border border-border object-cover sm:w-32"
+                    width={640}
+                    height={360}
+                  />
                   <div>
                     <p className="font-medium text-foreground group-hover:underline">{link.title}</p>
                     <p className="mt-1 text-sm text-muted-foreground">{link.source}</p>
                   </div>
-                  <time className="text-sm text-muted-foreground">
-                    {new Date(link.publishedAt).toLocaleDateString(locale, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </time>
                 </div>
               </a>
             </li>

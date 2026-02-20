@@ -45,14 +45,14 @@
   },
   "nav": {
     "home": "Hjem",
-    "reading": "Leseliste",
+    "reading": "Lenker",
     "cv": "CV",
     "blog": "Blogg"
   },
   "reading": {
-    "title": "tyldum.dev | Leseliste",
-    "heading": "Anbefalt lesning",
-    "description": "En kuratert liste med utvalgte lenker og innlegg som er verdt å lese."
+    "title": "tyldum.dev | Lagrede lenker",
+    "heading": "Interessante lenker",
+    "description": "Lenker jeg vil lagre og dele."
   },
   "home": {
     "recommendedReading": "Anbefalt lesning",

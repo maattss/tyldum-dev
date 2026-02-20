@@ -45,14 +45,14 @@
   },
   "nav": {
     "home": "Home",
-    "reading": "Reading",
+    "reading": "Links",
     "cv": "CV",
     "blog": "Blog"
   },
   "reading": {
-    "title": "tyldum.dev | Reading",
-    "heading": "Recommended Reading",
-    "description": "A curated list of featured links and posts worth reading."
+    "title": "tyldum.dev | Saved links",
+    "heading": "Interesting links",
+    "description": "Links I want to save and share."
   },
   "home": {
     "recommendedReading": "Recommended Reading",

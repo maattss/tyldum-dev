@@ -1,0 +1,6 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="20" fill="#111827"/>
+  <rect x="24" y="24" width="592" height="312" rx="14" fill="#1F2937"/>
+  <text x="48" y="120" fill="#93C5FD" font-size="28" font-family="Arial, sans-serif">fast.ai</text>
+  <text x="48" y="180" fill="#F9FAFB" font-size="42" font-weight="700" font-family="Arial, sans-serif">Dark Flow</text>
+</svg>
