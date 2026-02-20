@@ -48,6 +48,10 @@
     "cv": "CV",
     "blog": "Blog"
   },
+  "home": {
+    "recommendedReading": "Recommended Reading",
+    "featuredLinksDescription": "Featured links sorted by posted date."
+  },
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
