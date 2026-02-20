@@ -10,4 +10,6 @@ test("home page shows featured links ordered by date", async ({ page }) => {
 
   await expect(links.nth(0)).toContainText("Dark Flow");
   await expect(links.nth(1)).toContainText("The Agent Psychosis");
+  await expect(links.nth(2)).toContainText("Tech Trends 2026");
+  await expect(links.nth(3)).toContainText("mattshumer_ on X");
 });
