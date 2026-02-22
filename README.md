@@ -51,6 +51,19 @@ pnpm dev      # Fire up the dev server 🔥
 
 Then head over to [http://localhost:3000](http://localhost:3000) and watch the magic unfold! ✨
 
+## ✅ Quality checks
+
+```bash
+pnpm check:i18n   # Ensure no/en translation structure stays in sync
+pnpm lint         # ESLint checks
+pnpm test:ui      # Deterministic UI regression (build + Playwright)
+```
+
+Visual snapshot policy:
+
+- Use `pnpm test:ui:update` only after manual visual review of diffs.
+- Do not update snapshots to silence unexpected regressions.
+
 ## ✍️ Adding Blog Posts (when inspiration strikes)
 
 Drop an `.mdx` file in `content/blog/{locale}/` with this simple frontmatter:
@@ -68,3 +81,11 @@ Your brilliant thoughts here... 💭
 ## 🚀 Deployment (set it and forget it)
 
 Every push to `main` triggers an automatic deployment to Vercel. It's like having a robot butler for your code! 🤖
+
+## 📌 Backlog
+
+- Contact visibility improvements (`mailto`/`tel`) are intentionally postponed.
+- Future acceptance criteria:
+  - Explicit decision on what contact fields to expose publicly.
+  - Add links in CV header with locale-aware labels.
+  - Add regression coverage for visible/hidden contact states.

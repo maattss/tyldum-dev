@@ -5,22 +5,9 @@
     "keywords": "Mats Tyldum, teknologileder, utvikler, Bergen, Sparebanken Norge"
   },
   "hero": {
-    "greeting": "Hei!",
     "name": "Mats Tyldum",
     "tagline": "Teknologileder, Sparebanken Norge",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn.",
-    "cards": {
-      "role": "Rolle",
-      "location": "Lokasjon",
-      "education": "Utdanning"
-    }
-  },
-  "about": {
-    "title": "Om meg",
-    "role": "Teknologileder",
-    "company": "Sparebanken Norge",
-    "location": "Bergen, Norge",
-    "education": "Master i informatikk fra NTNU"
+    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn."
   },
   "social": {
     "linkedin": "LinkedIn",
@@ -40,13 +27,10 @@
   },
   "blog": {
     "title": "tyldum.dev | Blogg",
-    "readMore": "Les mer",
     "noPosts": "Ingen innlegg enda."
   },
   "nav": {
-    "home": "Hjem",
-    "cv": "CV",
-    "blog": "Blogg"
+    "cv": "CV"
   },
   "cv": {
     "name": "Mats Tyldum",
@@ -55,9 +39,7 @@
     "downloadCV": "Last ned PDF",
     "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere ledelse og teknisk arbeid.",
     "contact": {
-      "location": "Bergen, Norge",
-      "email": "ma.tyldum@gmail.com",
-      "phone": "+47 902 64 226"
+      "location": "Bergen, Norge"
     },
     "experience": {
       "title": "Erfaring",
@@ -151,10 +133,6 @@
           "items": ["Teamledelse", "Teknologistrategi", "Teknisk arkitektur"]
         }
       ]
-    },
-    "certifications": {
-      "title": "Sertifiseringer",
-      "items": []
     }
   }
 }

@@ -6,6 +6,15 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
 
+function formatPostDate(date: string, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00.000Z`));
+}
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -42,11 +51,7 @@ export default async function BlogPage() {
                   <CardTitle>{post.title}</CardTitle>
                   <CardDescription>
                     <span className="block text-sm text-muted-foreground">
-                      {new Date(post.date).toLocaleDateString(locale, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {formatPostDate(post.date, locale)}
                     </span>
                     {post.description}
                   </CardDescription>

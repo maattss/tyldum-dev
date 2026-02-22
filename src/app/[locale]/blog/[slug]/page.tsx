@@ -13,6 +13,15 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
+function formatPostDate(date: string, locale: string): string {
+  return new Intl.DateTimeFormat(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00.000Z`));
+}
+
 export async function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];
 
@@ -44,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description,
       type: "article",
-      publishedTime: post.date,
+      publishedTime: `${post.date}T00:00:00.000Z`,
     },
   };
 }
@@ -70,11 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
         <h1 className="mb-4 text-4xl font-bold">{post.title}</h1>
         <p className="text-lg text-muted-foreground">{post.description}</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          {new Date(post.date).toLocaleDateString(locale, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
+          {formatPostDate(post.date, locale)}
         </p>
       </header>
 

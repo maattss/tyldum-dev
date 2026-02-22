@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 interface ExperienceItem {
@@ -50,11 +50,15 @@ export function CollapsibleExperience({
   showLessLabel,
 }: CollapsibleExperienceProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const panelId = useId();
 
   return (
     <div className="space-y-8">
       {/* Earlier experience items with animation */}
       <div
+        id={panelId}
+        role="region"
+        aria-hidden={!isExpanded}
         className={`grid transition-all duration-300 ease-in-out ${
           isExpanded
             ? "grid-rows-[1fr] opacity-100"
@@ -72,6 +76,9 @@ export function CollapsibleExperience({
 
       {/* Toggle button */}
       <button
+        type="button"
+        aria-expanded={isExpanded}
+        aria-controls={panelId}
         onClick={() => setIsExpanded(!isExpanded)}
         className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
       >

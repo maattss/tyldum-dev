@@ -5,22 +5,9 @@
     "keywords": "Mats Tyldum, technology leader, developer, Bergen, Sparebanken Norge"
   },
   "hero": {
-    "greeting": "Hi, I'm",
     "name": "Mats Tyldum",
     "tagline": "Technology Leader at Sparebanken Norge",
-    "description": "Curious about what I'm working on—or want to chat? Take a look at my GitHub, or send me a message on LinkedIn.",
-    "cards": {
-      "role": "Role",
-      "location": "Location",
-      "education": "Education"
-    }
-  },
-  "about": {
-    "title": "About me",
-    "role": "Technology Leader",
-    "company": "Sparebanken Norge",
-    "location": "Bergen, Norway",
-    "education": "Master's degree in Computer Science from NTNU"
+    "description": "Curious about what I'm working on or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
   },
   "social": {
     "linkedin": "LinkedIn",
@@ -40,13 +27,10 @@
   },
   "blog": {
     "title": "tyldum.dev | Blog",
-    "readMore": "Read more",
     "noPosts": "No posts yet."
   },
   "nav": {
-    "home": "Home",
-    "cv": "CV",
-    "blog": "Blog"
+    "cv": "CV"
   },
   "cv": {
     "name": "Mats Tyldum",
@@ -55,9 +39,7 @@
     "downloadCV": "Download PDF",
     "summary": "Technology leader with a developer background. Enjoy combining leadership and technical work.",
     "contact": {
-      "location": "Bergen, Norway",
-      "email": "ma.tyldum@gmail.com",
-      "phone": "+47 902 64 226"
+      "location": "Bergen, Norway"
     },
     "experience": {
       "title": "Experience",
@@ -68,21 +50,21 @@
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
           "period": "2024 - Present",
-          "description": "Leading a larger team responsible for developing and maintaining the bank’s payment services.",
+          "description": "Leading a larger team responsible for developing and maintaining the bank's payment services.",
           "highlights": []
         },
         {
           "role": "Team Lead & Developer",
           "company": "Sparebanken Vest",
           "period": "2022 - 2024",
-          "description": "Team lead and developer in a team responsible for the bank’s payment services.",
+          "description": "Team lead and developer in a team responsible for the bank's payment services.",
           "highlights": []
         },
         {
           "role": "Developer",
           "company": "Bouvet",
           "period": "2019 - 2022",
-          "description": "Developer. Consulting engagement at Equinor, 2021–2022. Part-time alongside studies, 2019–2021",
+          "description": "Developer. Consulting engagement at Equinor, 2021-2022. Part-time alongside studies, 2019-2021",
           "highlights": []
         },
         {
@@ -151,10 +133,6 @@
           "items": ["Team Leadership", "Technical Roadmapping", "Technical Architecture"]
         }
       ]
-    },
-    "certifications": {
-      "title": "Certifications",
-      "items": []
     }
   }
 }
