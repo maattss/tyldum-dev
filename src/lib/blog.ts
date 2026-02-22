@@ -2,12 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { cache } from "react";
-
-interface BlogFrontmatter {
-  title?: string;
-  description?: string;
-  date?: string;
-}
+import { parseBlogFrontmatter } from "@/lib/content-schemas";
 
 export interface BlogPost {
   slug: string;
@@ -34,18 +29,28 @@ function readBlogPosts(locale: string): BlogPost[] {
     .map((file) => {
       const fullPath = path.join(localeDirectory, file);
       const fileContent = fs.readFileSync(fullPath, "utf8");
-      const { data, content } = matter(fileContent) as { data: BlogFrontmatter; content: string };
+      const { data, content } = matter(fileContent);
+      const frontmatter = parseBlogFrontmatter(data, fullPath);
 
       return {
         slug: file.replace(".mdx", ""),
-        title: data.title ?? "",
-        description: data.description ?? "",
-        date: data.date ?? "",
+        title: frontmatter.title,
+        description: frontmatter.description,
+        date: frontmatter.date,
+        dateValue: frontmatter.dateValue,
         locale,
         content,
       };
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => b.dateValue - a.dateValue)
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      date: post.date,
+      locale: post.locale,
+      content: post.content,
+    }));
 
   return posts;
 }

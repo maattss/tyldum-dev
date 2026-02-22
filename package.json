@@ -7,8 +7,10 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "test:ui": "playwright test",
-    "test:ui:update": "playwright test --update-snapshots"
+    "check:i18n": "node scripts/check-i18n-parity.mjs",
+    "test:ui:run": "playwright test",
+    "test:ui": "pnpm build && pnpm test:ui:run",
+    "test:ui:update": "pnpm build && playwright test --update-snapshots"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.2.7",

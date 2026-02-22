@@ -11,6 +11,7 @@ import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { SpeedInsightsClient } from "@/components/speed-insights-client";
 import { locales } from "@/i18n/config";
+import { getThemeBootstrapScript } from "@/lib/theme/theme-meta";
 import "../globals.css";
 
 // Export viewport for optimal initial render
@@ -159,7 +160,7 @@ export default async function LocaleLayout({
         <WebsiteJsonLd />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var d=document.documentElement;var t=localStorage.getItem('theme');var isDark=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)||(t===null);var color=isDark?'#08090a':'#f7f9fd';if(isDark){d.classList.add('dark')}else{d.classList.remove('dark')}d.style.backgroundColor=color;document.head.querySelectorAll('meta[name="theme-color"][media]').forEach(function(node){node.remove()});var themeMeta=document.head.querySelector('meta[name="theme-color"]:not([media])');if(!themeMeta){themeMeta=document.createElement('meta');themeMeta.name='theme-color';document.head.appendChild(themeMeta)}themeMeta.setAttribute('content',color);var appleMeta=document.head.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]:not([media])');if(!appleMeta){appleMeta=document.createElement('meta');appleMeta.name='apple-mobile-web-app-status-bar-style';document.head.appendChild(appleMeta)}appleMeta.setAttribute('content',isDark?'black-translucent':'default')}catch(e){}})()`,
+            __html: getThemeBootstrapScript(),
           }}
         />
       </head>

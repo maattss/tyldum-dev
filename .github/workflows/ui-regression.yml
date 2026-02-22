@@ -1,6 +1,14 @@
 name: UI Regression
 
 on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
   push:
     branches:
       - main
@@ -37,8 +45,8 @@ jobs:
       - name: Install Playwright browser
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Build app
-        run: pnpm build
+      - name: Check i18n parity
+        run: pnpm check:i18n
 
       - name: Run visual regression tests
         run: pnpm test:ui

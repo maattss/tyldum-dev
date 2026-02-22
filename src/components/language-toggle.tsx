@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next/navigation";
 import { Globe } from "lucide-react";
 import { useTransition } from "react";
 
@@ -13,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { locales, localeNames, type Locale } from "@/i18n/config";
+import { usePathname, useRouter } from "@/i18n/navigation";
 
 export function LanguageToggle() {
   const t = useTranslations("language");
@@ -22,10 +22,12 @@ export function LanguageToggle() {
   const [isPending, startTransition] = useTransition();
 
   const switchLocale = (newLocale: Locale) => {
-    const segments = pathname.split("/");
-    segments[1] = newLocale;
+    if (newLocale === locale) {
+      return;
+    }
+
     startTransition(() => {
-      router.replace(segments.join("/"));
+      router.replace(pathname, { locale: newLocale });
     });
   };
 

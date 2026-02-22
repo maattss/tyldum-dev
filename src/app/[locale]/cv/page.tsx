@@ -1,9 +1,14 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
 import { PrintButton } from "@/components/print-button";
 import { locales } from "@/i18n/config";
+import {
+  parseCvEducationItems,
+  parseCvExperienceItems,
+  parseCvSkillCategories,
+} from "@/lib/content-schemas";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -33,26 +38,16 @@ export async function generateMetadata({
 }
 
 export default async function CVPage() {
+  const locale = await getLocale();
   const t = await getTranslations("cv");
-  const allJobs = t.raw("experience.items") as Array<{
-    role: string;
-    company: string;
-    period: string;
-    description: string;
-    highlights: string[];
-  }>;
+  const allJobs = parseCvExperienceItems(t.raw("experience.items"), locale);
   const recentJobs = allJobs.slice(0, 3);
   const earlierJobs = allJobs.slice(3);
-  const education = t.raw("education.items") as Array<{
-    degree: string;
-    school: string;
-    period: string;
-    description?: string;
-  }>;
-  const skillCategories = t.raw("skills.categories") as Array<{
-    name: string;
-    items: string[];
-  }>;
+  const education = parseCvEducationItems(t.raw("education.items"), locale);
+  const skillCategories = parseCvSkillCategories(
+    t.raw("skills.categories"),
+    locale,
+  );
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-10 sm:py-14">
