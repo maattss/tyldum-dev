@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
 import { PrintButton } from "@/components/print-button";
+import { CvProfileJsonLd } from "@/components/json-ld";
 import { locales } from "@/i18n/config";
 import {
   parseCvEducationItems,
@@ -51,6 +52,7 @@ export default async function CVPage() {
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-10 sm:py-14">
+      <CvProfileJsonLd />
       <div className="space-y-12">
         <header className="border-b border-border pb-8">
           <div className="flex items-start justify-between gap-6">
