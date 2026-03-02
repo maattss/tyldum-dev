@@ -91,6 +91,7 @@ export default async function CVPage() {
                   width={112}
                   height={112}
                   sizes="112px"
+                  priority
                   className="h-full w-full object-cover"
                 />
               </div>
