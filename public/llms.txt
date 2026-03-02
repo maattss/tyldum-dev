@@ -1,0 +1,36 @@
+# Mats Tyldum
+
+> Technology Leader at Sparebanken Norge. Based in Bergen, Norway.
+
+Mats Tyldum is a technology leader with a developer background who enjoys combining leadership and technical work.
+
+## CV
+
+- [CV (English)](https://tyldum.dev/en/cv): Full CV with work experience, education, and skills
+- [CV (Norwegian)](https://tyldum.dev/no/cv): Full CV in Norwegian
+
+## Contact & Profiles
+
+- [LinkedIn](https://www.linkedin.com/in/mtyldum/): LinkedIn profile
+- [GitHub](https://github.com/maattss): GitHub profile
+
+## Experience
+
+- Technology Leader at Sparebanken Norge (2024 - Present): Leading a larger team responsible for developing and maintaining the bank's payment services.
+- Team Lead & Developer at Sparebanken Vest (2022 - 2024): Team lead and developer in a team responsible for the bank's payment services.
+- Developer at Bouvet (2019 - 2022): Developer. Consulting engagement at Equinor, 2021-2022. Part-time alongside studies, 2019-2021.
+- IT Internship at ConocoPhillips (2018): Developed a solution for extracting, structuring, and visualizing well data.
+- Teaching Assistant at University of Stavanger (2018): Teaching assistant in object-oriented programming, computer architecture, and algorithms & data structures.
+
+## Education
+
+- MSc in Computer Science, NTNU (2019 - 2021): Specialization in software development.
+- BSc in Computer Science, University of Stavanger (2017 - 2019)
+- BSc in Petroleum Engineering, University of Stavanger (2014 - 2017): Specialization in reservoir technology. Exchange semester at the University of Adelaide, fall 2016.
+
+## Skills
+
+- Frontend: React, TypeScript, Next.js
+- Backend: .NET, C#, REST/OpenAPI, MongoDB
+- Cloud & DevOps: Azure, Kubernetes, Docker, GitHub Actions
+- Leadership: Team Leadership, Technical Roadmapping, Technical Architecture
