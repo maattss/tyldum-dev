@@ -25,7 +25,7 @@ function ExperienceEntry({ job }: { job: ExperienceItem }) {
           <h3 className="font-semibold text-foreground">{job.role}</h3>
           <p className="text-sm text-muted-foreground">{job.company}</p>
         </div>
-        <p className="font-mono text-xs text-muted-foreground">{job.period}</p>
+        <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
       </div>
       {job.description && <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>}
       {job.highlights.length > 0 && (
