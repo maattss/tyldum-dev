@@ -115,7 +115,7 @@ export default async function CVPage() {
                     <h3 className="font-semibold text-foreground">{job.role}</h3>
                     <p className="text-sm text-muted-foreground">{job.company}</p>
                   </div>
-                  <p className="font-mono text-xs text-muted-foreground">{job.period}</p>
+                  <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
                 </div>
 
                 {job.description && (
@@ -160,7 +160,7 @@ export default async function CVPage() {
                     <h3 className="font-semibold text-foreground">{edu.degree}</h3>
                     <p className="text-sm text-muted-foreground">{edu.school}</p>
                   </div>
-                  <p className="font-mono text-xs text-muted-foreground">{edu.period}</p>
+                  <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{edu.period}</p>
                 </div>
 
                 {edu.description && <p className="mt-1 text-sm text-muted-foreground">{edu.description}</p>}
