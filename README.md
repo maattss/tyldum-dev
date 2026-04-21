@@ -81,11 +81,3 @@ Your brilliant thoughts here... 💭
 ## 🚀 Deployment (set it and forget it)
 
 Every push to `main` triggers an automatic deployment to Vercel. It's like having a robot butler for your code! 🤖
-
-## 📌 Backlog
-
-- Contact visibility improvements (`mailto`/`tel`) are intentionally postponed.
-- Future acceptance criteria:
-  - Explicit decision on what contact fields to expose publicly.
-  - Add links in CV header with locale-aware labels.
-  - Add regression coverage for visible/hidden contact states.
