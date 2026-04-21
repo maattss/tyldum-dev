@@ -5,12 +5,12 @@ export function PersonJsonLd() {
     name: "Mats Tyldum",
     url: "https://tyldum.dev",
     image: "https://tyldum.dev/android-chrome-512x512.png",
-    jobTitle: "Technology Leader",
+    jobTitle: "Chief Technology Officer",
     description:
-      "Technology leader with a developer background. Enjoy combining leadership and technical work.",
+      "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
     worksFor: {
       "@type": "Organization",
-      name: "Sparebanken Norge",
+      name: "Outlet Group",
     },
     alumniOf: [
       {
@@ -47,13 +47,13 @@ export function PersonJsonLd() {
     ],
     hasOccupation: {
       "@type": "Occupation",
-      name: "Technology Leader",
+      name: "Chief Technology Officer",
       occupationLocation: {
         "@type": "City",
         name: "Bergen",
       },
       description:
-        "Leading a larger team responsible for developing and maintaining the bank's payment services.",
+        "Leading technology strategy, product development, and technical execution across Outlet Group.",
     },
     sameAs: [
       "https://www.linkedin.com/in/mtyldum/",
@@ -78,13 +78,17 @@ export function CvProfileJsonLd() {
       name: "Mats Tyldum",
       url: "https://tyldum.dev/en/cv",
       image: "https://tyldum.dev/android-chrome-512x512.png",
-      jobTitle: "Technology Leader",
+      jobTitle: "Chief Technology Officer",
       description:
-        "Technology leader with a developer background. Enjoy combining leadership and technical work.",
+        "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Bergen",
         addressCountry: "Norway",
+      },
+      worksFor: {
+        "@type": "Organization",
+        name: "Outlet Group",
       },
       sameAs: [
         "https://www.linkedin.com/in/mtyldum/",
@@ -147,7 +151,7 @@ export function WebsiteJsonLd() {
     name: "Mats Tyldum",
     url: "https://tyldum.dev",
     image: "https://tyldum.dev/android-chrome-512x512.png",
-    description: "Personal website for Mats Tyldum - Technology Leader",
+    description: "Personal website for Mats Tyldum - CTO at Outlet Group",
     author: {
       "@type": "Person",
       name: "Mats Tyldum",
