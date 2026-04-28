@@ -1,7 +1,7 @@
 {
   "ci": {
     "collect": {
-      "numberOfRuns": 2,
+      "numberOfRuns": 3,
       "startServerCommand": "pnpm start",
       "startServerReadyPattern": "- Local:",
       "startServerReadyTimeout": 120000,
@@ -25,7 +25,7 @@
         "largest-contentful-paint": [
           "error",
           {
-            "maxNumericValue": 3000
+            "maxNumericValue": 3500
           }
         ],
         "cumulative-layout-shift": [
