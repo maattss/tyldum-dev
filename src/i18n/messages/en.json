@@ -1,12 +1,12 @@
 {
   "metadata": {
     "title": "tyldum.dev | Mats Tyldum",
-    "description": "Personal website for Mats Tyldum - Technology Leader at Sparebanken Norge",
-    "keywords": "Mats Tyldum, technology leader, developer, Bergen, Sparebanken Norge"
+    "description": "Personal website for Mats Tyldum - CTO at Outlet Group",
+    "keywords": "Mats Tyldum, CTO, technology leader, developer, Bergen, Outlet Group"
   },
   "hero": {
     "name": "Mats Tyldum",
-    "tagline": "Technology Leader at Sparebanken Norge",
+    "tagline": "CTO at Outlet Group",
     "description": "Curious about what I'm working on or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
   },
   "social": {
@@ -35,9 +35,9 @@
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
-    "subtitle": "Technology Leader",
+    "subtitle": "CTO",
     "downloadCV": "Download PDF",
-    "summary": "Technology leader with a developer background. Enjoy combining leadership and technical work.",
+    "summary": "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
     "contact": {
       "location": "Bergen, Norway"
     },
@@ -47,9 +47,16 @@
       "showLess": "Hide earlier experience",
       "items": [
         {
+          "role": "CTO",
+          "company": "Outlet Group",
+          "period": "2026 - Present",
+          "description": "Leading technology strategy, product development, and technical execution across Outlet Group.",
+          "highlights": []
+        },
+        {
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
-          "period": "2024 - Now",
+          "period": "2024 - 2026",
           "description": "Leading a larger team responsible for developing and maintaining the bank's payment services.",
           "highlights": []
         },
