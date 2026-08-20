@@ -1,10 +1,12 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
+import { ExperienceEntry } from "@/components/experience-entry";
 import { PrintButton } from "@/components/print-button";
 import { CvProfileJsonLd } from "@/components/json-ld";
 import { locales } from "@/i18n/config";
+import { absoluteUrl } from "@/lib/site";
 import {
   parseCvEducationItems,
   parseCvExperienceItems,
@@ -29,17 +31,24 @@ export async function generateMetadata({
     },
     description: t("summary"),
     alternates: {
-      canonical: `https://tyldum.dev/${locale}/cv`,
+      canonical: absoluteUrl(`/${locale}/cv`),
       languages: {
-        no: "https://tyldum.dev/no/cv",
-        en: "https://tyldum.dev/en/cv",
+        no: absoluteUrl("/no/cv"),
+        en: absoluteUrl("/en/cv"),
+        "x-default": absoluteUrl("/no/cv"),
       },
     },
   };
 }
 
-export default async function CVPage() {
-  const locale = await getLocale();
+export default async function CVPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const t = await getTranslations("cv");
   const allJobs = parseCvExperienceItems(t.raw("experience.items"), locale);
   const recentJobs = allJobs.slice(0, 3);
@@ -112,33 +121,8 @@ export default async function CVPage() {
           </h2>
 
           <div className="space-y-7">
-            {recentJobs.map((job, index) => (
-              <article key={index} className="border-l-2 border-border pl-5">
-                <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                  <div>
-                    <h3 className="font-semibold text-foreground">{job.role}</h3>
-                    <p className="text-sm text-muted-foreground">{job.company}</p>
-                  </div>
-                  <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
-                </div>
-
-                {job.description && (
-                  <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>
-                )}
-
-                {job.highlights.length > 0 && (
-                  <ul className="mt-2 space-y-1">
-                    {job.highlights.map((highlight, i) => (
-                      <li
-                        key={i}
-                        className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
-                      >
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </article>
+            {recentJobs.map((job) => (
+              <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
 
             {earlierJobs.length > 0 && (

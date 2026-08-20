@@ -1,19 +1,11 @@
 // Blog page - Currently hidden, uncomment in header navigation when ready
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getBlogPosts } from "@/lib/blog";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
-
-function formatPostDate(date: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T00:00:00.000Z`));
-}
+import { formatIsoDate } from "@/lib/format";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -28,13 +20,23 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "blog" });
 
   return {
-    title: t("title"),
+    // `absolute` avoids the parent layout's "tyldum.dev | %s" template being
+    // applied on top of a title that already contains the site name.
+    title: { absolute: t("title") },
+    // The blog is intentionally unlinked until there is content to publish.
+    robots: { index: false, follow: false },
   };
 }
 
-export default async function BlogPage() {
+export default async function BlogPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const t = await getTranslations("blog");
-  const locale = await getLocale();
   const posts = getBlogPosts(locale);
 
   return (
@@ -51,7 +53,7 @@ export default async function BlogPage() {
                   <CardTitle>{post.title}</CardTitle>
                   <CardDescription>
                     <span className="block text-sm text-muted-foreground">
-                      {formatPostDate(post.date, locale)}
+                      {formatIsoDate(post.date, locale)}
                     </span>
                     {post.description}
                   </CardDescription>

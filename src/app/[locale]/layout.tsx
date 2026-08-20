@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeColorSync } from "@/components/theme-color-sync";
@@ -11,8 +11,13 @@ import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { SpeedInsightsClient } from "@/components/speed-insights-client";
 import { locales } from "@/i18n/config";
+import { SITE_NAME, SITE_URL, PERSON_NAME, absoluteUrl } from "@/lib/site";
 import { getThemeBootstrapScript } from "@/lib/theme/theme-meta";
 import "../globals.css";
+
+// Revalidate daily so statically prerendered pages (e.g. the footer year)
+// stay current without requiring a deploy.
+export const revalidate = 86400;
 
 // Export viewport for optimal initial render
 export const viewport: Viewport = {
@@ -78,14 +83,14 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
-    metadataBase: new URL("https://tyldum.dev"),
+    metadataBase: new URL(SITE_URL),
     title: {
-      template: "tyldum.dev | %s",
+      template: `${SITE_NAME} | %s`,
       default: t("title"),
     },
     description: t("description"),
     keywords: t("keywords").split(", "),
-    authors: [{ name: "Mats Tyldum" }],
+    authors: [{ name: PERSON_NAME }],
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
@@ -98,8 +103,8 @@ export async function generateMetadata({
     openGraph: {
       title: t("title"),
       description: t("description"),
-      url: "https://tyldum.dev",
-      siteName: "tyldum.dev",
+      url: absoluteUrl(`/${locale}`),
+      siteName: SITE_NAME,
       locale: locale === "no" ? "no_NO" : "en_US",
       type: "website",
       images: [
@@ -107,7 +112,7 @@ export async function generateMetadata({
           url: "/android-chrome-512x512.png",
           width: 512,
           height: 512,
-          alt: "Mats Tyldum",
+          alt: PERSON_NAME,
         },
       ],
     },
@@ -121,16 +126,17 @@ export async function generateMetadata({
       follow: true,
     },
     alternates: {
-      canonical: `https://tyldum.dev/${locale}`,
+      canonical: absoluteUrl(`/${locale}`),
       languages: {
-        "no": "https://tyldum.dev/no",
-        "en": "https://tyldum.dev/en",
+        no: absoluteUrl("/no"),
+        en: absoluteUrl("/en"),
+        "x-default": absoluteUrl("/no"),
       },
     },
     appleWebApp: {
       capable: true,
       statusBarStyle: "black-translucent",
-      title: "tyldum.dev",
+      title: SITE_NAME,
     },
   };
 }
@@ -147,6 +153,10 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  // Required for static rendering with next-intl; without it every page
+  // opts into dynamic (per-request) rendering.
+  setRequestLocale(locale);
+
   const messages = await getMessages();
   const clientMessages = {
     language: messages.language,
