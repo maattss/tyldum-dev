@@ -27,7 +27,8 @@
   },
   "blog": {
     "title": "tyldum.dev | Blog",
-    "noPosts": "No posts yet."
+    "noPosts": "No posts yet.",
+    "backToBlog": "Back to blog"
   },
   "nav": {
     "cv": "CV"

@@ -7,8 +7,6 @@ import {
   type ResolvedTheme,
 } from "./theme-constants";
 
-type StoredThemePreference = "light" | "dark" | "system" | null;
-
 function getOrCreateMetaTag(doc: Document, name: string): HTMLMetaElement {
   let meta = doc.head.querySelector<HTMLMetaElement>(
     `meta[name="${name}"]:not([media])`,
@@ -69,15 +67,4 @@ export function getThemeBootstrapScript(): string {
     "}catch(e){}",
     "})();",
   ].join("");
-}
-
-export function toResolvedTheme(
-  themePreference: StoredThemePreference,
-  prefersDark: boolean,
-): ResolvedTheme {
-  const isDark =
-    themePreference === "dark" ||
-    ((themePreference === "system" || themePreference === null) && prefersDark);
-
-  return isDark ? "dark" : "light";
 }
