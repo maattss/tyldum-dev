@@ -1,8 +1,9 @@
 # Mats Tyldum
 
-> Technology Leader at Sparebanken Norge. Based in Bergen, Norway.
+> CTO at Outlet Group. Based in Bergen, Norway.
 
-Mats Tyldum is a technology leader with a developer background who enjoys combining leadership and technical work.
+Mats Tyldum is a technology leader with a developer background who enjoys
+combining strategy, leadership, and technical work.
 
 ## CV
 
@@ -16,7 +17,8 @@ Mats Tyldum is a technology leader with a developer background who enjoys combin
 
 ## Experience
 
-- Technology Leader at Sparebanken Norge (2024 - Present): Leading a larger team responsible for developing and maintaining the bank's payment services.
+- CTO at Outlet Group (2026 - Present): Leading technology strategy, product development, and technical execution across Outlet Group.
+- Technology Leader at Sparebanken Norge (2024 - 2026): Leading a larger team responsible for developing and maintaining the bank's payment services.
 - Team Lead & Developer at Sparebanken Vest (2022 - 2024): Team lead and developer in a team responsible for the bank's payment services.
 - Developer at Bouvet (2019 - 2022): Developer. Consulting engagement at Equinor, 2021-2022. Part-time alongside studies, 2019-2021.
 - IT Internship at ConocoPhillips (2018): Developed a solution for extracting, structuring, and visualizing well data.
