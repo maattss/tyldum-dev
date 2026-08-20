@@ -157,6 +157,7 @@ export default async function LocaleLayout({
   // opts into dynamic (per-request) rendering.
   setRequestLocale(locale);
 
+  const t = await getTranslations("nav");
   const messages = await getMessages();
   const clientMessages = {
     language: messages.language,
@@ -186,8 +187,16 @@ export default async function LocaleLayout({
           <ThemeColorSync />
           <NextIntlClientProvider messages={clientMessages}>
             <div className="bg-gradient-blur" aria-hidden="true" />
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              {t("skipToContent")}
+            </a>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main id="main" className="flex-1">
+              {children}
+            </main>
             <Footer />
           </NextIntlClientProvider>
         </ThemeProvider>

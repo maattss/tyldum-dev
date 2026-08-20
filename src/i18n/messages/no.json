@@ -31,7 +31,8 @@
     "backToBlog": "Tilbake til bloggen"
   },
   "nav": {
-    "cv": "CV"
+    "cv": "CV",
+    "skipToContent": "Hopp til innhold"
   },
   "cv": {
     "name": "Mats Tyldum",
