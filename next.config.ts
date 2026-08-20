@@ -11,6 +11,8 @@ const withMDX = createMDX({
 const nextConfig: NextConfig = {
   // Disabled for build stability across restricted CI/build environments.
   reactCompiler: false,
+  // No reason to advertise the framework and version to scanners.
+  poweredByHeader: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     // Optimize image sizes for the profile image (144px mobile, 176px desktop, up to 3x DPI)
@@ -41,6 +43,27 @@ const nextConfig: NextConfig = {
           {
             key: "X-DNS-Prefetch-Control",
             value: "on",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            // The site needs none of these; deny them explicitly.
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), payment=()",
           },
         ],
       },
