@@ -37,7 +37,7 @@ jobs:
         run: pnpm test:ui:update
 
       - name: Upload regenerated baselines
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: chromium-linux-snapshots
           path: tests/ui-regression.spec.ts-snapshots/*-chromium-linux.png
