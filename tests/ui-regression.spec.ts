@@ -24,7 +24,11 @@ for (const theme of themes) {
         animations: "disabled",
         caret: "hide",
         scale: "css",
-        maxDiffPixelRatio: 0.015,
+        // An absolute budget rather than a ratio: a ratio large enough to
+        // absorb font antialiasing (0.015 == ~18k pixels at this viewport) also
+        // absorbs entire lines of changed text. A few hundred pixels covers
+        // rendering noise without hiding real content changes.
+        maxDiffPixels: 300,
       });
     });
   }

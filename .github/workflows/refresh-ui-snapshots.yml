@@ -1,0 +1,44 @@
+name: Refresh UI Snapshots
+
+# Playwright baselines are platform specific. CI compares against the
+# `chromium-linux` set, which cannot be regenerated on a macOS workstation.
+# Run this workflow to produce them, then download the artifact and commit it.
+on:
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    name: Regenerate chromium-linux baselines
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Regenerate snapshots
+        run: pnpm test:ui:update
+
+      - name: Upload regenerated baselines
+        uses: actions/upload-artifact@v4
+        with:
+          name: chromium-linux-snapshots
+          path: tests/ui-regression.spec.ts-snapshots/*-chromium-linux.png
+          if-no-files-found: error
