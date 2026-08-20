@@ -6,7 +6,7 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto">
+    <footer className="mt-auto print:hidden">
       <Separator />
       <div className="container mx-auto px-4 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
         <p className="text-center text-sm text-muted-foreground">

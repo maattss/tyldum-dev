@@ -6,7 +6,13 @@ import { ExperienceEntry } from "@/components/experience-entry";
 import { PrintButton } from "@/components/print-button";
 import { CvProfileJsonLd } from "@/components/json-ld";
 import { locales } from "@/i18n/config";
-import { absoluteUrl } from "@/lib/site";
+import {
+  GITHUB_HANDLE,
+  GITHUB_URL,
+  LINKEDIN_HANDLE,
+  LINKEDIN_URL,
+  absoluteUrl,
+} from "@/lib/site";
 import {
   parseCvEducationItems,
   parseCvExperienceItems,
@@ -71,21 +77,24 @@ export default async function CVPage({
               <p className="mt-3 text-sm text-muted-foreground">{t("contact.location")}</p>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 <a
-                  href="https://linkedin.com/in/mtyldum"
+                  href={LINKEDIN_URL}
                   className="transition-colors hover:text-foreground"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  LinkedIn
+                  {/* A printed CV cannot be clicked, so spell the URL out on paper. */}
+                  <span className="print:hidden">LinkedIn</span>
+                  <span className="hidden print:inline">{LINKEDIN_HANDLE}</span>
                 </a>
                 <span aria-hidden="true">/</span>
                 <a
-                  href="https://github.com/maattss"
+                  href={GITHUB_URL}
                   className="transition-colors hover:text-foreground"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  GitHub
+                  <span className="print:hidden">GitHub</span>
+                  <span className="hidden print:inline">{GITHUB_HANDLE}</span>
                 </a>
               </div>
 
@@ -141,8 +150,11 @@ export default async function CVPage({
           </h2>
 
           <div className="space-y-6">
-            {education.map((edu, index) => (
-              <article key={index} className="border-l-2 border-border pl-5">
+            {education.map((edu) => (
+              <article
+                key={`${edu.school}-${edu.period}`}
+                className="border-l-2 border-border pl-5 print:break-inside-avoid"
+              >
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                   <div>
                     <h3 className="font-semibold text-foreground">{edu.degree}</h3>
@@ -163,15 +175,15 @@ export default async function CVPage({
           </h2>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {skillCategories.map((category, index) => (
-              <article key={index}>
+            {skillCategories.map((category) => (
+              <article key={category.name} className="print:break-inside-avoid">
                 <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/80">
                   {category.name}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {category.items.map((skill, i) => (
+                  {category.items.map((skill) => (
                     <span
-                      key={i}
+                      key={skill}
                       className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs text-secondary-foreground print:bg-transparent"
                     >
                       {skill}

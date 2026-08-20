@@ -183,3 +183,43 @@
     radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.2) 0%, transparent 40%),
     radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
 }
+
+/* Print styles for the CV.
+ *
+ * Paper is white regardless of the active theme and browsers omit backgrounds
+ * by default, so dark-theme tokens (near-white foreground) would print as
+ * invisible text. Force the light palette for print in both themes. */
+@media print {
+  :root,
+  .dark {
+    --background: #ffffff;
+    --foreground: #101828;
+    --card: #ffffff;
+    --card-foreground: #101828;
+    --muted: #ffffff;
+    --muted-foreground: #3d4756;
+    --secondary: #ffffff;
+    --secondary-foreground: #101828;
+    --border: #c2cbd9;
+    --surface-top-wash: transparent;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+
+  /* Decorative gradients waste toner and print as grey boxes. */
+  .bg-gradient-blur {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
