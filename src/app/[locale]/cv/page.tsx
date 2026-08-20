@@ -1,10 +1,18 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
+import { ExperienceEntry } from "@/components/experience-entry";
 import { PrintButton } from "@/components/print-button";
 import { CvProfileJsonLd } from "@/components/json-ld";
 import { locales } from "@/i18n/config";
+import {
+  GITHUB_HANDLE,
+  GITHUB_URL,
+  LINKEDIN_HANDLE,
+  LINKEDIN_URL,
+  absoluteUrl,
+} from "@/lib/site";
 import {
   parseCvEducationItems,
   parseCvExperienceItems,
@@ -29,17 +37,24 @@ export async function generateMetadata({
     },
     description: t("summary"),
     alternates: {
-      canonical: `https://tyldum.dev/${locale}/cv`,
+      canonical: absoluteUrl(`/${locale}/cv`),
       languages: {
-        no: "https://tyldum.dev/no/cv",
-        en: "https://tyldum.dev/en/cv",
+        no: absoluteUrl("/no/cv"),
+        en: absoluteUrl("/en/cv"),
+        "x-default": absoluteUrl("/no/cv"),
       },
     },
   };
 }
 
-export default async function CVPage() {
-  const locale = await getLocale();
+export default async function CVPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const t = await getTranslations("cv");
   const allJobs = parseCvExperienceItems(t.raw("experience.items"), locale);
   const recentJobs = allJobs.slice(0, 3);
@@ -62,21 +77,24 @@ export default async function CVPage() {
               <p className="mt-3 text-sm text-muted-foreground">{t("contact.location")}</p>
               <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                 <a
-                  href="https://linkedin.com/in/mtyldum"
+                  href={LINKEDIN_URL}
                   className="transition-colors hover:text-foreground"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  LinkedIn
+                  {/* A printed CV cannot be clicked, so spell the URL out on paper. */}
+                  <span className="print:hidden">LinkedIn</span>
+                  <span className="hidden print:inline">{LINKEDIN_HANDLE}</span>
                 </a>
                 <span aria-hidden="true">/</span>
                 <a
-                  href="https://github.com/maattss"
+                  href={GITHUB_URL}
                   className="transition-colors hover:text-foreground"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  GitHub
+                  <span className="print:hidden">GitHub</span>
+                  <span className="hidden print:inline">{GITHUB_HANDLE}</span>
                 </a>
               </div>
 
@@ -112,33 +130,8 @@ export default async function CVPage() {
           </h2>
 
           <div className="space-y-7">
-            {recentJobs.map((job, index) => (
-              <article key={index} className="border-l-2 border-border pl-5">
-                <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                  <div>
-                    <h3 className="font-semibold text-foreground">{job.role}</h3>
-                    <p className="text-sm text-muted-foreground">{job.company}</p>
-                  </div>
-                  <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
-                </div>
-
-                {job.description && (
-                  <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>
-                )}
-
-                {job.highlights.length > 0 && (
-                  <ul className="mt-2 space-y-1">
-                    {job.highlights.map((highlight, i) => (
-                      <li
-                        key={i}
-                        className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
-                      >
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </article>
+            {recentJobs.map((job) => (
+              <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
 
             {earlierJobs.length > 0 && (
@@ -157,8 +150,11 @@ export default async function CVPage() {
           </h2>
 
           <div className="space-y-6">
-            {education.map((edu, index) => (
-              <article key={index} className="border-l-2 border-border pl-5">
+            {education.map((edu) => (
+              <article
+                key={`${edu.school}-${edu.period}`}
+                className="border-l-2 border-border pl-5 print:break-inside-avoid"
+              >
                 <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                   <div>
                     <h3 className="font-semibold text-foreground">{edu.degree}</h3>
@@ -179,15 +175,15 @@ export default async function CVPage() {
           </h2>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {skillCategories.map((category, index) => (
-              <article key={index}>
+            {skillCategories.map((category) => (
+              <article key={category.name} className="print:break-inside-avoid">
                 <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/80">
                   {category.name}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {category.items.map((skill, i) => (
+                  {category.items.map((skill) => (
                     <span
-                      key={i}
+                      key={skill}
                       className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs text-secondary-foreground print:bg-transparent"
                     >
                       {skill}

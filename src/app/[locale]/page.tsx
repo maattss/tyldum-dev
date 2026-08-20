@@ -1,5 +1,5 @@
 import { Hero } from "@/components/hero";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
 
@@ -20,7 +20,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="container mx-auto max-w-6xl px-4">
       <Hero />

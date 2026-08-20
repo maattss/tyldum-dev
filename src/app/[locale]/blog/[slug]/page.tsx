@@ -7,19 +7,13 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { locales } from "@/i18n/config";
+import { formatIsoDate } from "@/lib/format";
+import { absoluteUrl } from "@/lib/site";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
-}
-
-function formatPostDate(date: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${date}T00:00:00.000Z`));
 }
 
 export async function generateStaticParams() {
@@ -46,8 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    // The blog is intentionally unlinked until there is content to publish.
+    robots: { index: false, follow: false },
     alternates: {
-      canonical: `https://tyldum.dev/${locale}/blog/${slug}`,
+      canonical: absoluteUrl(`/${locale}/blog/${slug}`),
     },
     openGraph: {
       title: post.title,
@@ -60,18 +56,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
+
   const post = getBlogPost(slug, locale);
 
   if (!post) {
     notFound();
   }
 
+  const t = await getTranslations("blog");
+
   return (
     <article className="container mx-auto max-w-3xl px-4 py-16">
       <Button variant="ghost" asChild className="mb-8">
         <Link href={`/${locale}/blog`} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
-          {locale === "no" ? "Tilbake til bloggen" : "Back to blog"}
+          {t("backToBlog")}
         </Link>
       </Button>
 
@@ -79,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
         <h1 className="mb-4 text-4xl font-bold">{post.title}</h1>
         <p className="text-lg text-muted-foreground">{post.description}</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          {formatPostDate(post.date, locale)}
+          {formatIsoDate(post.date, locale)}
         </p>
       </header>
 

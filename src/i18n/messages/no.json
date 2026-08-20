@@ -27,15 +27,17 @@
   },
   "blog": {
     "title": "tyldum.dev | Blogg",
-    "noPosts": "Ingen innlegg enda."
+    "noPosts": "Ingen innlegg enda.",
+    "backToBlog": "Tilbake til bloggen"
   },
   "nav": {
-    "cv": "CV"
+    "cv": "CV",
+    "skipToContent": "Hopp til innhold"
   },
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
-    "subtitle": "CTO",
+    "subtitle": "CTO, Outlet Group",
     "downloadCV": "Last ned PDF",
     "summary": "Teknologileder med bakgrunn som utvikler. Trives med å kombinere strategi, ledelse og teknisk arbeid.",
     "contact": {

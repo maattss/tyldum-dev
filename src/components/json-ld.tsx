@@ -1,10 +1,21 @@
+import {
+  GITHUB_URL,
+  LINKEDIN_URL,
+  PERSON_NAME,
+  SITE_URL,
+  absoluteUrl,
+} from "@/lib/site";
+
+const OG_IMAGE = absoluteUrl("/android-chrome-512x512.png");
+const SOCIAL_PROFILES = [LINKEDIN_URL, GITHUB_URL];
+
 export function PersonJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Mats Tyldum",
-    url: "https://tyldum.dev",
-    image: "https://tyldum.dev/android-chrome-512x512.png",
+    name: PERSON_NAME,
+    url: SITE_URL,
+    image: OG_IMAGE,
     jobTitle: "Chief Technology Officer",
     description:
       "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
@@ -55,10 +66,7 @@ export function PersonJsonLd() {
       description:
         "Leading technology strategy, product development, and technical execution across Outlet Group.",
     },
-    sameAs: [
-      "https://www.linkedin.com/in/mtyldum/",
-      "https://github.com/maattss",
-    ],
+    sameAs: SOCIAL_PROFILES,
   };
 
   return (
@@ -75,9 +83,9 @@ export function CvProfileJsonLd() {
     "@type": "ProfilePage",
     mainEntity: {
       "@type": "Person",
-      name: "Mats Tyldum",
-      url: "https://tyldum.dev/en/cv",
-      image: "https://tyldum.dev/android-chrome-512x512.png",
+      name: PERSON_NAME,
+      url: absoluteUrl("/en/cv"),
+      image: OG_IMAGE,
       jobTitle: "Chief Technology Officer",
       description:
         "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
@@ -90,10 +98,7 @@ export function CvProfileJsonLd() {
         "@type": "Organization",
         name: "Outlet Group",
       },
-      sameAs: [
-        "https://www.linkedin.com/in/mtyldum/",
-        "https://github.com/maattss",
-      ],
+      sameAs: SOCIAL_PROFILES,
       hasCredential: [
         {
           "@type": "EducationalOccupationalCredential",
@@ -148,13 +153,13 @@ export function WebsiteJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Mats Tyldum",
-    url: "https://tyldum.dev",
-    image: "https://tyldum.dev/android-chrome-512x512.png",
+    name: PERSON_NAME,
+    url: SITE_URL,
+    image: OG_IMAGE,
     description: "Personal website for Mats Tyldum - CTO at Outlet Group",
     author: {
       "@type": "Person",
-      name: "Mats Tyldum",
+      name: PERSON_NAME,
     },
   };
 

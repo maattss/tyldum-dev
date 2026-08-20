@@ -13,6 +13,7 @@ function NavLink({ href, label, isActive }: NavLinkProps) {
   return (
     <Link
       href={href}
+      aria-current={isActive ? "page" : undefined}
       className={`group relative rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-150 ${
         isActive
           ? "border border-border bg-secondary/80 text-foreground"

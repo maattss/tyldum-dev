@@ -37,8 +37,16 @@ jobs:
       - name: Check i18n parity
         run: pnpm check:i18n
 
+      - name: Lint
+        run: pnpm lint
+
       - name: Build app
         run: pnpm build
+
+      # After the build: `.next/types` must exist and match the installed
+      # Next.js version for `tsc` to resolve the generated route types.
+      - name: Typecheck
+        run: pnpm typecheck
 
       - name: Run Lighthouse budgets
         uses: treosh/lighthouse-ci-action@v12

@@ -27,15 +27,17 @@
   },
   "blog": {
     "title": "tyldum.dev | Blog",
-    "noPosts": "No posts yet."
+    "noPosts": "No posts yet.",
+    "backToBlog": "Back to blog"
   },
   "nav": {
-    "cv": "CV"
+    "cv": "CV",
+    "skipToContent": "Skip to content"
   },
   "cv": {
     "name": "Mats Tyldum",
     "title": "tyldum.dev | CV",
-    "subtitle": "CTO",
+    "subtitle": "CTO, Outlet Group",
     "downloadCV": "Download PDF",
     "summary": "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
     "contact": {

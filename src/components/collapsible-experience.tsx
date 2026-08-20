@@ -3,45 +3,13 @@
 import { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-interface ExperienceItem {
-  role: string;
-  company: string;
-  period: string;
-  description: string;
-  highlights: string[];
-}
+import { ExperienceEntry } from "@/components/experience-entry";
+import type { CVExperienceItem } from "@/lib/content-schemas";
 
 interface CollapsibleExperienceProps {
-  items: ExperienceItem[];
+  items: CVExperienceItem[];
   showMoreLabel: string;
   showLessLabel: string;
-}
-
-function ExperienceEntry({ job }: { job: ExperienceItem }) {
-  return (
-    <article className="border-l-2 border-border pl-5">
-      <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-        <div>
-          <h3 className="font-semibold text-foreground">{job.role}</h3>
-          <p className="text-sm text-muted-foreground">{job.company}</p>
-        </div>
-        <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
-      </div>
-      {job.description && <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>}
-      {job.highlights.length > 0 && (
-        <ul className="mt-2 space-y-1">
-          {job.highlights.map((highlight, i) => (
-            <li
-              key={i}
-              className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
-            >
-              {highlight}
-            </li>
-          ))}
-        </ul>
-      )}
-    </article>
-  );
 }
 
 export function CollapsibleExperience({
@@ -59,16 +27,20 @@ export function CollapsibleExperience({
         id={panelId}
         role="region"
         aria-hidden={!isExpanded}
-        className={`grid transition-all duration-300 ease-in-out ${
+        // `print:` variants keep every entry on the printed CV even while the
+        // section is collapsed on screen. The transition must be disabled too:
+        // print rendering snapshots the page immediately, so an animating
+        // opacity would be captured mid-fade.
+        className={`grid transition-all duration-300 ease-in-out print:grid-rows-[1fr] print:opacity-100 print:transition-none ${
           isExpanded
             ? "grid-rows-[1fr] opacity-100"
             : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden pl-1">
+        <div className="overflow-hidden pl-1 print:overflow-visible">
           <div className="space-y-8 pb-8">
-            {items.map((job, index) => (
-              <ExperienceEntry key={index} job={job} />
+            {items.map((job) => (
+              <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
           </div>
         </div>
@@ -80,7 +52,7 @@ export function CollapsibleExperience({
         aria-expanded={isExpanded}
         aria-controls={panelId}
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200"
+        className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground print:hidden"
       >
         <ChevronDown
           className={`w-4 h-4 transition-transform duration-300 ${

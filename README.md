@@ -33,6 +33,9 @@ src/
 │   └── ...                # 🔧 next-intl setup
 ├── lib/
 │   ├── blog.ts            # 📚 Blog post utilities
+│   ├── content-schemas.ts # 🔍 Runtime validation of CV/blog content
+│   ├── site.ts            # 🔗 Canonical URLs and profile links
+│   ├── theme/             # 🌓 Theme colour tokens + no-flash bootstrap
 │   └── utils.ts           # 🛠️ cn() helper (the real MVP)
 └── proxy.ts               # 🚦 next-intl middleware
 
@@ -56,13 +59,32 @@ Then head over to [http://localhost:3000](http://localhost:3000) and watch the m
 ```bash
 pnpm check:i18n   # Ensure no/en translation structure stays in sync
 pnpm lint         # ESLint checks
-pnpm test:ui      # Deterministic UI regression (build + Playwright)
+pnpm typecheck    # tsc --noEmit (run after `pnpm build`, it needs .next/types)
+pnpm test:ui      # Build + Playwright (screenshots, content, print, theme)
 ```
+
+The Playwright suite has three kinds of test:
+
+- `ui-regression.spec.ts` — screenshot diffs, with an absolute `maxDiffPixels`
+  budget. A percentage budget large enough to absorb font antialiasing is also
+  large enough to absorb whole lines of changed text, which is how a CV content
+  change once passed CI untouched.
+- `content.spec.ts` — asserts the rendered text of the hero and every CV entry,
+  in both locales. Catches content drift that screenshots miss.
+- `cv-print.spec.ts` — "Download PDF" is `window.print()`, so the print
+  stylesheet is the CV's PDF layout. Guards that site chrome is gone, that every
+  role prints (including the collapsed "earlier experience" section), and that
+  text stays dark on white in both themes.
 
 Visual snapshot policy:
 
 - Use `pnpm test:ui:update` only after manual visual review of diffs.
 - Do not update snapshots to silence unexpected regressions.
+
+Baselines are platform specific. CI compares the `chromium-linux` set, which
+cannot be produced on macOS — run the **Refresh UI Snapshots** workflow
+(`workflow_dispatch`), download the artifact, and commit the PNGs. Regenerate
+the `chromium-darwin` set locally with `pnpm test:ui:update`.
 
 ## ✍️ Adding Blog Posts (when inspiration strikes)
 

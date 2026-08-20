@@ -13,7 +13,9 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#fafafd",
-  "background_color": "#fafafd",
-  "display": "standalone"
+  "theme_color": "#f7f9fd",
+  "background_color": "#f7f9fd",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Personal website for Mats Tyldum - CTO at Outlet Group"
 }
