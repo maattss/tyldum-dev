@@ -20,6 +20,19 @@ updates:
           - "@types/react-dom"
       dev-dependencies:
         dependency-type: development
+    ignore:
+      # Both of these are blocked by eslint-config-next's bundled plugin chain
+      # and should be un-ignored as soon as it catches up.
+      #
+      # typescript-eslint refuses TS 7 outright ("typescript-eslint does not
+      # support TS 7.0"); its peer range is still typescript >=4.8.4 <6.1.0.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # eslint 10 crashes eslint-plugin-react 7.37.5 on the first file:
+      # "Error while loading rule 'react/display-name':
+      # contextOrFilename.getFilename is not a function".
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
