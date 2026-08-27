@@ -141,6 +141,10 @@
     min-height: 100dvh;
     background-image: linear-gradient(180deg, var(--surface-top-wash), transparent 30rem);
     background-attachment: fixed;
+    /* The hero backdrop is 100vw, which overflows the content box by the width of
+     * the scrollbar. `clip` rather than `hidden`: it does not create a scroll
+     * container, so the sticky header keeps working. */
+    overflow-x: clip;
   }
 }
 
@@ -184,6 +188,39 @@
     radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
 }
 
+/* WebGPU aurora canvas behind the hero.
+ *
+ * Sits inside the hero's own stacking context (the section is `isolate`), so the
+ * negative z-index stays behind the hero content without escaping to the page.
+ * Present only when the browser has WebGPU and the visitor has not asked for
+ * reduced motion; otherwise `.bg-gradient-blur` alone is the backdrop. */
+.hero-backdrop {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  contain: strict;
+
+  /* Full bleed. The hero lives inside a max-w-6xl container, and a backdrop that
+   * stops at the container edge leaves two hard vertical seams down the page. */
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+
+  /* Starts above the viewport and ends inside its own mask, so the only edges
+   * that exist are either off-screen or already transparent. The top runs behind
+   * the sticky header, which is translucent and blurred — the field reads through
+   * it instead of stopping at a line. */
+  top: -8rem;
+  height: 150%;
+
+  /* The one gradient handles every direction at once, which is why there is no
+   * mask-composite here: it reaches transparent well before the bottom edge, and
+   * its remaining opacity at left and right lands on the viewport edge, where
+   * there is nothing to seam against. */
+  -webkit-mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, #000 22%, transparent 100%);
+  mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, #000 22%, transparent 100%);
+}
+
 /* Print styles for the CV.
  *
  * Paper is white regardless of the active theme and browsers omit backgrounds
@@ -215,7 +252,8 @@
   }
 
   /* Decorative gradients waste toner and print as grey boxes. */
-  .bg-gradient-blur {
+  .bg-gradient-blur,
+  .hero-backdrop {
     display: none !important;
   }
 
