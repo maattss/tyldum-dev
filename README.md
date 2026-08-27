@@ -1,4 +1,4 @@
-# tyldum.dev
+# tyldum.dev 🌐
 
 Personal site and blog for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.dev)**.
 
@@ -7,7 +7,7 @@ Personal site and blog for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.de
 - **Framework:** Next.js 16 with App Router
 - **Styling:** Tailwind CSS 4 plus custom animations
 - **UI components:** Radix UI primitives
-- **i18n:** next-intl — Norwegian 🇳🇴 and English 🇬🇧
+- **i18n:** next-intl — Norwegian and English
 - **Blog:** MDX with gray-matter
 - **Deployment:** Vercel
 
