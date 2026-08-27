@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/button";
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin } from "@/components/brand-icons";
 
 export async function SocialLinks() {
   const t = await getTranslations("social");
