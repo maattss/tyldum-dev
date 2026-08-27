@@ -1,60 +1,64 @@
-# 🌐 tyldum.dev
+# tyldum.dev
 
-Hey there! 👋 **Check out the site:** [tyldum.dev](https://tyldum.dev)
+Personal site and blog for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.dev)**.
 
-## 🚀 Tech Stack (aka the fun stuff)
+## Tech stack
 
-- **Framework:** Next.js 16 with App Router ⚡ (because life's too short for slow websites)
-- **Styling:** Tailwind CSS 4 + custom animations 🎨 (making pixels dance since 2024)
-- **UI Components:** Radix UI primitives 🧩 (accessible AND beautiful)
-- **i18n:** next-intl 🇳🇴🇬🇧 (Norwegian/English - because why pick one?)
-- **Blog:** MDX with gray-matter 📝 (markdown on steroids)
-- **Deployment:** Vercel 🚢 (push to main and watch the magic happen)
+- **Framework:** Next.js 16 with App Router
+- **Styling:** Tailwind CSS 4 plus custom animations
+- **UI components:** Radix UI primitives
+- **i18n:** next-intl — Norwegian 🇳🇴 and English 🇬🇧
+- **Blog:** MDX with gray-matter
+- **Deployment:** Vercel
 
-## 📂 Project Structure (aka where the magic lives)
+## Project structure
 
 ```
 src/
 ├── app/
-│   ├── [locale]/          # 🌍 Locale-based routing (no, en)
-│   │   ├── blog/          # 📰 Blog pages (hiding until I have time to write)
-│   │   ├── layout.tsx     # 🎯 Root layout with providers
-│   │   └── page.tsx       # 🏠 Home sweet home page
-│   └── globals.css        # 🎨 Theme + custom animations (the secret sauce)
+│   ├── [locale]/          # Locale-based routing (no, en)
+│   │   ├── blog/          # Blog index and post pages
+│   │   ├── cv/            # CV page — also the print/PDF layout
+│   │   ├── layout.tsx     # Root layout with providers
+│   │   └── page.tsx       # Home page
+│   ├── globals.css        # Theme tokens + custom animations
+│   ├── robots.ts          # robots.txt
+│   └── sitemap.ts         # sitemap.xml
 ├── components/
-│   ├── ui/                # 🧱 Radix-based UI primitives
-│   ├── hero.tsx           # 🦸 Main hero section (not all heroes wear capes)
-│   ├── header.tsx         # 📍 Site header
-│   ├── footer.tsx         # 👟 Site footer (the unsung hero)
-│   └── ...                # 🌓 Theme/language toggles, social links
+│   ├── ui/                # Radix-based UI primitives
+│   ├── brand-icons.tsx    # GitHub/LinkedIn marks, vendored from lucide 0.577
+│   ├── hero.tsx           # Main hero section
+│   ├── header.tsx         # Site header
+│   ├── footer.tsx         # Site footer
+│   └── ...                # Theme/language toggles, social links
 ├── i18n/
-│   ├── config.ts          # 🗺️ Locale config
-│   ├── messages/          # 💬 Translation JSON files
-│   └── ...                # 🔧 next-intl setup
+│   ├── config.ts          # Locale config
+│   ├── messages/          # Translation JSON files
+│   └── ...                # next-intl setup
 ├── lib/
-│   ├── blog.ts            # 📚 Blog post utilities
-│   ├── content-schemas.ts # 🔍 Runtime validation of CV/blog content
-│   ├── site.ts            # 🔗 Canonical URLs and profile links
-│   ├── theme/             # 🌓 Theme colour tokens + no-flash bootstrap
-│   └── utils.ts           # 🛠️ cn() helper (the real MVP)
-└── proxy.ts               # 🚦 next-intl middleware
+│   ├── blog.ts            # Blog post utilities
+│   ├── content-schemas.ts # Runtime validation of CV/blog content
+│   ├── site.ts            # Canonical URLs and profile links
+│   ├── theme/             # Theme colour tokens + no-flash bootstrap
+│   └── utils.ts           # cn() helper
+└── proxy.ts               # next-intl middleware
 
 content/
 └── blog/
-    ├── en/                # 🇬🇧 English blog posts (.mdx)
-    └── no/                # 🇳🇴 Norwegian blog posts (.mdx)
+    ├── en/                # English blog posts (.mdx)
+    └── no/                # Norwegian blog posts (.mdx)
 ```
 
-## 🛠️ Development (let's get this party started)
+## Development
 
 ```bash
-pnpm install  # Install all the goodies
-pnpm dev      # Fire up the dev server 🔥
+pnpm install
+pnpm dev
 ```
 
-Then head over to [http://localhost:3000](http://localhost:3000) and watch the magic unfold! ✨
+Then head over to [http://localhost:3000](http://localhost:3000).
 
-## ✅ Quality checks
+## Quality checks
 
 ```bash
 pnpm check:i18n   # Ensure no/en translation structure stays in sync
@@ -86,9 +90,9 @@ cannot be produced on macOS — run the **Refresh UI Snapshots** workflow
 (`workflow_dispatch`), download the artifact, and commit the PNGs. Regenerate
 the `chromium-darwin` set locally with `pnpm test:ui:update`.
 
-## ✍️ Adding Blog Posts (when inspiration strikes)
+## Adding blog posts
 
-Drop an `.mdx` file in `content/blog/{locale}/` with this simple frontmatter:
+Drop an `.mdx` file in `content/blog/{locale}/` with this frontmatter:
 
 ```mdx
 ---
@@ -97,9 +101,9 @@ description: "Short description"
 date: "2026-01-09"
 ---
 
-Your brilliant thoughts here... 💭
+Your thoughts here.
 ```
 
-## 🚀 Deployment (set it and forget it)
+## Deployment
 
-Every push to `main` triggers an automatic deployment to Vercel. It's like having a robot butler for your code! 🤖
+Every push to `main` deploys automatically to Vercel.
