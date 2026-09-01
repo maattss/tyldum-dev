@@ -48,17 +48,10 @@ const MIN_ROOM = 0.08;
 // text is.
 const GUARD_BAND = 56;
 
-// Share of the *renderable* area -- the part of the canvas the clearing actually
-// leaves to the grid -- that must carry a visible dot. The grid is sparse by
-// design, so this only has to catch "the effect vanished", not police density.
-//
-// Measured against renderable area rather than against everything outside the
-// copy, because those are very different on a phone: there the copy spans nearly
-// the full width, the clearing swallows the canvas, and there is genuinely
-// nowhere for dots to go. That is the correct outcome, not a regression -- so
-// the requirement is skipped when there is no room, and reported instead.
-const MIN_COVERAGE = 0.004;
-
+// Below this share of the canvas left to the grid, density is not asserted: the
+// copy has filled the viewport and an absent backdrop is the right answer. This
+// is the phone case, where the copy spans nearly the full width and there is
+// genuinely nowhere for dots to go.
 // The hero's content box, as the browser would measure it. Width is max-w-xl
 // (576px), which is the widest of the three blocks; height is the avatar, the
 // text stack and the social row plus their gaps. The component adds its own
@@ -120,27 +113,46 @@ function readClearPadding() {
 }
 
 /**
- * The clearing's feather and corner radius, read from the shader.
+ * Geometry read straight out of the shader.
  *
- * Needed to know where the grid is *allowed* to draw, which is what the coverage
- * assertion is a density over. Parsed for the same reason the padding is: a copy
- * of the number here would drift and quietly change what the gate means.
+ * The clearing's feather and corner define where the grid is *allowed* to draw,
+ * which is what the coverage assertion is a density over. Spacing and dot radius
+ * define how dense a healthy grid is in the first place.
+ *
+ * Parsed rather than restated because a hardcoded copy drifts, and drift here is
+ * not a broken check but a silently meaningless one: making the lattice sparser
+ * is a legitimate design change, and a fixed coverage floor would fail it while
+ * a floor derived from the constants simply moves with it.
  */
-function readClearShape() {
+function readGridShape() {
   const source = readFileSync(new URL("../src/shaders/grid.wgsl", import.meta.url), "utf8");
-  const feather = /const CLEAR_FEATHER = ([\d.]+);/.exec(source);
-  const corner = /const CLEAR_CORNER = ([\d.]+);/.exec(source);
-  if (!feather || !corner) {
-    throw new Error(
-      "Could not read CLEAR_FEATHER/CLEAR_CORNER from grid.wgsl. They moved or were renamed -- " +
-        "update the pattern here rather than letting the coverage check measure the wrong area.",
-    );
-  }
-  return { feather: Number(feather[1]), corner: Number(corner[1]) };
+  const read = (name) => {
+    const found = new RegExp(`const ${name} = ([\\d.]+);`).exec(source);
+    if (!found) {
+      throw new Error(
+        `Could not read ${name} from grid.wgsl. It moved or was renamed -- update the pattern ` +
+          "here rather than letting this gate measure the wrong thing.",
+      );
+    }
+    return Number(found[1]);
+  };
+  return {
+    feather: read("CLEAR_FEATHER"),
+    corner: read("CLEAR_CORNER"),
+    spacing: read("SPACING"),
+    dotRadius: read("DOT_RADIUS"),
+  };
 }
 
 const CLEAR_PADDING = readClearPadding();
-const CLEAR_SHAPE = readClearShape();
+const CLEAR_SHAPE = readGridShape();
+
+// What a healthy lattice covers: one dot of area pi*r^2 per spacing^2 of canvas.
+// Half of that is the floor -- enough headroom for the feathered edge of each dot
+// falling under the visibility threshold, tight enough to catch a grid that has
+// stopped drawing.
+const MIN_COVERAGE =
+  ((Math.PI * CLEAR_SHAPE.dotRadius ** 2) / CLEAR_SHAPE.spacing ** 2) * 0.5;
 
 /** The shader's rounded-box SDF, so the harness agrees with what it renders. */
 function contentDistance(x, y, { center, clearHalf }) {
@@ -201,8 +213,10 @@ function inspect(pixels, geometry, dark) {
         continue;
       }
 
-      // Only where the clearing lets the shader draw at all.
-      if (contentDistance(x, y, geometry) > 0) renderableTotal++;
+      // Only where the grid is at full strength. Inside the clearing's feather
+      // the dots are deliberately faded, so counting those pixels would make a
+      // cramped viewport look like a failing one.
+      if (contentDistance(x, y, geometry) > CLEAR_SHAPE.feather) renderableTotal++;
       if (alpha > 8) outsideLit++;
       if (alpha === 0 || beyond > GUARD_BAND) continue;
 
@@ -333,7 +347,7 @@ try {
           if (room < MIN_ROOM) {
             // The copy fills the viewport. Nothing to assert about density, but
             // say so rather than passing silently on an absent backdrop.
-            cramped.add(`${width}x${mainHeight} (room ${room})`);
+            cramped.add(`${width}x${mainHeight} (${(room * 100).toFixed(1)}%)`);
           } else {
             leanestCoverage = Math.min(leanestCoverage, coverage);
             if (coverage < MIN_COVERAGE) {
@@ -365,7 +379,7 @@ try {
       );
       if (cramped.size > 0) {
         console.log(
-          `  no room for a backdrop at ${[...cramped].join(", ")} — the copy fills the viewport.`,
+          `  only ${[...cramped].join(", ")} of canvas at full strength — the copy fills these viewports, so the grid survives there only as the clearing's feather.`,
         );
       }
     }
