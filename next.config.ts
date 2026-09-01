@@ -20,6 +20,29 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 176, 256, 384, 512],
     formats: ["image/avif", "image/webp"],
   },
+  // `.wgsl` files import like modules; the loader resolves that import graph at
+  // build time. `next dev` runs Turbopack and `next build --webpack` runs
+  // webpack, and Next only reads the matching block, so both have to be here.
+  //
+  // Neither one validates the WGSL it emits. `pnpm check:shaders` is the gate.
+  turbopack: {
+    rules: {
+      "*.wgsl": {
+        loaders: ["@vgpu/wgsl/loader-webpack"],
+        as: "*.js",
+      },
+    },
+  },
+  webpack(config) {
+    config.module ??= {};
+    config.module.rules ??= [];
+    config.module.rules.push({
+      test: /\.wgsl$/,
+      loader: "@vgpu/wgsl/loader-webpack",
+      options: { minify: true },
+    });
+    return config;
+  },
   // Performance optimizations
   experimental: {
     // Optimize package imports for better tree-shaking

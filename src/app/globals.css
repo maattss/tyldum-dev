@@ -184,6 +184,53 @@
     radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
 }
 
+/* WebGPU dot-grid canvas behind the page content.
+ *
+ * Scoped to <main>, which is exactly the box between the header and the footer,
+ * so the grid's edges are those two rules rather than an arbitrary rectangle. It
+ * fills that box at any viewport height — an earlier version was sized to the
+ * hero (150% of a content-height section), which on a tall screen left the grid
+ * as a band across the top with dead space beneath it.
+ *
+ * Sits in main's stacking context (main is `isolate`), so the negative z-index
+ * stays behind the page content without escaping to the root. Present only when
+ * the browser has WebGPU and the visitor has not asked for reduced motion;
+ * otherwise `.bg-gradient-blur` alone is the backdrop. */
+.page-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  contain: strict;
+
+  /* Vertical only, and short.
+   *
+   * The horizontal edges are left alone deliberately: the grid runs the full
+   * width, which is what puts it in register with the header border and the
+   * footer rule. A radial mask here previously faded it into an oval, so its
+   * left and right boundaries landed nowhere in particular while every other
+   * line on the page spanned the viewport.
+   *
+   * Top and bottom still need a few rem of fade, or the lattice stops dead
+   * against the header border. Short enough that the grid still reads as filling
+   * the space rather than as a vignette. */
+  --edge-fade: 4rem;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--edge-fade),
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 var(--edge-fade),
+    #000 calc(100% - var(--edge-fade)),
+    transparent 100%
+  );
+}
+
 /* Print styles for the CV.
  *
  * Paper is white regardless of the active theme and browsers omit backgrounds
@@ -215,7 +262,8 @@
   }
 
   /* Decorative gradients waste toner and print as grey boxes. */
-  .bg-gradient-blur {
+  .bg-gradient-blur,
+  .page-backdrop {
     display: none !important;
   }
 
