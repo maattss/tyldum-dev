@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "check:i18n": "node scripts/check-i18n-parity.mjs",
     "check:shaders": "vgpu check src/shaders/*.wgsl --require-validation",
+    "check:aurora": "node scripts/preview-aurora.mjs",
     "test:ui:run": "playwright test",
     "test:ui": "pnpm build && pnpm test:ui:run",
     "test:ui:update": "pnpm build && playwright test --update-snapshots"

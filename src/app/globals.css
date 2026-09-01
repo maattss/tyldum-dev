@@ -214,11 +214,20 @@
   height: 150%;
 
   /* The one gradient handles every direction at once, which is why there is no
-   * mask-composite here: it reaches transparent well before the bottom edge, and
-   * its remaining opacity at left and right lands on the viewport edge, where
-   * there is nothing to seam against. */
-  -webkit-mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, #000 22%, transparent 100%);
-  mask-image: radial-gradient(58% 52% at 50% 42%, #000 0%, #000 22%, transparent 100%);
+   * mask-composite here: it reaches transparent by the bottom edge, and its
+   * remaining opacity at left and right lands on the viewport edge, where there
+   * is nothing to seam against.
+   *
+   * Deliberately wide. A tighter mask would be doing legibility work, and that
+   * job belongs to the clearance ellipse in aurora.wgsl, which can shape itself
+   * around the copy instead of dimming the whole field to protect the middle of
+   * it. This only has to keep the curtains off the page edges.
+   *
+   * scripts/preview-aurora.mjs parses these numbers to composite its contrast
+   * check, so keep the shape `radial-gradient(X% Y% at CX% CY%, #000 0%, #000 S%,
+   * transparent 100%)` — it fails loudly rather than guessing if it cannot. */
+  -webkit-mask-image: radial-gradient(80% 62% at 50% 38%, #000 0%, #000 44%, transparent 100%);
+  mask-image: radial-gradient(80% 62% at 50% 38%, #000 0%, #000 44%, transparent 100%);
 }
 
 /* Print styles for the CV.
