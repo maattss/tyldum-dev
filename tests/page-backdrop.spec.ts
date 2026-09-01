@@ -2,14 +2,14 @@ import { expect, test } from "@playwright/test";
 
 // The grid is an enhancement, so the interesting cases are the ones where it
 // must not appear at all — and the layout risk it introduces when it does.
-test.describe("hero backdrop", () => {
+test.describe("page backdrop", () => {
   test("is absent under prefers-reduced-motion", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/en", { waitUntil: "networkidle" });
 
     // This is also what keeps the UI regression snapshots valid: they are all
     // captured under reduced motion, so they must never contain a live canvas.
-    await expect(page.locator(".hero-backdrop")).toHaveCount(0);
+    await expect(page.locator(".page-backdrop")).toHaveCount(0);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
@@ -21,7 +21,7 @@ test.describe("hero backdrop", () => {
     });
     await page.goto("/en", { waitUntil: "networkidle" });
 
-    await expect(page.locator(".hero-backdrop")).toHaveCount(0);
+    await expect(page.locator(".page-backdrop")).toHaveCount(0);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
@@ -51,22 +51,42 @@ test.describe("hero backdrop", () => {
     expect(unmarked).toEqual([]);
   });
 
-  test("does not cause horizontal overflow when present", async ({ page }) => {
+  test("fills main, so it reaches the header and the footer at any height", async ({ page }) => {
+    // The point of scoping the backdrop to <main> rather than to the hero: on a
+    // tall viewport a hero-sized backdrop is a band across the top with dead
+    // space under it. Checked at a deliberately tall window.
+    await page.setViewportSize({ width: 1600, height: 1800 });
     await page.goto("/en", { waitUntil: "networkidle" });
 
-    // The backdrop is 100vw inside a max-w-6xl container, which overflows the
-    // content box by the width of the scrollbar unless `overflow-x: clip` holds.
-    // Injected rather than waited for, so the guard runs even on a headless
-    // browser that cannot acquire a WebGPU adapter.
-    const overflow = await page.evaluate(() => {
+    const geometry = await page.evaluate(() => {
+      const main = document.querySelector("main");
+      if (!main) return null;
+      // Injected rather than waited for: CI cannot acquire a WebGPU adapter, so
+      // the real canvas is never mounted there. The CSS is what is under test.
       const probe = document.createElement("div");
-      probe.className = "hero-backdrop";
-      document.querySelector("main section")?.appendChild(probe);
-      const amount = document.documentElement.scrollWidth - document.documentElement.clientWidth;
+      probe.className = "page-backdrop";
+      main.appendChild(probe);
+      const box = probe.getBoundingClientRect();
+      const mainBox = main.getBoundingClientRect();
+      const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth;
       probe.remove();
-      return amount;
+      return {
+        matchesMain:
+          Math.abs(box.top - mainBox.top) < 1 &&
+          Math.abs(box.height - mainBox.height) < 1 &&
+          Math.abs(box.width - mainBox.width) < 1,
+        height: box.height,
+        overflow,
+      };
     });
 
-    expect(overflow).toBeLessThanOrEqual(0);
+    expect(geometry).not.toBeNull();
+    expect(geometry!.matchesMain).toBe(true);
+    // Sanity that "fills main" means something at this viewport, rather than
+    // main having collapsed.
+    expect(geometry!.height).toBeGreaterThan(1200);
+    // The backdrop used to be 100vw, which overflowed by the scrollbar width.
+    expect(geometry!.overflow).toBeLessThanOrEqual(0);
   });
+
 });

@@ -39,14 +39,24 @@ const THEMES = {
 // text allowance does not apply to the element that matters most here.
 const AA_BODY = 4.5;
 
+// Below this share of the canvas left to the grid, density is not asserted: the
+// copy has filled the viewport and an absent backdrop is the right answer.
+const MIN_ROOM = 0.08;
+
 // How far outside the content box the AA floor is still enforced, CSS px. This
 // is the margin for error on the clearing measurement, not a claim about where
 // text is.
 const GUARD_BAND = 56;
 
-// Share of the canvas outside the clearing that must carry a visible dot. The
-// grid is sparse by design -- dots at 26px spacing cover a few percent of the
-// area -- so this only has to catch "the effect vanished", not police density.
+// Share of the *renderable* area -- the part of the canvas the clearing actually
+// leaves to the grid -- that must carry a visible dot. The grid is sparse by
+// design, so this only has to catch "the effect vanished", not police density.
+//
+// Measured against renderable area rather than against everything outside the
+// copy, because those are very different on a phone: there the copy spans nearly
+// the full width, the clearing swallows the canvas, and there is genuinely
+// nowhere for dots to go. That is the correct outcome, not a regression -- so
+// the requirement is skipped when there is no room, and reported instead.
 const MIN_COVERAGE = 0.004;
 
 // The hero's content box, as the browser would measure it. Width is max-w-xl
@@ -56,18 +66,23 @@ const MIN_COVERAGE = 0.004;
 const CONTENT_WIDTH = 576;
 const CONTENT_HEIGHT = 500;
 
-// `.hero-backdrop` starts 8rem above the hero and runs to 150% of its height, so
-// a viewport entry is (width, hero height) and the canvas is derived from it.
-const HERO_OFFSET = 128;
-const CANVAS_SCALE = 1.5;
+// The canvas fills <main>, so a viewport entry is (width, main height) and the
+// canvas is exactly that. The hero sits at the top of main rather than centered
+// in it — the section is content-height inside a container that does not stretch
+// — so the copy is offset by the hero's own top padding (py-24) and not by half
+// the canvas.
+const HERO_TOP_PADDING = 96;
 
+// Main's height is viewport height minus the header and footer, and it grows
+// with the window. The tall entries are the case that made the hero-scoped
+// backdrop look wrong: a band across the top with dead space beneath it.
 const VIEWPORTS = [
-  [390, 720],
-  [768, 800],
-  [1440, 760],
-  [1920, 820],
-  [2560, 900],
-  [3440, 1000],
+  [390, 600],
+  [768, 700],
+  [1440, 640],
+  [1920, 1180],
+  [2560, 1700],
+  [3440, 2100],
 ];
 
 const channel = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -90,33 +105,64 @@ const contrast = (a, b) => {
  */
 function readClearPadding() {
   const source = readFileSync(
-    new URL("../src/components/hero-backdrop.tsx", import.meta.url),
+    new URL("../src/components/page-backdrop.tsx", import.meta.url),
     "utf8",
   );
   const x = /const CLEAR_PADDING_X = (\d+)/.exec(source);
   const y = /const CLEAR_PADDING_Y = (\d+)/.exec(source);
   if (!x || !y) {
     throw new Error(
-      "Could not read CLEAR_PADDING_X/Y from hero-backdrop.tsx. They moved or were renamed, and " +
+      "Could not read CLEAR_PADDING_X/Y from page-backdrop.tsx. They moved or were renamed, and " +
         "guessing them would make this gate quietly meaningless -- update the pattern here.",
     );
   }
   return [Number(x[1]), Number(y[1])];
 }
 
+/**
+ * The clearing's feather and corner radius, read from the shader.
+ *
+ * Needed to know where the grid is *allowed* to draw, which is what the coverage
+ * assertion is a density over. Parsed for the same reason the padding is: a copy
+ * of the number here would drift and quietly change what the gate means.
+ */
+function readClearShape() {
+  const source = readFileSync(new URL("../src/shaders/grid.wgsl", import.meta.url), "utf8");
+  const feather = /const CLEAR_FEATHER = ([\d.]+);/.exec(source);
+  const corner = /const CLEAR_CORNER = ([\d.]+);/.exec(source);
+  if (!feather || !corner) {
+    throw new Error(
+      "Could not read CLEAR_FEATHER/CLEAR_CORNER from grid.wgsl. They moved or were renamed -- " +
+        "update the pattern here rather than letting the coverage check measure the wrong area.",
+    );
+  }
+  return { feather: Number(feather[1]), corner: Number(corner[1]) };
+}
+
 const CLEAR_PADDING = readClearPadding();
+const CLEAR_SHAPE = readClearShape();
+
+/** The shader's rounded-box SDF, so the harness agrees with what it renders. */
+function contentDistance(x, y, { center, clearHalf }) {
+  const qx = Math.abs(x + 0.5 - center[0]) - clearHalf[0] + CLEAR_SHAPE.corner;
+  const qy = Math.abs(y + 0.5 - center[1]) - clearHalf[1] + CLEAR_SHAPE.corner;
+  return (
+    Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) +
+    Math.min(Math.max(qx, qy), 0) -
+    CLEAR_SHAPE.corner
+  );
+}
 
 /** Canvas geometry and the content box within it, all in CSS px. */
-function layout(width, heroHeight) {
-  const height = Math.round(heroHeight * CANVAS_SCALE);
+function layout(width, mainHeight) {
+  const height = mainHeight;
   // What the copy occupies. The assertions are stated against this.
   const half = [Math.min(CONTENT_WIDTH, width * 0.9) / 2, CONTENT_HEIGHT / 2];
   return {
     width,
     height,
-    // The hero sits HERO_OFFSET below the top of the canvas, so its middle is
-    // that plus half its own height.
-    center: [width / 2, HERO_OFFSET + heroHeight / 2],
+    // Top-anchored, not centered: the hero does not stretch to fill main.
+    center: [width / 2, HERO_TOP_PADDING + CONTENT_HEIGHT / 2],
     half,
     // What the shader is actually given, exactly as the component computes it.
     clearHalf: [half[0] + CLEAR_PADDING[0], half[1] + CLEAR_PADDING[1]],
@@ -141,7 +187,7 @@ function inspect(pixels, geometry, dark) {
 
   let insideMaxAlpha = 0;
   let outsideLit = 0;
-  let outsideTotal = 0;
+  let renderableTotal = 0;
   const worst = Object.fromEntries(Object.keys(ink).map((role) => [role, Infinity]));
 
   for (let y = 0; y < height; y++) {
@@ -155,7 +201,8 @@ function inspect(pixels, geometry, dark) {
         continue;
       }
 
-      outsideTotal++;
+      // Only where the clearing lets the shader draw at all.
+      if (contentDistance(x, y, geometry) > 0) renderableTotal++;
       if (alpha > 8) outsideLit++;
       if (alpha === 0 || beyond > GUARD_BAND) continue;
 
@@ -177,7 +224,10 @@ function inspect(pixels, geometry, dark) {
 
   return {
     insideMaxAlpha,
-    coverage: Number((outsideLit / Math.max(outsideTotal, 1)).toFixed(4)),
+    coverage: Number((outsideLit / Math.max(renderableTotal, 1)).toFixed(4)),
+    // Share of the whole canvas the grid is free to use. Near zero means the
+    // copy fills the viewport and there is no backdrop to speak of.
+    room: Number((renderableTotal / (width * height)).toFixed(4)),
     contrast: worst,
   };
 }
@@ -187,10 +237,10 @@ const argDark = Number(process.argv[3] ?? 1);
 const argPointerX = process.argv[4] === undefined ? null : Number(process.argv[4]);
 const argPointerY = process.argv[5] === undefined ? null : Number(process.argv[5]);
 
-const [WIDTH, HERO] = (process.env.PREVIEW_SIZE ?? "1440x760")
+const [WIDTH, MAIN] = (process.env.PREVIEW_SIZE ?? "1440x760")
   .split("x")
   .map((n) => Number.parseInt(n, 10));
-if (!Number.isInteger(WIDTH) || !Number.isInteger(HERO) || WIDTH < 1 || HERO < 1) {
+if (!Number.isInteger(WIDTH) || !Number.isInteger(MAIN) || WIDTH < 1 || MAIN < 1) {
   throw new Error(`PREVIEW_SIZE must look like 1440x760, got ${process.env.PREVIEW_SIZE}`);
 }
 
@@ -226,7 +276,7 @@ async function render(geometry, dark, pointer, pointerStrength) {
 
 try {
   if (outPath) {
-    const geometry = layout(WIDTH, HERO);
+    const geometry = layout(WIDTH, MAIN);
     // Default the pointer to the left of the content, where there are dots to
     // deform -- putting it in the middle would hide the bubble in the clearing.
     const pointer =
@@ -249,12 +299,13 @@ try {
     console.log("wrote", outPath);
   } else {
     const failures = [];
+    const cramped = new Set();
     let frames = 0;
     let worstContrast = Infinity;
     let leanestCoverage = Infinity;
 
-    for (const [width, heroHeight] of VIEWPORTS) {
-      const geometry = layout(width, heroHeight);
+    for (const [width, mainHeight] of VIEWPORTS) {
+      const geometry = layout(width, mainHeight);
       // Resting, and with the pointer pressed against the clearing where the
       // displaced dots come closest to the copy.
       const probes = [
@@ -272,16 +323,22 @@ try {
       for (const [label, pointer, strength] of probes) {
         for (const dark of [1, 0]) {
           const pixels = await render(geometry, dark, pointer, strength);
-          const { insideMaxAlpha, coverage, contrast: ratios } = inspect(pixels, geometry, dark);
-          const where = `${width}x${heroHeight} ${THEMES[dark].name} (${label})`;
+          const { insideMaxAlpha, coverage, room, contrast: ratios } = inspect(pixels, geometry, dark);
+          const where = `${width}x${mainHeight} ${THEMES[dark].name} (${label})`;
           frames++;
 
           if (insideMaxAlpha > 0) {
             failures.push(`${where}: grid draws over the copy, alpha ${insideMaxAlpha}/255`);
           }
-          leanestCoverage = Math.min(leanestCoverage, coverage);
-          if (coverage < MIN_COVERAGE) {
-            failures.push(`${where}: grid is invisible outside the copy, coverage ${coverage}`);
+          if (room < MIN_ROOM) {
+            // The copy fills the viewport. Nothing to assert about density, but
+            // say so rather than passing silently on an absent backdrop.
+            cramped.add(`${width}x${mainHeight} (room ${room})`);
+          } else {
+            leanestCoverage = Math.min(leanestCoverage, coverage);
+            if (coverage < MIN_COVERAGE) {
+              failures.push(`${where}: grid is invisible where it has room, coverage ${coverage}`);
+            }
           }
           for (const [role, ratio] of Object.entries(ratios)) {
             if (ratio === null) continue;
@@ -302,10 +359,15 @@ try {
       process.exitCode = 1;
     } else {
       console.log(
-        `hero grid: ${frames} frames clear the copy entirely, stay visible around it ` +
-          `(leanest coverage ${leanestCoverage}), and hold ${worstContrast.toFixed(2)}:1 ` +
+        `hero grid: ${frames} frames clear the copy entirely, stay visible where they have ` +
+          `room (leanest coverage ${leanestCoverage}), and hold ${worstContrast.toFixed(2)}:1 ` +
           `against the ${AA_BODY}:1 AA floor within ${GUARD_BAND}px of the copy.`,
       );
+      if (cramped.size > 0) {
+        console.log(
+          `  no room for a backdrop at ${[...cramped].join(", ")} — the copy fills the viewport.`,
+        );
+      }
     }
   }
 } finally {

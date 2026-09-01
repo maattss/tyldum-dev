@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero";
+import { PageBackdrop } from "@/components/page-backdrop";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
@@ -29,8 +30,13 @@ export default async function Home({
   setRequestLocale(locale);
 
   return (
-    <div className="container mx-auto max-w-6xl px-4">
-      <Hero />
-    </div>
+    <>
+      {/* Outside the container on purpose: it is positioned against <main>, so it
+        * runs the full width of the page rather than stopping at max-w-6xl. */}
+      <PageBackdrop />
+      <div className="container mx-auto max-w-6xl px-4">
+        <Hero />
+      </div>
+    </>
   );
 }

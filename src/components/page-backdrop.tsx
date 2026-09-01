@@ -19,9 +19,11 @@ const CLEAR_PADDING_Y = 30;
  * the moment the hero changes. The elements know where they are; ask them.
  */
 function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
-  const section = canvas.closest("section");
-  const parts = section?.querySelectorAll<HTMLElement>("[data-hero-content]");
-  if (!parts || parts.length === 0) return null;
+  // Scoped to main rather than to a section: the canvas is a sibling of the page
+  // content now, not a child of the hero.
+  const scope = canvas.closest("main") ?? document;
+  const parts = scope.querySelectorAll<HTMLElement>("[data-hero-content]");
+  if (parts.length === 0) return null;
 
   const canvasBox = canvas.getBoundingClientRect();
   let left = Infinity;
@@ -48,7 +50,12 @@ function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
 }
 
 /**
- * Interactive dot grid behind the hero.
+ * Interactive dot grid behind the page content.
+ *
+ * Fills <main> — the box between the header and the footer — so its edges are
+ * those two rules at any viewport height, rather than a rectangle sized to the
+ * hero. The clearing it leaves for the copy is still measured off the hero's own
+ * elements.
  *
  * Renders nothing at all unless the browser has WebGPU and the visitor has not
  * asked for reduced motion. In every other case the `.bg-gradient-blur` layer in
@@ -57,7 +64,7 @@ function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
  * stay valid. The grid deforms under the cursor, so reduced motion is a
  * correctness gate here and not only a snapshot convenience.
  */
-export function HeroBackdrop() {
+export function PageBackdrop() {
   const { resolvedTheme } = useTheme();
   const [enabled, setEnabled] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -148,12 +155,12 @@ export function HeroBackdrop() {
   useEffect(() => {
     if (!enabled) return;
     const canvas = canvasRef.current;
-    const section = canvas?.closest("section");
-    if (!section) return;
+    const scope = canvas?.closest("main");
+    if (!scope) return;
 
     const observer = new ResizeObserver(syncClearing);
-    observer.observe(section);
-    for (const part of section.querySelectorAll("[data-hero-content]")) {
+    observer.observe(scope);
+    for (const part of scope.querySelectorAll("[data-hero-content]")) {
       observer.observe(part);
     }
 
@@ -201,7 +208,7 @@ export function HeroBackdrop() {
   if (!enabled) return null;
 
   return (
-    <div className="hero-backdrop" aria-hidden="true">
+    <div className="page-backdrop" aria-hidden="true">
       <canvas ref={canvasRef} className="block h-full w-full" />
     </div>
   );

@@ -197,7 +197,9 @@ export default async function LocaleLayout({
               {t("skipToContent")}
             </a>
             <Header />
-            <main id="main" className="flex-1">
+            {/* `relative` so the dot grid can fill exactly this box, `isolate` so its
+                negative z-index stays inside it rather than falling behind the page. */}
+            <main id="main" className="relative isolate flex-1">
               {children}
             </main>
             <Footer />
