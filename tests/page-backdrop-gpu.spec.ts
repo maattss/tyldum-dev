@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
-import { PNG } from "pngjs";
+
+type Clip = { x: number; y: number; width: number; height: number };
 
 // The interaction, exercised against a real adapter.
 //
@@ -9,17 +10,15 @@ import { PNG } from "pngjs";
 // returns null, which is why the rest of the suite can only ever check that the
 // grid stays *absent*.
 //
-// Both preconditions below are skips rather than failures, because neither is a
-// statement about the product:
+// The preconditions below are skips rather than failures, because neither is a
+// statement about the product: the runner may not offer a software adapter at
+// all, and it may offer one that reports success while drawing nothing.
 //
-//   * the runner may not offer a software adapter at all, and
-//   * it may offer one that cannot actually render this shader, leaving a blank
-//     canvas.
-//
-// A blank canvas is indistinguishable from "the pointer did nothing" if you only
-// diff two screenshots, which is how the first version of this passed locally and
-// failed in CI. The Dawn-based `pnpm check:backdrop` remains the gate that always
-// runs and never skips.
+// That second case is why this is more careful than it looks. A canvas that
+// renders nothing is indistinguishable from "the pointer did nothing" if you
+// only diff two screenshots of it — which is exactly how the first version
+// passed on macOS and failed on the Linux runner. The Dawn-based
+// `pnpm check:backdrop` remains the gate that always runs and never skips.
 test.use({
   launchOptions: {
     args: [
@@ -31,15 +30,28 @@ test.use({
   },
 });
 
-/** Distinct non-transparent colors, as a cheap "did anything get drawn" check. */
-function distinctColors(shot: Buffer): number {
-  const png = PNG.sync.read(shot);
-  const seen = new Set<number>();
-  for (let i = 0; i < png.data.length; i += 4) {
-    seen.add((png.data[i] << 16) | (png.data[i + 1] << 8) | png.data[i + 2]);
-    if (seen.size > 4) break;
-  }
-  return seen.size;
+/**
+ * Whether the grid is drawing anything at all.
+ *
+ * Not "is the canvas blank": a screenshot of the canvas region also captures the
+ * page behind it, and `.bg-gradient-blur` alone supplies plenty of color, so a
+ * dead canvas still looks non-uniform. The only honest test is to compare the
+ * same region with the backdrop hidden — if nothing changes, the grid rendered
+ * nothing, whatever the adapter claimed.
+ */
+async function gridIsDrawing(page: Page, clip: Clip): Promise<boolean> {
+  const before = await page.screenshot({ clip });
+  await page.evaluate(() => {
+    document.querySelector<HTMLElement>(".page-backdrop")?.style.setProperty("visibility", "hidden");
+  });
+  const hidden = await page.screenshot({ clip });
+  await page.evaluate(() => {
+    document.querySelector<HTMLElement>(".page-backdrop")?.style.removeProperty("visibility");
+  });
+  // visibility rather than display, so the IntersectionObserver does not read
+  // this as "scrolled away" and pause the loop.
+  await page.waitForTimeout(300);
+  return !before.equals(hidden);
 }
 
 /**
@@ -112,18 +124,22 @@ test.describe("page backdrop with a GPU", () => {
 
   test("the grid responds to the pointer", async ({ page }) => {
     const canvas = page.locator(".page-backdrop canvas");
-
     // Let the opening fade finish, or the comparison catches that instead.
     await page.waitForTimeout(1500);
-    const resting = await canvas.screenshot();
+
+    const box = await canvas.boundingBox();
+    expect(box).not.toBeNull();
+    const clip: Clip = { x: box!.x, y: box!.y, width: box!.width, height: box!.height };
+
     test.skip(
-      distinctColors(resting) < 2,
-      "the software adapter rendered a blank canvas, so there is nothing to deform",
+      !(await gridIsDrawing(page, clip)),
+      "the software adapter rendered nothing, so there is nothing to deform",
     );
 
     const target = await openGridPoint(page);
     test.skip(target === null, "no open grid beside the copy at this viewport");
 
+    const resting = await page.screenshot({ clip });
     // Two moves: the first arms the pointer, the second gives it somewhere to
     // ease toward.
     await page.mouse.move(target!.x - 40, target!.y);
@@ -131,6 +147,6 @@ test.describe("page backdrop with a GPU", () => {
     await page.waitForTimeout(900);
 
     // The whole feature is that it only does anything because someone is there.
-    expect((await canvas.screenshot()).equals(resting)).toBe(false);
+    expect((await page.screenshot({ clip })).equals(resting)).toBe(false);
   });
 });
