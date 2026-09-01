@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// The aurora is an enhancement, so the interesting cases are the ones where it
+// The grid is an enhancement, so the interesting cases are the ones where it
 // must not appear at all — and the layout risk it introduces when it does.
 test.describe("hero backdrop", () => {
   test("is absent under prefers-reduced-motion", async ({ page }) => {
@@ -23,6 +23,32 @@ test.describe("hero backdrop", () => {
 
     await expect(page.locator(".hero-backdrop")).toHaveCount(0);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
+
+  // The grid leaves a hole for whatever carries data-hero-content, so an
+  // unmarked block of text is one the dots would run straight through. Nothing
+  // about adding one would look wrong in review, and CI cannot acquire a WebGPU
+  // adapter to catch it visually, so it is asserted structurally instead.
+  test("every piece of hero text is inside the grid's clearing", async ({ page }) => {
+    await page.goto("/en", { waitUntil: "networkidle" });
+
+    const unmarked = await page.evaluate(() => {
+      const section = document.querySelector("main section");
+      if (!section) return ["no hero section found"];
+
+      const strays: string[] = [];
+      const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT);
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        if (!node.textContent?.trim()) continue;
+        const element = node.parentElement;
+        if (element && !element.closest("[data-hero-content]")) {
+          strays.push(`${element.tagName.toLowerCase()}: ${node.textContent.trim().slice(0, 40)}`);
+        }
+      }
+      return strays;
+    });
+
+    expect(unmarked).toEqual([]);
   });
 
   test("does not cause horizontal overflow when present", async ({ page }) => {

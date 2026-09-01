@@ -1,25 +1,67 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
-import type { AuroraHandle } from "@/lib/gpu/aurora";
+import type { Clearing, GridHandle } from "@/lib/gpu/grid";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
+/** Breathing room between the hero content and the nearest dot, CSS px. */
+const CLEAR_PADDING_X = 44;
+const CLEAR_PADDING_Y = 30;
+
 /**
- * WebGPU aurora behind the hero.
+ * The union of the hero's content boxes, in CSS px relative to the canvas.
+ *
+ * Measured rather than assumed. The grid has to leave a hole for the copy, and
+ * the alternative — an ellipse in the shader sized against layout constants —
+ * has to be re-derived by hand for every breakpoint and silently stops matching
+ * the moment the hero changes. The elements know where they are; ask them.
+ */
+function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
+  const section = canvas.closest("section");
+  const parts = section?.querySelectorAll<HTMLElement>("[data-hero-content]");
+  if (!parts || parts.length === 0) return null;
+
+  const canvasBox = canvas.getBoundingClientRect();
+  let left = Infinity;
+  let top = Infinity;
+  let right = -Infinity;
+  let bottom = -Infinity;
+
+  for (const part of parts) {
+    const box = part.getBoundingClientRect();
+    left = Math.min(left, box.left);
+    top = Math.min(top, box.top);
+    right = Math.max(right, box.right);
+    bottom = Math.max(bottom, box.bottom);
+  }
+
+  if (!Number.isFinite(left) || right <= left || bottom <= top) return null;
+
+  return {
+    centerX: (left + right) / 2 - canvasBox.left,
+    centerY: (top + bottom) / 2 - canvasBox.top,
+    halfWidth: (right - left) / 2 + CLEAR_PADDING_X,
+    halfHeight: (bottom - top) / 2 + CLEAR_PADDING_Y,
+  };
+}
+
+/**
+ * Interactive dot grid behind the hero.
  *
  * Renders nothing at all unless the browser has WebGPU and the visitor has not
  * asked for reduced motion. In every other case the `.bg-gradient-blur` layer in
  * the root layout is the backdrop, exactly as it was before this existed — which
  * is also why the UI regression snapshots (taken under `reducedMotion: "reduce"`)
- * stay valid.
+ * stay valid. The grid deforms under the cursor, so reduced motion is a
+ * correctness gate here and not only a snapshot convenience.
  */
 export function HeroBackdrop() {
   const { resolvedTheme } = useTheme();
   const [enabled, setEnabled] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const handleRef = useRef<AuroraHandle | null>(null);
+  const handleRef = useRef<GridHandle | null>(null);
   const pausedRef = useRef(false);
 
   // Deliberately after mount: the server and the first client render must agree,
@@ -35,6 +77,13 @@ export function HeroBackdrop() {
     return () => motion.removeEventListener("change", sync);
   }, []);
 
+  const syncClearing = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !handleRef.current) return;
+    const clearing = measureClearing(canvas);
+    if (clearing) handleRef.current.setClearing(clearing);
+  }, []);
+
   useEffect(() => {
     if (!enabled) return;
     const canvas = canvasRef.current;
@@ -47,14 +96,21 @@ export function HeroBackdrop() {
 
     const begin = async () => {
       try {
-        const { startAurora } = await import("@/lib/gpu/aurora");
+        const { startGrid } = await import("@/lib/gpu/grid");
         if (cancelled) return;
+
+        const clearing = measureClearing(canvas);
+        // No measurable content means the hero has not laid out yet, and a grid
+        // drawn now would run straight through the copy. Skipping is the safe
+        // failure: the CSS backdrop is already behind us.
+        if (!clearing) return;
 
         // The bootstrap script in <head> has already put the theme class on
         // <html>, so this is correct on the very first frame — `resolvedTheme`
         // is still undefined this early.
-        const handle = await startAurora(canvas, {
+        const handle = await startGrid(canvas, {
           dark: document.documentElement.classList.contains("dark"),
+          clearing,
         });
 
         if (cancelled) {
@@ -86,6 +142,23 @@ export function HeroBackdrop() {
       handleRef.current = null;
     };
   }, [enabled]);
+
+  // The hole has to follow the copy: a viewport resize, a font swap and a locale
+  // change all move it, and none of them are a React render here.
+  useEffect(() => {
+    if (!enabled) return;
+    const canvas = canvasRef.current;
+    const section = canvas?.closest("section");
+    if (!section) return;
+
+    const observer = new ResizeObserver(syncClearing);
+    observer.observe(section);
+    for (const part of section.querySelectorAll("[data-hero-content]")) {
+      observer.observe(part);
+    }
+
+    return () => observer.disconnect();
+  }, [enabled, syncClearing]);
 
   // Nothing to render means nothing to animate: stop the loop outright when the
   // hero scrolls away or the tab goes to the background.
