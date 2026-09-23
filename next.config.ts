@@ -1,19 +1,13 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import createMDX from "@next/mdx";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
-
-const withMDX = createMDX({
-  extension: /\.mdx?$/,
-});
 
 const nextConfig: NextConfig = {
   // Disabled for build stability across restricted CI/build environments.
   reactCompiler: false,
   // No reason to advertise the framework and version to scanners.
   poweredByHeader: false,
-  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
     // Optimize image sizes for the profile image (144px mobile, 176px desktop, up to 3x DPI)
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -94,4 +88,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(withMDX(nextConfig));
+export default withNextIntl(nextConfig);

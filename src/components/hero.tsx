@@ -19,7 +19,7 @@ export async function Hero() {
             height={176}
             sizes="(max-width: 640px) 144px, 176px"
             className="h-full w-full object-cover"
-            priority
+            preload
             fetchPriority="high"
           />
         </div>

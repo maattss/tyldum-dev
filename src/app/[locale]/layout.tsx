@@ -8,7 +8,6 @@ import { ThemeColorSync } from "@/components/theme-color-sync";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
-import { WebVitalsReporter } from "@/components/web-vitals-reporter";
 import { SpeedInsightsClient } from "@/components/speed-insights-client";
 import { locales } from "@/i18n/config";
 import { SITE_NAME, SITE_URL, PERSON_NAME, absoluteUrl } from "@/lib/site";
@@ -106,7 +105,8 @@ export async function generateMetadata({
       description: t("description"),
       url: absoluteUrl(`/${locale}`),
       siteName: SITE_NAME,
-      locale: locale === "no" ? "no_NO" : "en_US",
+      // Open Graph uses Facebook locale codes, which have no bare `no_NO`.
+      locale: locale === "no" ? "nb_NO" : "en_US",
       type: "website",
       images: [
         {
@@ -118,7 +118,8 @@ export async function generateMetadata({
       ],
     },
     twitter: {
-      card: "summary_large_image",
+      // The only share image is the square app icon; a large card would crop it.
+      card: "summary",
       title: t("title"),
       description: t("description"),
     },
@@ -205,7 +206,6 @@ export default async function LocaleLayout({
             <Footer />
           </NextIntlClientProvider>
         </ThemeProvider>
-        <WebVitalsReporter />
         <Analytics />
         <SpeedInsightsClient />
       </body>

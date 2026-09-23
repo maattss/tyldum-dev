@@ -81,6 +81,21 @@ for (const { locale, messages } of locales) {
     }
   });
 
+  test(`cv structured data points at its own locale (${locale})`, async ({
+    page,
+  }) => {
+    await page.goto(`/${locale}/cv`);
+
+    const blocks = await page
+      .locator('script[type="application/ld+json"]')
+      .allTextContents();
+    const profile = blocks
+      .map((block) => JSON.parse(block))
+      .find((data) => data["@type"] === "ProfilePage");
+
+    expect(profile?.url).toBe(`https://tyldum.dev/${locale}/cv`);
+  });
+
   test(`page titles are not double-prefixed (${locale})`, async ({ page }) => {
     for (const path of ["", "/cv"]) {
       await page.goto(`/${locale}${path}`);
@@ -110,4 +125,19 @@ test("skip link becomes visible on focus and targets main", async ({ page }) => 
   await expect(skipLink).toBeVisible();
   await expect(skipLink).toHaveAttribute("href", "#main");
   await expect(page.locator("main#main")).toBeAttached();
+});
+
+test("llms.txt is generated from the CV messages", async ({ request }) => {
+  const response = await request.get("/llms.txt");
+
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toContain("text/plain");
+
+  const body = await response.text();
+  for (const job of enMessages.cv.experience.items) {
+    expect(body).toContain(`${job.role} at ${job.company} (${job.period})`);
+  }
+  for (const edu of enMessages.cv.education.items) {
+    expect(body).toContain(`${edu.degree}, ${edu.school} (${edu.period})`);
+  }
 });

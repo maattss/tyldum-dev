@@ -4,7 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
-    open-pull-requests-limit: 5
+    # Five was hit with every slot taken by an unmerged PR, which silently
+    # stopped Dependabot from proposing anything else.
+    open-pull-requests-limit: 10
     groups:
       # Next.js and its first-party packages must move together.
       next:
@@ -20,6 +22,12 @@ updates:
           - "@types/react-dom"
       dev-dependencies:
         dependency-type: development
+        # Keep these in their own groups above; otherwise eslint-config-next
+        # and @types/react* get bumped here, out of step with next and react.
+        exclude-patterns:
+          - "eslint-config-next"
+          - "@types/react"
+          - "@types/react-dom"
     ignore:
       # Both of these are blocked by eslint-config-next's bundled plugin chain
       # and should be un-ignored as soon as it catches up.
@@ -27,8 +35,9 @@ updates:
       # typescript-eslint refuses TS 7 outright ("typescript-eslint does not
       # support TS 7.0"); its peer range is still typescript >=4.8.4 <6.1.0.
       - dependency-name: "typescript"
-        update-types: ["version-update:semver-major"]
-      # eslint 10 crashes eslint-plugin-react 7.37.5 on the first file:
+        versions: [">=6.1.0"]
+      # eslint 10 crashes eslint-plugin-react 7.37.5 (still the latest, peer
+      # range ^9.7) on the first file:
       # "Error while loading rule 'react/display-name':
       # contextOrFilename.getFilename is not a function".
       - dependency-name: "eslint"
