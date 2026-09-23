@@ -150,3 +150,39 @@ test.describe("page backdrop with a GPU", () => {
     expect((await page.screenshot({ clip })).equals(resting)).toBe(false);
   });
 });
+
+// Touch has no hover, so without this a phone only ever sees the resting
+// lattice. A tap lights the mesh where the finger lands and it lingers briefly
+// after the finger lifts, long enough to be seen, then lets go.
+test.describe("page backdrop with a GPU, on touch", () => {
+  test.use({ hasTouch: true });
+
+  test("a tap lights the mesh and then lets it go", async ({ page }) => {
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await page.goto("/en", { waitUntil: "networkidle" });
+
+    const canvas = page.locator(".page-backdrop canvas");
+    test.skip((await canvas.count()) === 0, "no WebGPU adapter on this runner");
+    await page.waitForTimeout(1500);
+
+    const box = await canvas.boundingBox();
+    const clip: Clip = { x: box!.x, y: box!.y, width: box!.width, height: box!.height };
+    test.skip(
+      !(await gridIsDrawing(page, clip)),
+      "the software adapter rendered nothing, so there is nothing to deform",
+    );
+
+    const target = await openGridPoint(page);
+    test.skip(target === null, "no open grid beside the copy at this viewport");
+
+    const resting = await page.screenshot({ clip });
+    await page.touchscreen.tap(target!.x, target!.y);
+    await page.waitForTimeout(450);
+    expect((await page.screenshot({ clip })).equals(resting)).toBe(false);
+
+    // Linger, then fade: back to exactly the resting frame, not frozen lit.
+    await expect
+      .poll(async () => (await page.screenshot({ clip })).equals(resting), { timeout: 5000 })
+      .toBe(true);
+  });
+});

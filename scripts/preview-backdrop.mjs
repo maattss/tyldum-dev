@@ -9,10 +9,10 @@
 //
 // What the sweep asserts is the *mechanism*, not a tuned constant:
 //
-//   1. The grid draws nothing at all inside the hero's content box. In the
-//      browser that box is measured off the real elements, so the numbers here
-//      only stand in for its shape -- but "the clearing clears" has to hold for
-//      any box, and that is what is checked.
+//   1. The grid draws nothing at all inside any of the hero's content boxes.
+//      In the browser those are measured off the real elements, so the numbers
+//      here only stand in for their shape -- but "the clearing clears" has to
+//      hold for any set of boxes, and that is what is checked.
 //   2. Dots are actually visible outside it, at every viewport. A clearing that
 //      swallowed the whole canvas would satisfy (1) perfectly.
 //   3. Body text clears the AA contrast floor in a guard band just outside the
@@ -52,12 +52,28 @@ const GUARD_BAND = 56;
 // copy has filled the viewport and an absent backdrop is the right answer. This
 // is the phone case, where the copy spans nearly the full width and there is
 // genuinely nowhere for dots to go.
-// The hero's content box, as the browser would measure it. Width is max-w-xl
-// (576px), which is the widest of the three blocks; height is the avatar, the
-// text stack and the social row plus their gaps. The component adds its own
-// padding on top of this, so the sweep is testing the smaller, harder box.
-const CONTENT_WIDTH = 576;
-const CONTENT_HEIGHT = 500;
+// The hero's pieces, as the browser would measure them: one box per
+// data-hero-content element, stacked top to bottom with the gaps between them.
+// Sizes are the rendered ones at the two breakpoints that change the type
+// scale; widths are capped at 90% of the canvas, which is what the container's
+// padding leaves on a phone. The component adds its own padding on top, so the
+// sweep is testing the smaller, harder boxes.
+//
+//   [width, height, gap above]
+const PIECES_WIDE = [
+  [176, 176, 0], // avatar
+  [405, 80, 32], // name, text-7xl
+  [222, 32, 24], // tagline
+  [576, 52, 24], // description, two lines of max-w-xl
+  [232, 40, 40], // social links, side by side
+];
+const PIECES_NARROW = [
+  [144, 144, 0],
+  [290, 52, 32], // text-5xl
+  [196, 28, 24],
+  [576, 92, 24], // wraps to four lines
+  [576, 96, 40], // stacked, full width
+];
 
 // The canvas fills <main>, so a viewport entry is (width, main height) and the
 // canvas is exactly that. The hero sits at the top of main rather than centered
@@ -139,13 +155,42 @@ function readGridShape() {
   return {
     feather: read("CLEAR_FEATHER"),
     corner: read("CLEAR_CORNER"),
+    blend: read("CLEAR_BLEND"),
     spacing: read("SPACING"),
     dotRadius: read("DOT_RADIUS"),
   };
 }
 
+/**
+ * The clearing's slot count, which the host and the shader each declare. A
+ * mismatch silently drops content boxes (host larger) or reads garbage slots
+ * (shader larger), so it is a gate failure rather than something to trust.
+ */
+function readMaxClearings() {
+  const shader = readFileSync(new URL("../src/shaders/grid.wgsl", import.meta.url), "utf8");
+  const host = readFileSync(new URL("../src/lib/gpu/grid.ts", import.meta.url), "utf8");
+  const inShader = /const MAX_CLEARINGS = (\d+);/.exec(shader);
+  const inHost = /export const MAX_CLEARINGS = (\d+);/.exec(host);
+  if (!inShader || !inHost) {
+    throw new Error("Could not read MAX_CLEARINGS from grid.wgsl and grid.ts -- update the pattern here.");
+  }
+  const inStruct = /clearings: array<vec4f, (\d+)>/.exec(shader);
+  if (!inStruct || inStruct[1] !== inShader[1]) {
+    throw new Error(
+      `The clearings array in grid.wgsl holds ${inStruct?.[1]} boxes but MAX_CLEARINGS is ${inShader[1]}.`,
+    );
+  }
+  if (inShader[1] !== inHost[1]) {
+    throw new Error(
+      `MAX_CLEARINGS is ${inShader[1]} in grid.wgsl but ${inHost[1]} in grid.ts. They must match.`,
+    );
+  }
+  return Number(inShader[1]);
+}
+
 const CLEAR_PADDING = readClearPadding();
 const CLEAR_SHAPE = readGridShape();
+const MAX_CLEARINGS = readMaxClearings();
 
 // What a healthy lattice covers: one dot of area pi*r^2 per spacing^2 of canvas.
 // Half of that is the floor -- enough headroom for the feathered edge of each dot
@@ -155,7 +200,7 @@ const MIN_COVERAGE =
   ((Math.PI * CLEAR_SHAPE.dotRadius ** 2) / CLEAR_SHAPE.spacing ** 2) * 0.5;
 
 /** The shader's rounded-box SDF, so the harness agrees with what it renders. */
-function contentDistance(x, y, { center, clearHalf }) {
+function boxDistance(x, y, center, clearHalf) {
   const qx = Math.abs(x + 0.5 - center[0]) - clearHalf[0] + CLEAR_SHAPE.corner;
   const qy = Math.abs(y + 0.5 - center[1]) - clearHalf[1] + CLEAR_SHAPE.corner;
   return (
@@ -165,28 +210,66 @@ function contentDistance(x, y, { center, clearHalf }) {
   );
 }
 
-/** Canvas geometry and the content box within it, all in CSS px. */
+/** The shader's smooth union, term for term. */
+function smoothMin(a, b, k) {
+  const h = Math.max(k - Math.abs(a - b), 0) / k;
+  return Math.min(a, b) - h * h * k * 0.25;
+}
+
+function contentDistance(x, y, { pieces }) {
+  let d = Infinity;
+  for (const piece of pieces) {
+    const next = boxDistance(x, y, piece.center, piece.clearHalf);
+    d = d === Infinity ? next : smoothMin(d, next, CLEAR_SHAPE.blend);
+  }
+  return d;
+}
+
+/** Canvas geometry and the content boxes within it, all in CSS px. */
 function layout(width, mainHeight) {
   const height = mainHeight;
-  // What the copy occupies. The assertions are stated against this.
-  const half = [Math.min(CONTENT_WIDTH, width * 0.9) / 2, CONTENT_HEIGHT / 2];
+  const spec = width < 640 ? PIECES_NARROW : PIECES_WIDE;
+  const pieces = [];
+  // Top-anchored, not centered: the hero does not stretch to fill main.
+  let top = HERO_TOP_PADDING;
+  for (const [pieceWidth, pieceHeight, gap] of spec) {
+    top += gap;
+    // What the copy occupies. The assertions are stated against this.
+    const half = [Math.min(pieceWidth, width * 0.9) / 2, pieceHeight / 2];
+    pieces.push({
+      center: [width / 2, top + pieceHeight / 2],
+      half,
+      // What the shader is actually given, exactly as the component computes it.
+      clearHalf: [half[0] + CLEAR_PADDING[0], half[1] + CLEAR_PADDING[1]],
+    });
+    top += pieceHeight;
+  }
+  if (pieces.length > MAX_CLEARINGS) {
+    throw new Error(`The sweep models ${pieces.length} pieces but the shader holds ${MAX_CLEARINGS}.`);
+  }
+  const bottom = top;
+  const widest = pieces.reduce((a, b) => (b.half[0] > a.half[0] ? b : a));
   return {
     width,
     height,
-    // Top-anchored, not centered: the hero does not stretch to fill main.
-    center: [width / 2, HERO_TOP_PADDING + CONTENT_HEIGHT / 2],
-    half,
-    // What the shader is actually given, exactly as the component computes it.
-    clearHalf: [half[0] + CLEAR_PADDING[0], half[1] + CLEAR_PADDING[1]],
+    pieces,
+    // The hero as a whole, for placing probes against it.
+    center: [width / 2, (HERO_TOP_PADDING + bottom) / 2],
+    extent: [widest.clearHalf[0], (bottom - HERO_TOP_PADDING) / 2 + CLEAR_PADDING[1]],
   };
 }
 
-/** Chebyshev-style overshoot past the content box: <= 0 inside, px outside. */
-function beyondContent(x, y, { center, half }) {
-  return Math.max(
-    Math.abs(x + 0.5 - center[0]) - half[0],
-    Math.abs(y + 0.5 - center[1]) - half[1],
-  );
+/** Chebyshev-style overshoot past the nearest content box: <= 0 inside one,
+ *  px outside all of them. */
+function beyondContent(x, y, { pieces }) {
+  let beyond = Infinity;
+  for (const { center, half } of pieces) {
+    beyond = Math.min(
+      beyond,
+      Math.max(Math.abs(x + 0.5 - center[0]) - half[0], Math.abs(y + 0.5 - center[1]) - half[1]),
+    );
+  }
+  return beyond;
 }
 
 function inspect(pixels, geometry, dark) {
@@ -266,8 +349,12 @@ const gpu = await init();
 const grid = effect(gpu, resolved.wgsl, { label: "grid-preview" });
 const targets = new Map();
 
+const PARKED = [-1e5, -1e5, 0, 0];
+
 async function render(geometry, dark, pointer, pointerStrength) {
-  const { width, height, center, clearHalf } = geometry;
+  const { width, height, pieces } = geometry;
+  const clearings = pieces.map(({ center, clearHalf }) => [...center, ...clearHalf]);
+  while (clearings.length < MAX_CLEARINGS) clearings.push(PARKED);
   const key = `${width}x${height}`;
   if (!targets.has(key)) {
     targets.set(key, target(gpu, { size: [width, height], format: "rgba8unorm" }));
@@ -277,8 +364,7 @@ async function render(geometry, dark, pointer, pointerStrength) {
     params: {
       pointer,
       resolution: [width, height],
-      clearCenter: center,
-      clearRadius: clearHalf,
+      clearings,
       dark,
       intensity: 1,
       pointerStrength,
@@ -322,13 +408,18 @@ try {
       const geometry = layout(width, mainHeight);
       // Resting, and with the pointer pressed against the clearing where the
       // displaced dots come closest to the copy.
+      const [avatar, name] = geometry.pieces;
       const probes = [
         ["resting", [0, 0], 0],
         ["pointer at the copy", geometry.center, 1],
         // Hard against each edge of the clearing: this is where a lit bubble
         // comes closest to the copy, so it is what the guard band is sized for.
-        ["pointer left of the copy", [geometry.center[0] - geometry.clearHalf[0], geometry.center[1]], 1],
-        ["pointer above the copy", [geometry.center[0], geometry.center[1] - geometry.clearHalf[1]], 1],
+        ["pointer left of the copy", [geometry.center[0] - geometry.extent[0], geometry.center[1]], 1],
+        ["pointer above the copy", [geometry.center[0], geometry.center[1] - geometry.extent[1]], 1],
+        // Beside the narrow pieces, where per-piece boxes let the grid come in
+        // closer than one box around everything would have.
+        ["pointer beside the avatar", [avatar.center[0] - avatar.clearHalf[0], avatar.center[1]], 1],
+        ["pointer beside the name", [name.center[0] + name.clearHalf[0], name.center[1]], 1],
         // Out in the open, where the bubble is unattenuated by the clearing.
         // Guards coverage and the shape of the effect, not contrast.
         ["pointer in the open", [width * 0.18, geometry.center[1]], 1],

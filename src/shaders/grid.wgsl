@@ -24,21 +24,28 @@ struct Params {
   // Canvas size in CSS px. Not device px: the grid is a CSS-pixel construct, and
   // dpr only decides how finely it is sampled.
   resolution: vec2f,
-  // Center of the clearing, CSS px. Measured off the real hero content by the
-  // host, so it needs no agreement with any layout constant here.
-  clearCenter: vec2f,
-  // Half-extents of the clearing, CSS px. The content box itself; the feather
-  // below is what turns it into a soft edge.
-  clearRadius: vec2f,
+  // The boxes the grid must not draw behind, CSS px: xy is a box's center, zw
+  // its half-extents (padding already included). One per piece of hero content,
+  // measured off the real elements by the host, so this shader needs no
+  // agreement with any layout constant. Unused slots are zero-sized and parked
+  // far off-canvas, which puts them out of reach of every fragment.
+  //
+  // The length is a literal because vgpu's layout reflection needs one; it
+  // must equal MAX_CLEARINGS, which `pnpm check:backdrop` enforces.
+  clearings: array<vec4f, 6>,
   // 1.0 dark, 0.0 light. Crossfaded by the host over ~0.4s on a theme switch.
   dark: f32,
   // Master opacity, ramped 0 -> 1 on start so the first frame never pops.
   intensity: f32,
-  // 0 until the pointer has actually moved over the page, then eased to 1. A
-  // touch-only visit never sees the grid deform, and it never starts deformed
-  // around a pointer that happens to default to the origin.
+  // 0 until the pointer has actually moved over the page (or a finger is down),
+  // then eased to 1. The host snaps the position on arrival, so the bubble
+  // never sweeps in from wherever the pointer last was.
   pointerStrength: f32,
 }
+
+// How many content boxes the clearing can hold. The hero has five pieces;
+// the host unions any beyond this into the last slot rather than dropping them.
+const MAX_CLEARINGS = 6;
 
 @group(0) @binding(0) var<uniform> params: Params;
 
@@ -69,6 +76,11 @@ const CLEAR_FEATHER = 90.0;
 // ellipse: an ellipse sized to contain the same box would clear far more of the
 // canvas than the copy actually occupies.
 const CLEAR_CORNER = 32.0;
+// How far apart two content boxes blend into one outline, CSS px. A plain min()
+// of their distances leaves a sharp crease wherever a narrow block meets a
+// wide one (the avatar above the name, the name above the paragraph); a smooth
+// union rounds that inside corner the way the outside ones already are.
+const CLEAR_BLEND = 48.0;
 
 // The accent for dots and links inside the pointer's reach.
 //
@@ -83,12 +95,27 @@ const ACCENT_LIGHT = vec3f(0.1686, 0.4980, 1.0000); // #2b7fff, --primary
 const RESTING_DARK = vec3f(0.5804, 0.6275, 0.7137); // #94a0b6
 const RESTING_LIGHT = vec3f(0.2941, 0.3529, 0.4471); // #4b5a72
 
-// Signed distance from `position` to the rounded content box: negative inside,
-// zero on the edge, positive outside.
-fn contentDistance(position: vec2f) -> f32 {
-  let q =
-    abs(position - params.clearCenter) - params.clearRadius + vec2f(CLEAR_CORNER);
+// Signed distance from `position` to one rounded box: negative inside, zero on
+// the edge, positive outside.
+fn boxDistance(position: vec2f, box: vec4f) -> f32 {
+  let q = abs(position - box.xy) - box.zw + vec2f(CLEAR_CORNER);
   return length(max(q, vec2f(0.0))) + min(max(q.x, q.y), 0.0) - CLEAR_CORNER;
+}
+
+// Polynomial smooth minimum. Never greater than min(a, b), so blending can only
+// widen the clearing, never pull the grid in over the copy.
+fn smoothMin(a: f32, b: f32, k: f32) -> f32 {
+  let h = max(k - abs(a - b), 0.0) / k;
+  return min(a, b) - h * h * k * 0.25;
+}
+
+// Signed distance to the hero content as a whole: the smooth union of its boxes.
+fn contentDistance(position: vec2f) -> f32 {
+  var d = boxDistance(position, params.clearings[0]);
+  for (var i = 1; i < MAX_CLEARINGS; i++) {
+    d = smoothMin(d, boxDistance(position, params.clearings[i]), CLEAR_BLEND);
+  }
+  return d;
 }
 
 // Distance from `point` to the segment `a`--`b`.

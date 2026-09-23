@@ -2,12 +2,46 @@ import { clock, effect, frameLoop, init, surface } from "vgpu";
 import type { FrameLoopHandle, Gpu, Surface } from "vgpu";
 import gridShader from "@/shaders/grid.wgsl";
 
-/** The hole the grid leaves for the hero content, in CSS px within the canvas. */
-export interface Clearing {
+/** One box the grid must not draw behind, in CSS px within the canvas. */
+export interface ClearBox {
   centerX: number;
   centerY: number;
   halfWidth: number;
   halfHeight: number;
+}
+
+/**
+ * Slots in the shader's clearing array. Must match `MAX_CLEARINGS` in
+ * grid.wgsl; `pnpm check:backdrop` reads both and fails if they drift.
+ */
+export const MAX_CLEARINGS = 6;
+
+/** An empty slot: zero-sized and far off-canvas, so no fragment is near it. */
+const PARKED: [number, number, number, number] = [-1e5, -1e5, 0, 0];
+
+/** Packs boxes into the shader's fixed-size array, unioning any overflow into
+ *  the last slot rather than dropping a piece of content the grid would then
+ *  run straight through. */
+export function packClearings(boxes: readonly ClearBox[]): [number, number, number, number][] {
+  const slots = boxes.slice(0, MAX_CLEARINGS).map((box) => ({ ...box }));
+  for (const extra of boxes.slice(MAX_CLEARINGS)) {
+    const last = slots[MAX_CLEARINGS - 1];
+    const left = Math.min(last.centerX - last.halfWidth, extra.centerX - extra.halfWidth);
+    const right = Math.max(last.centerX + last.halfWidth, extra.centerX + extra.halfWidth);
+    const top = Math.min(last.centerY - last.halfHeight, extra.centerY - extra.halfHeight);
+    const bottom = Math.max(last.centerY + last.halfHeight, extra.centerY + extra.halfHeight);
+    slots[MAX_CLEARINGS - 1] = {
+      centerX: (left + right) / 2,
+      centerY: (top + bottom) / 2,
+      halfWidth: (right - left) / 2,
+      halfHeight: (bottom - top) / 2,
+    };
+  }
+  const packed = slots.map(
+    (box): [number, number, number, number] => [box.centerX, box.centerY, box.halfWidth, box.halfHeight],
+  );
+  while (packed.length < MAX_CLEARINGS) packed.push(PARKED);
+  return packed;
 }
 
 export interface GridHandle {
@@ -16,7 +50,7 @@ export interface GridHandle {
   /** Stops and restarts rendering, e.g. when the hero scrolls out of view. */
   setPaused(paused: boolean): void;
   /** Re-measures where the grid must not draw. Safe to call on every resize. */
-  setClearing(clearing: Clearing): void;
+  setClearing(clearing: readonly ClearBox[]): void;
   dispose(): void;
 }
 
@@ -36,6 +70,12 @@ const MAX_DELTA = 1 / 30;
 const POINTER_EASING = 12;
 /** Below this, an easing has arrived and the loop is allowed to stop. */
 const SETTLED = 1e-3;
+/**
+ * How long the mesh stays after a finger lifts, ms. A tap is over in a tenth
+ * of a second; without a linger the bubble would fade before it finished
+ * appearing, and a touch visitor would never see what the grid does.
+ */
+const TOUCH_LINGER_MS = 900;
 
 const approach = (value: number, target: number, step: number) =>
   value + Math.max(-step, Math.min(step, target - value));
@@ -48,7 +88,16 @@ const approach = (value: number, target: number, step: number) =>
  */
 export async function startGrid(
   canvas: HTMLCanvasElement,
-  options: { dark: boolean; clearing: Clearing },
+  options: {
+    dark: boolean;
+    clearing: readonly ClearBox[];
+    /**
+     * Called if the GPU device is lost out from under the grid -- a driver
+     * reset, a GPU switch, some sleep/wake cycles. The grid has already torn
+     * itself down; the caller decides whether to start a new one.
+     */
+    onLost?: () => void;
+  },
 ): Promise<GridHandle> {
   const gpu: Gpu = await init();
 
@@ -65,6 +114,14 @@ export async function startGrid(
     gpu.dispose();
   };
 
+  // Without this a lost device leaves the canvas frozen on its last frame, or
+  // blank, for the rest of the visit. `destroyed` is our own teardown.
+  void gpu.gpu.lost.then((info) => {
+    if (disposed || info.reason === "destroyed") return;
+    teardown();
+    options.onLost?.();
+  });
+
   try {
     // Premultiplied so the page background shows through: the grid is a layer of
     // marks over the theme's surface, not a replacement for it.
@@ -78,7 +135,7 @@ export async function startGrid(
       canvas.clientHeight || 1,
     ];
 
-    let clearing = options.clearing;
+    let clearing = packClearings(options.clearing);
 
     const grid = effect(gpu, gridShader, {
       label: "hero-grid",
@@ -86,8 +143,7 @@ export async function startGrid(
         params: {
           pointer: [0, 0],
           resolution: cssSize(),
-          clearCenter: [clearing.centerX, clearing.centerY],
-          clearRadius: [clearing.halfWidth, clearing.halfHeight],
+          clearings: clearing,
           dark: options.dark ? 1 : 0,
           intensity: 0,
           pointerStrength: 0,
@@ -160,8 +216,7 @@ export async function startGrid(
         params: {
           pointer: [pointer.x, pointer.y],
           resolution: cssSize(),
-          clearCenter: [clearing.centerX, clearing.centerY],
-          clearRadius: [clearing.halfWidth, clearing.halfHeight],
+          clearings: clearing,
           dark,
           intensity,
           pointerStrength,
@@ -179,27 +234,82 @@ export async function startGrid(
 
     activeSurface.onResize(() => wake());
 
-    const onPointerMove = (event: PointerEvent) => {
+    // The pointer is kept in viewport coordinates and converted on use, because
+    // the canvas moves under a stationary cursor whenever the page scrolls.
+    let client: { x: number; y: number } | null = null;
+    let lingerTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const retarget = () => {
+      if (!client) return false;
       const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
-      pointerTarget.x = event.clientX - rect.left;
-      pointerTarget.y = event.clientY - rect.top;
+      if (rect.width === 0 || rect.height === 0) return false;
+      pointerTarget.x = client.x - rect.left;
+      pointerTarget.y = client.y - rect.top;
+      return true;
+    };
+
+    const arrive = (event: PointerEvent) => {
+      clearTimeout(lingerTimer);
+      client = { x: event.clientX, y: event.clientY };
+      if (!retarget()) return;
+      // If the bubble has fully faded, it reappears *at* the pointer. Chasing
+      // from its last position instead would sweep a half-formed bubble across
+      // the page -- from the top-left corner, on the very first move.
+      if (pointerStrength < SETTLED) {
+        pointer.x = pointerTarget.x;
+        pointer.y = pointerTarget.y;
+      }
       targetPointerStrength = 1;
       wake();
     };
 
-    const onPointerGone = () => {
+    const depart = () => {
+      clearTimeout(lingerTimer);
       targetPointerStrength = 0;
       wake();
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      // A finger only drives the grid while it is down; hover is mouse and pen.
+      if (event.pointerType === "touch" && event.buttons === 0) return;
+      arrive(event);
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") arrive(event);
+    };
+
+    const onPointerUp = (event: PointerEvent) => {
+      if (event.pointerType === "mouse") return;
+      clearTimeout(lingerTimer);
+      lingerTimer = setTimeout(depart, TOUCH_LINGER_MS);
+    };
+
+    // A lifted finger also "leaves" the document -- pointerleave follows every
+    // touch pointerup -- which would cut the linger short. Only a mouse or pen
+    // leaving the viewport means the visitor has gone.
+    const onPointerLeave = (event: PointerEvent) => {
+      if (event.pointerType !== "touch") depart();
+    };
+
+    const onScroll = () => {
+      if (targetPointerStrength > 0 && retarget()) wake();
     };
 
     // On the window rather than the canvas: the canvas is pointer-events:none so
     // it never steals a click from the hero content sitting on top of it.
     window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerdown", onPointerDown, { passive: true });
+    // pointercancel is what a touch gets when the browser takes it over for a
+    // scroll, and it should let go the same way a lifted finger does.
+    window.addEventListener("pointerup", onPointerUp, { passive: true });
+    window.addEventListener("pointercancel", onPointerUp, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
     // `pointerleave` on the document fires when the cursor leaves the viewport
     // entirely, which is the moment the bubble should relax rather than freeze
-    // wherever it happened to be.
-    document.addEventListener("pointerleave", onPointerGone);
+    // wherever it happened to be. Losing focus (alt-tab) is the same moment.
+    document.addEventListener("pointerleave", onPointerLeave);
+    window.addEventListener("blur", depart);
 
     wake();
 
@@ -219,12 +329,18 @@ export async function startGrid(
         }
       },
       setClearing(next) {
-        clearing = next;
+        clearing = packClearings(next);
         wake();
       },
       dispose() {
+        clearTimeout(lingerTimer);
         window.removeEventListener("pointermove", onPointerMove);
-        document.removeEventListener("pointerleave", onPointerGone);
+        window.removeEventListener("pointerdown", onPointerDown);
+        window.removeEventListener("pointerup", onPointerUp);
+        window.removeEventListener("pointercancel", onPointerUp);
+        window.removeEventListener("scroll", onScroll);
+        document.removeEventListener("pointerleave", onPointerLeave);
+        window.removeEventListener("blur", depart);
         teardown();
       },
     };

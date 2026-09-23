@@ -2,23 +2,36 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
-import type { Clearing, GridHandle } from "@/lib/gpu/grid";
+import type { ClearBox, GridHandle } from "@/lib/gpu/grid";
 
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+/**
+ * How many times to start a fresh grid after the GPU device is lost. Losses
+ * happen (driver resets, GPU switches), but one that recurs immediately means
+ * the device cannot be kept, and the CSS backdrop is the better answer.
+ */
+const MAX_RESTARTS = 2;
 
 /** Breathing room between the hero content and the nearest dot, CSS px. */
 const CLEAR_PADDING_X = 44;
 const CLEAR_PADDING_Y = 30;
 
 /**
- * The union of the hero's content boxes, in CSS px relative to the canvas.
+ * The hero's content boxes, one per `data-hero-content` element, in CSS px
+ * relative to the canvas and already padded.
  *
  * Measured rather than assumed. The grid has to leave a hole for the copy, and
  * the alternative — an ellipse in the shader sized against layout constants —
  * has to be re-derived by hand for every breakpoint and silently stops matching
  * the moment the hero changes. The elements know where they are; ask them.
+ *
+ * Kept separate rather than unioned into one rectangle. The hero is a narrow
+ * avatar over a wide paragraph, and a single box around all of it cleared a
+ * wide band of empty page beside the avatar and the name. The shader blends
+ * the boxes into one outline that follows the copy's actual shape.
  */
-function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
+function measureClearing(canvas: HTMLCanvasElement): ClearBox[] | null {
   // Scoped to main rather than to a section: the canvas is a sibling of the page
   // content now, not a child of the hero.
   const scope = canvas.closest("main") ?? document;
@@ -26,27 +39,21 @@ function measureClearing(canvas: HTMLCanvasElement): Clearing | null {
   if (parts.length === 0) return null;
 
   const canvasBox = canvas.getBoundingClientRect();
-  let left = Infinity;
-  let top = Infinity;
-  let right = -Infinity;
-  let bottom = -Infinity;
+  const boxes: ClearBox[] = [];
 
   for (const part of parts) {
     const box = part.getBoundingClientRect();
-    left = Math.min(left, box.left);
-    top = Math.min(top, box.top);
-    right = Math.max(right, box.right);
-    bottom = Math.max(bottom, box.bottom);
+    // Not laid out yet, or hidden at this breakpoint.
+    if (box.width <= 0 || box.height <= 0) continue;
+    boxes.push({
+      centerX: (box.left + box.right) / 2 - canvasBox.left,
+      centerY: (box.top + box.bottom) / 2 - canvasBox.top,
+      halfWidth: box.width / 2 + CLEAR_PADDING_X,
+      halfHeight: box.height / 2 + CLEAR_PADDING_Y,
+    });
   }
 
-  if (!Number.isFinite(left) || right <= left || bottom <= top) return null;
-
-  return {
-    centerX: (left + right) / 2 - canvasBox.left,
-    centerY: (top + bottom) / 2 - canvasBox.top,
-    halfWidth: (right - left) / 2 + CLEAR_PADDING_X,
-    halfHeight: (bottom - top) / 2 + CLEAR_PADDING_Y,
-  };
+  return boxes.length > 0 ? boxes : null;
 }
 
 /**
@@ -70,6 +77,8 @@ export function PageBackdrop() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const handleRef = useRef<GridHandle | null>(null);
   const pausedRef = useRef(false);
+  // Bumped to start a fresh grid after the device is lost.
+  const [generation, setGeneration] = useState(0);
 
   // Deliberately after mount: the server and the first client render must agree,
   // and neither can know about `navigator.gpu` or the motion preference.
@@ -118,6 +127,12 @@ export function PageBackdrop() {
         const handle = await startGrid(canvas, {
           dark: document.documentElement.classList.contains("dark"),
           clearing,
+          onLost: () => {
+            handleRef.current = null;
+            if (cancelled) return;
+            if (generation < MAX_RESTARTS) setGeneration(generation + 1);
+            else setEnabled(false);
+          },
         });
 
         if (cancelled) {
@@ -148,7 +163,7 @@ export function PageBackdrop() {
       handleRef.current?.dispose();
       handleRef.current = null;
     };
-  }, [enabled]);
+  }, [enabled, generation]);
 
   // The hole has to follow the copy: a viewport resize, a font swap and a locale
   // change all move it, and none of them are a React render here.

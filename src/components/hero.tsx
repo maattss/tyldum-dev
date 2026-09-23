@@ -8,6 +8,10 @@ export async function Hero() {
   // data-hero-content marks what the page backdrop must not draw dots behind. It
   // is measured at runtime, so anything added here that carries text wants the
   // marker too — tests/page-backdrop.spec.ts enforces that.
+  //
+  // Each piece is marked on its own, and the short lines are sized to their
+  // text (w-fit), so the clearing follows the copy's shape instead of one
+  // rectangle as wide as the widest line.
   return (
     <section className="relative flex flex-col items-center justify-center px-4 py-16 text-center sm:py-24">
       <div className="mb-8 animate-fade-in" data-hero-content>
@@ -25,12 +29,23 @@ export async function Hero() {
         </div>
       </div>
 
-      <div className="space-y-6 animate-fade-in" data-hero-content>
-        <h1 className="text-5xl font-semibold tracking-tight text-foreground sm:text-6xl md:text-7xl">
+      <div className="space-y-6 animate-fade-in">
+        <h1
+          className="mx-auto w-fit text-5xl font-semibold tracking-tight text-foreground sm:text-6xl md:text-7xl"
+          data-hero-content
+        >
           <span className="gradient-text">{heroT("name")}</span>
         </h1>
-        <p className="text-xl font-medium text-foreground/90 sm:text-2xl">{heroT("tagline")}</p>
-        <p className="mx-auto max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p
+          className="mx-auto w-fit text-xl font-medium text-foreground/90 sm:text-2xl"
+          data-hero-content
+        >
+          {heroT("tagline")}
+        </p>
+        <p
+          className="mx-auto max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base"
+          data-hero-content
+        >
           {heroT("description")}
         </p>
       </div>
