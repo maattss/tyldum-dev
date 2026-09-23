@@ -25,8 +25,7 @@ export function CollapsibleExperience({
       {/* Earlier experience items with animation */}
       <div
         id={panelId}
-        role="region"
-        aria-hidden={!isExpanded}
+        inert={!isExpanded}
         // `print:` variants keep every entry on the printed CV even while the
         // section is collapsed on screen. The transition must be disabled too:
         // print rendering snapshots the page immediately, so an animating

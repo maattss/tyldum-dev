@@ -43,7 +43,10 @@ for (const theme of ["dark", "light"] as const) {
 
     // The collapsed section must be fully opaque, not mid-fade: print
     // rendering snapshots the page immediately, so transitions must be off.
-    const panel = page.locator('[role="region"]');
+    const panelId = await page
+      .locator("button[aria-controls]")
+      .getAttribute("aria-controls");
+    const panel = page.locator(`[id="${panelId}"]`);
     await expect(panel).toHaveCSS("opacity", "1");
 
     // Profile URLs replace the clickable labels on paper.
