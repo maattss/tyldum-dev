@@ -1,5 +1,13 @@
 packages:
   - .
 ignoredBuiltDependencies:
+  # Both pulled in by next-intl for its message extractor, which this site
+  # does not use; they ship prebuilt binaries and need no install step.
+  - "@parcel/watcher"
+  - "@swc/core"
   - sharp
   - unrs-resolver
+overrides:
+  # gray-matter 4.0.3 (last release, 2023) pins js-yaml ^3.13.1; 3.15.2 fixes
+  # GHSA-2883-xcg3-v3hh. Drop this once gray-matter moves or is replaced.
+  js-yaml: ^3.15.2

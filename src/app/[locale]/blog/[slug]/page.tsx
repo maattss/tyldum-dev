@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Separator } from "@/components/ui/separator";
+import { mdxComponents } from "@/components/mdx-components";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getBlogPost(slug, locale);
 
   if (!post) {
-    return { title: "Post Not Found" };
+    const t = await getTranslations({ locale, namespace: "blog" });
+    return { title: t("notFound") };
   }
 
   return {
@@ -85,9 +87,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       <Separator className="mb-8" />
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <MDXRemote source={post.content} />
-      </div>
+      <MDXRemote source={post.content} components={mdxComponents} />
     </article>
   );
 }

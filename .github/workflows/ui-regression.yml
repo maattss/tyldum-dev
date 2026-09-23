@@ -30,13 +30,11 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 10
 
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
 
       - name: Install dependencies
@@ -53,6 +51,12 @@ jobs:
 
       - name: Run visual regression tests
         run: pnpm test:ui
+
+      # After the build: `.next/types` must exist and match the installed
+      # Next.js version for `tsc` to resolve the generated route types.
+      - name: Typecheck
+        if: ${{ !cancelled() }}
+        run: pnpm typecheck
 
       - name: Upload Playwright report
         if: failure()
