@@ -21,7 +21,7 @@ export function CollapsibleExperience({
   const panelId = useId();
 
   return (
-    <div className="space-y-8">
+    <div>
       {/* Earlier experience items with animation */}
       <div
         id={panelId}
@@ -36,8 +36,8 @@ export function CollapsibleExperience({
             : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden pl-1 print:overflow-visible">
-          <div className="space-y-8 pb-8">
+        <div className="overflow-hidden print:overflow-visible">
+          <div>
             {items.map((job) => (
               <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
@@ -51,7 +51,7 @@ export function CollapsibleExperience({
         aria-expanded={isExpanded}
         aria-controls={panelId}
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground print:hidden"
+        className="flex w-full items-center gap-2 border-t border-border py-4 font-sans text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground print:hidden"
       >
         <ChevronDown
           className={`w-4 h-4 transition-transform duration-300 ${

@@ -29,8 +29,6 @@ export default async function Home({
   setRequestLocale(locale);
 
   return (
-    <div className="container mx-auto max-w-6xl px-4">
-      <Hero />
-    </div>
+    <Hero />
   );
 }

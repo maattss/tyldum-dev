@@ -38,20 +38,25 @@ const ibmPlexSans = localFont({
       weight: "500",
       style: "normal",
     },
+  ],
+  display: "swap",
+  preload: true,
+  fallback: ["system-ui", "sans-serif"],
+});
+
+// Body and headings are set in the serif; the sans is for interface text.
+const sourceSerif = localFont({
+  variable: "--font-source-serif",
+  src: [
     {
-      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff2",
-      weight: "700",
+      path: "../../../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2",
+      weight: "200 900",
       style: "normal",
     },
   ],
   display: "swap",
   preload: true,
-  fallback: ["system-ui", "sans-serif"],
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 const ibmPlexMono = localFont({
@@ -169,7 +174,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
+      className={`${sourceSerif.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -184,16 +189,15 @@ export default async function LocaleLayout({
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
           <ThemeColorSync />
           <NextIntlClientProvider messages={clientMessages}>
-            <div className="bg-gradient-blur" aria-hidden="true" />
             <a
               href="#main"
-              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-card focus:px-4 focus:font-sans focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             >
               {t("skipToContent")}
             </a>

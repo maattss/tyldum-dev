@@ -6,10 +6,10 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto print:hidden">
+    <footer className="mt-auto font-sans print:hidden">
       <Separator />
-      <div className="container mx-auto px-4 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))]">
-        <p className="text-center text-sm text-muted-foreground">
+      <div className="container mx-auto px-4 pt-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+        <p className="text-xs text-muted-foreground">
           {t("copyright", { year })}
         </p>
       </div>

@@ -1,41 +1,36 @@
 export default function CVLoading() {
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-10 sm:py-14">
-      <div className="animate-pulse space-y-12">
-        {/* Header skeleton */}
-        <header className="border-b border-border pb-8">
-          <div className="flex items-start justify-between gap-6">
-            <div className="min-w-0">
-              <div className="h-10 w-48 bg-muted rounded mb-2" />
-              <div className="h-5 w-32 bg-muted rounded mb-3" />
-              <div className="h-4 w-24 bg-muted rounded mb-4" />
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="h-4 w-16 bg-muted rounded" />
-                <div className="h-4 w-16 bg-muted rounded" />
-              </div>
-            </div>
-
-            {/* Profile picture skeleton */}
-            <div className="print:hidden shrink-0">
-              <div className="h-28 w-28 bg-muted rounded-2xl" />
-            </div>
+    <div className="container mx-auto max-w-3xl px-4 py-12 sm:py-16">
+      <div className="animate-pulse space-y-16">
+        <header className="flex items-start justify-between gap-6">
+          <div className="min-w-0">
+            <div className="h-12 w-72 rounded bg-muted sm:h-14 sm:w-96" />
+            <div className="mt-3 h-6 w-44 rounded bg-muted" />
+            <div className="mt-5 h-4 w-56 rounded bg-muted" />
           </div>
+
+          {/* Profile picture skeleton */}
+          <div className="h-24 w-24 shrink-0 rounded-sm bg-muted sm:h-28 sm:w-28 print:hidden" />
         </header>
 
-        {/* Summary skeleton */}
-        <section className="max-w-3xl space-y-2">
-          <div className="h-4 w-full bg-muted rounded" />
-          <div className="h-4 w-5/6 bg-muted rounded" />
+        <section className="max-w-2xl space-y-2">
+          <div className="h-6 w-full rounded bg-muted" />
+          <div className="h-6 w-5/6 rounded bg-muted" />
         </section>
 
-        {/* Experience skeleton */}
-        <section className="space-y-6">
-          <div className="h-4 w-24 bg-muted rounded mb-6" />
+        <section>
+          <div className="mb-6 h-8 w-40 rounded bg-muted" />
           {[1, 2, 3].map((i) => (
-            <div key={i} className="border-l-2 border-border pl-5 space-y-2">
-              <div className="h-5 w-40 bg-muted rounded" />
-              <div className="h-4 w-32 bg-muted rounded" />
-              <div className="h-4 w-full bg-muted rounded" />
+            <div
+              key={i}
+              className="grid gap-x-8 gap-y-2 border-t border-border py-5 sm:grid-cols-[9rem_1fr]"
+            >
+              <div className="h-4 w-24 rounded bg-muted" />
+              <div className="space-y-2">
+                <div className="h-5 w-48 rounded bg-muted" />
+                <div className="h-4 w-32 rounded bg-muted" />
+                <div className="h-4 w-full rounded bg-muted" />
+              </div>
             </div>
           ))}
         </section>

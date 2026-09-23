@@ -7,7 +7,16 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO, Outlet Group",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn."
+    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn.",
+    "greeting": "Hei",
+    "scrollHint": "Scroll ned",
+    "glance": {
+      "title": "Kort fortalt",
+      "based": "Bor i",
+      "previously": "Tidligere",
+      "education": "Utdanning",
+      "cv": "Hele CV-en"
+    }
   },
   "social": {
     "linkedin": "LinkedIn",

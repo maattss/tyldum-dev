@@ -1,18 +1,37 @@
 import type { CVExperienceItem } from "@/lib/content-schemas";
 
+/** One ruled row of the CV: the period in the margin, the entry beside it.
+ *  Shared by experience and education so the two lists line up. */
+export function CvRow({
+  period,
+  title,
+  subtitle,
+  children,
+}: {
+  period: string;
+  title: string;
+  subtitle: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <article className="grid gap-x-8 gap-y-1 border-t border-border py-5 sm:grid-cols-[9rem_1fr] print:break-inside-avoid">
+      <p className="font-sans text-sm tabular-nums text-muted-foreground sm:pt-1">
+        {period}
+      </p>
+      <div>
+        <h3 className="text-lg font-medium leading-snug text-foreground">{title}</h3>
+        <p className="font-sans text-sm text-muted-foreground">{subtitle}</p>
+        {children}
+      </div>
+    </article>
+  );
+}
+
 export function ExperienceEntry({ job }: { job: CVExperienceItem }) {
   return (
-    <article className="border-l-2 border-border pl-5 print:break-inside-avoid">
-      <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-        <div>
-          <h3 className="font-semibold text-foreground">{job.role}</h3>
-          <p className="text-sm text-muted-foreground">{job.company}</p>
-        </div>
-        <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
-      </div>
-
+    <CvRow period={job.period} title={job.role} subtitle={job.company}>
       {job.description && (
-        <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>
+        <p className="mt-2 leading-relaxed text-muted-foreground">{job.description}</p>
       )}
 
       {job.highlights.length > 0 && (
@@ -20,13 +39,13 @@ export function ExperienceEntry({ job }: { job: CVExperienceItem }) {
           {job.highlights.map((highlight) => (
             <li
               key={highlight}
-              className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
+              className="relative pl-4 text-muted-foreground before:absolute before:left-0 before:content-['–']"
             >
               {highlight}
             </li>
           ))}
         </ul>
       )}
-    </article>
+    </CvRow>
   );
 }

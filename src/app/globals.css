@@ -17,20 +17,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-plex-sans);
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
   --font-mono: var(--font-plex-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -52,79 +40,52 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Warm paper and ink. Colour lives in the horizon hero; everything else is
+ * set in two neutrals and hairline rules. */
 :root {
-  --radius: 0.625rem;
-  --background: #f7f9fd;
-  --foreground: #0f1523;
-  --card: #ffffff;
-  --card-foreground: #0f1523;
-  --popover: #ffffff;
-  --popover-foreground: #0f1523;
-  --primary: #2b7fff;
-  --primary-foreground: #f7fbff;
-  --secondary: #ebf0f9;
-  --secondary-foreground: #1e2e49;
-  --muted: #eef3fb;
-  --muted-foreground: #4b5a72;
-  --accent: #dff7fb;
-  --accent-foreground: #0f5060;
-  --destructive: #b42318;
-  --border: #dbe3f1;
-  --input: #dbe3f1;
-  --ring: #2fb9ff;
-  --chart-1: #2b7fff;
-  --chart-2: #2fb9ff;
-  --chart-3: #5d95ff;
-  --chart-4: #7faafc;
-  --chart-5: #a9c3fd;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #0f1523;
-  --sidebar-primary: #2b7fff;
-  --sidebar-primary-foreground: #f7fbff;
-  --sidebar-accent: #ebf0f9;
-  --sidebar-accent-foreground: #0f1523;
-  --sidebar-border: #dbe3f1;
-  --sidebar-ring: #2fb9ff;
-  --surface-top-wash: rgb(247 249 253 / 0.88);
+  --radius: 0.375rem;
+  --header-h: calc(3.5rem + env(safe-area-inset-top));
+  --background: #f8f7f2;
+  --foreground: #181714;
+  --card: #fdfcf8;
+  --card-foreground: #181714;
+  --popover: #fdfcf8;
+  --popover-foreground: #181714;
+  --primary: #181714;
+  --primary-foreground: #f8f7f2;
+  --secondary: #efede5;
+  --secondary-foreground: #181714;
+  --muted: #efede5;
+  --muted-foreground: #5d5b54;
+  --accent: #e9e6db;
+  --accent-foreground: #181714;
+  --destructive: #b3261e;
+  --border: #dcd9ce;
+  --input: #dcd9ce;
+  --ring: #2c6fd1;
 }
 
 .dark {
-  --background: #08090a;
-  --foreground: #f4f7ff;
-  --card: #111318;
-  --card-foreground: #f4f7ff;
-  --popover: #111318;
-  --popover-foreground: #f4f7ff;
-  --primary: #4ea7fc;
-  --primary-foreground: #02060f;
-  --secondary: #171b23;
-  --secondary-foreground: #d6deee;
-  --muted: #161b25;
-  --muted-foreground: #94a0b6;
-  --accent: #132234;
-  --accent-foreground: #d6e9ff;
-  --destructive: #ef4444;
-  --border: #242933;
-  --input: #242933;
-  --ring: #4ea7fc;
-  --chart-1: #4ea7fc;
-  --chart-2: #2fb9ff;
-  --chart-3: #7fbfff;
-  --chart-4: #7ad6c4;
-  --chart-5: #afc8f1;
-  --sidebar: #111318;
-  --sidebar-foreground: #f4f7ff;
-  --sidebar-primary: #4ea7fc;
-  --sidebar-primary-foreground: #02060f;
-  --sidebar-accent: #171b23;
-  --sidebar-accent-foreground: #d6deee;
-  --sidebar-border: #242933;
-  --sidebar-ring: #4ea7fc;
-  --surface-top-wash: rgb(8 9 10 / 0.65);
+  --background: #151412;
+  --foreground: #f1efe8;
+  --card: #1c1b18;
+  --card-foreground: #f1efe8;
+  --popover: #1c1b18;
+  --popover-foreground: #f1efe8;
+  --primary: #f1efe8;
+  --primary-foreground: #151412;
+  --secondary: #24231f;
+  --secondary-foreground: #f1efe8;
+  --muted: #24231f;
+  --muted-foreground: #a9a69c;
+  --accent: #2b2a25;
+  --accent-foreground: #f1efe8;
+  --destructive: #ef6b5f;
+  --border: #33312c;
+  --input: #33312c;
+  --ring: #6aa3f0;
 }
 
 @layer base {
@@ -137,51 +98,199 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-serif text-foreground;
     min-height: 100dvh;
-    background-image: linear-gradient(180deg, var(--surface-top-wash), transparent 30rem);
-    background-attachment: fixed;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+/* Horizon hero.
+ *
+ * A tall section with a sticky stage: scrolling through the section advances
+ * the progress values HeroScroll writes (--curtain, --sink, --rise, --hint,
+ * all 0..1). The panels either side part, the horizon curves as the view
+ * widens, the greeting sets behind it and the name rises in its place.
+ *
+ * The words sit *behind* the planet, so sinking and rising read as passing
+ * the horizon rather than fading. */
+.hero-scroll {
+  --curtain: 0;
+  --sink: 0;
+  --rise: 0;
+  --hint: 1;
+  --horizon-y: 57%;
+  --curtain-w: 17%;
+  position: relative;
+  height: calc(100svh - var(--header-h) + 110svh);
+}
+
+@media (min-width: 768px) {
+  .hero-scroll {
+    --curtain-w: 29%;
   }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
-.animate-fade-in {
-  animation: fade-in-up 0.5s ease-out both;
-}
-
-.gradient-text {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 95%, white 5%) 0%, color-mix(in srgb, var(--foreground) 72%, #7faafc 28%) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.bg-gradient-blur {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+.hero-stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  min-height: 26rem;
   overflow: hidden;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.16) 0%, transparent 38%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.1) 0%, transparent 42%);
+  background: #0e0c0b;
 }
 
-.dark .bg-gradient-blur {
-  background-image:
-    radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
+.horizon {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: scale(calc(1.1 - var(--curtain) * 0.1));
+  transform-origin: 50% var(--horizon-y);
+  background: linear-gradient(
+    180deg,
+    #0a1220 0%,
+    #13294a 14%,
+    #2f5f97 31%,
+    #5f8cc2 42%,
+    #9a98bd 50%,
+    #d99d7c 54.5%,
+    #f08a45 56%,
+    #e2461f 57%,
+    #2a1410 60%,
+    #0e0c0b 72%
+  );
+}
+
+.horizon-words {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: var(--horizon-y);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.horizon-greeting,
+.horizon-name {
+  position: absolute;
+  inset-inline: 1rem;
+  bottom: 0.1em;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #fbf6ee;
+  text-shadow: 0 0 24px rgb(255 170 120 / 0.35);
+}
+
+.horizon-greeting {
+  font-size: clamp(2.25rem, 4.2vw, 3.75rem);
+  transform: translateY(calc(var(--sink) * 125%));
+}
+
+.horizon-name {
+  font-size: clamp(2.75rem, 8vw, 7rem);
+  transform: translateY(calc((1 - var(--rise)) * 125%));
+}
+
+/* The dark body below the horizon. Its top edge is the horizon line; the
+ * curvature grows as the curtains open, which is what makes the widening view
+ * read as altitude rather than a crop. */
+.horizon-planet {
+  position: absolute;
+  z-index: 2;
+  left: -30%;
+  width: 160%;
+  top: var(--horizon-y);
+  height: 70%;
+  border-radius: 50% 50% 0 0 / calc(var(--curtain) * 14%) calc(var(--curtain) * 14%) 0 0;
+  background: linear-gradient(180deg, #221210 0%, #110d0c 18%, #0c0a0a 100%);
+  box-shadow:
+    0 -1px 0 0 rgb(255 112 58 / 0.95),
+    0 -6px 14px 1px rgb(255 98 44 / 0.55),
+    0 -26px 60px 10px rgb(255 140 84 / 0.22);
+}
+
+.curtain {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  width: var(--curtain-w);
+  filter: drop-shadow(0 0 1px rgb(255 250 240 / 0.55));
+}
+
+.curtain-left {
+  left: 0;
+  transform: translateX(calc(var(--curtain) * -103%));
+}
+
+.curtain-right {
+  right: 0;
+  transform: translateX(calc(var(--curtain) * 103%));
+}
+
+.curtain-paper {
+  position: absolute;
+  inset: 0;
+}
+
+/* Film grain over the photograph-like surfaces: one small tiled noise image,
+ * so it costs a texture rather than a filter per frame. */
+.horizon::after,
+.curtain-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.hero-hint {
+  position: absolute;
+  z-index: 5;
+  inset-inline: 0;
+  bottom: 1.25rem;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: rgb(251 246 238 / 0.6);
+  opacity: var(--hint);
+}
+
+/* Without motion there is nothing to scroll through: show the finished state
+ * in a shorter stage so the page below is in view. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll {
+    --curtain: 1;
+    --sink: 1;
+    --rise: 1;
+    --hint: 0;
+    height: auto;
+  }
+
+  .hero-stage {
+    position: relative;
+    top: 0;
+    height: 72svh;
+  }
 }
 
 /* Print styles for the CV.
@@ -193,15 +302,14 @@
   :root,
   .dark {
     --background: #ffffff;
-    --foreground: #101828;
+    --foreground: #141414;
     --card: #ffffff;
-    --card-foreground: #101828;
+    --card-foreground: #141414;
     --muted: #ffffff;
-    --muted-foreground: #3d4756;
+    --muted-foreground: #3f3e3a;
     --secondary: #ffffff;
-    --secondary-foreground: #101828;
-    --border: #c2cbd9;
-    --surface-top-wash: transparent;
+    --secondary-foreground: #141414;
+    --border: #c9c6bc;
   }
 
   @page {
@@ -211,11 +319,9 @@
   html,
   body {
     background: #ffffff !important;
-    background-image: none !important;
   }
 
-  /* Decorative gradients waste toner and print as grey boxes. */
-  .bg-gradient-blur {
+  .hero-scroll {
     display: none !important;
   }
 
