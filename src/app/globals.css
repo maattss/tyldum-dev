@@ -184,6 +184,19 @@
     radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
 }
 
+/* Theme toggle: the inline theme script sets data-theme-pref before first
+ * paint, so CSS shows the right icon without waiting for hydration. */
+.theme-icon {
+  display: none;
+}
+
+html[data-theme-pref="light"] .theme-icon-light,
+html[data-theme-pref="dark"] .theme-icon-dark,
+html[data-theme-pref="system"] .theme-icon-system,
+html:not([data-theme-pref]) .theme-icon-dark {
+  display: block;
+}
+
 /* Print styles for the CV.
  *
  * Paper is white regardless of the active theme and browsers omit backgrounds
