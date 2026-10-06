@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero";
+import { HomeOverview } from "@/components/home-overview";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
@@ -31,6 +32,7 @@ export default async function Home({
   return (
     <div className="container mx-auto max-w-6xl px-4">
       <Hero />
+      <HomeOverview locale={locale} />
     </div>
   );
 }

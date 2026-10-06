@@ -82,10 +82,12 @@ The Playwright suite has three kinds of test:
 
 The **Performance Budget** workflow runs Lighthouse CI on every PR and push to
 `main`. Besides score and Core Web Vitals thresholds, `lighthouserc.json` caps
-the bytes a page may transfer: 190 KB of JavaScript and 300 KB in total. The
-home page currently ships about 175 KB of JS, nearly all of it React and the
-Next.js runtime, so a new client-side dependency will trip the budget unless
-it is loaded on demand (as the theme toggle's confetti is).
+the bytes a page may transfer: 205 KB of JavaScript and 330 KB in total, about
+7% above what the home page measures today (~191 KB JS, ~302 KB total). The
+JS figure is mostly React and the Next.js runtime, and Lighthouse also counts
+the CV route Next prefetches and the two Vercel analytics scripts (which 404
+outside Vercel). A new client-side dependency will trip the budget unless it
+is loaded on demand, as the theme toggle's confetti is.
 
 Visual snapshot policy:
 

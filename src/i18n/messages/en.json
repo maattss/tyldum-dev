@@ -6,8 +6,12 @@
   },
   "hero": {
     "name": "Mats Tyldum",
-    "tagline": "CTO at Outlet Group",
-    "description": "Curious about what I'm working on or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
+    "tagline": "CTO at Outlet Group"
+  },
+  "home": {
+    "experienceTitle": "Recent experience",
+    "toolboxTitle": "Toolbox",
+    "fullCv": "View full CV"
   },
   "social": {
     "linkedin": "LinkedIn",
@@ -33,7 +37,8 @@
   },
   "nav": {
     "cv": "CV",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "label": "Main"
   },
   "cv": {
     "name": "Mats Tyldum",
