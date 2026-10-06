@@ -89,18 +89,10 @@ export async function generateMetadata({
       // Open Graph uses Facebook locale codes, which have no bare `no_NO`.
       locale: locale === "no" ? "nb_NO" : "en_US",
       type: "website",
-      images: [
-        {
-          url: "/android-chrome-512x512.png",
-          width: 512,
-          height: 512,
-          alt: PERSON_NAME,
-        },
-      ],
+      // The image itself comes from ./opengraph-image.tsx.
     },
     twitter: {
-      // The only share image is the square app icon; a large card would crop it.
-      card: "summary",
+      card: "summary_large_image",
       title: t("title"),
       description: t("description"),
     },

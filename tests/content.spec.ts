@@ -36,7 +36,15 @@ for (const { locale, messages } of locales) {
       page.getByRole("heading", { level: 1, name: messages.hero.name }),
     ).toBeVisible();
     await expect(page.getByText(messages.hero.tagline)).toBeVisible();
-    await expect(page.getByText(messages.hero.description)).toBeVisible();
+    await expect(page.getByText(messages.cv.summary)).toBeVisible();
+
+    // The overview mirrors the three most recent CV roles and links to the CV.
+    for (const job of messages.cv.experience.items.slice(0, 3)) {
+      const heading = page.getByRole("heading", { level: 3, name: job.role, exact: false });
+      await expect(heading.filter({ hasText: job.company }).first()).toBeVisible();
+    }
+    await page.getByRole("link", { name: messages.home.fullCv }).click();
+    await expect(page).toHaveURL(new RegExp(`/${locale}/cv$`));
 
     await expect(
       page.getByRole("link", { name: messages.social.linkedin }),
