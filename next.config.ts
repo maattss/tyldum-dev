@@ -9,15 +9,13 @@ const nextConfig: NextConfig = {
   // No reason to advertise the framework and version to scanners.
   poweredByHeader: false,
   images: {
-    // Optimize image sizes for the profile image (144px mobile, 176px desktop, up to 3x DPI)
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 176, 256, 384, 512],
+    // The only images are the profile avatar at 112px (CV) and 144/176px
+    // (hero). Generate just those at 1x-3x DPI rather than the defaults, which
+    // go up to 3840px and bloat every srcset and preload tag. The source is
+    // 384px, so nothing larger is ever useful.
+    deviceSizes: [384],
+    imageSizes: [112, 144, 176, 224, 288, 336, 352],
     formats: ["image/avif", "image/webp"],
-  },
-  // Performance optimizations
-  experimental: {
-    // Optimize package imports for better tree-shaking
-    optimizePackageImports: ["lucide-react", "@radix-ui/react-dropdown-menu"],
   },
   // Compression and caching headers
   async headers() {

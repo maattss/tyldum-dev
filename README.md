@@ -80,6 +80,13 @@ The Playwright suite has three kinds of test:
   role prints (including the collapsed "earlier experience" section), and that
   text stays dark on white in both themes.
 
+The **Performance Budget** workflow runs Lighthouse CI on every PR and push to
+`main`. Besides score and Core Web Vitals thresholds, `lighthouserc.json` caps
+the bytes a page may transfer: 190 KB of JavaScript and 300 KB in total. The
+home page currently ships about 175 KB of JS, nearly all of it React and the
+Next.js runtime, so a new client-side dependency will trip the budget unless
+it is loaded on demand (as the theme toggle's confetti is).
+
 Visual snapshot policy:
 
 - Use `pnpm test:ui:update` only after manual visual review of diffs.

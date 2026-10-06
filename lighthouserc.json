@@ -9,10 +9,7 @@
         "http://127.0.0.1:3000/no",
         "http://127.0.0.1:3000/en",
         "http://127.0.0.1:3000/no/cv"
-      ],
-      "settings": {
-        "budgetsPath": "lighthouse-budget.json"
-      }
+      ]
     },
     "assert": {
       "assertions": {
@@ -38,6 +35,18 @@
           "error",
           {
             "maxNumericValue": 200
+          }
+        ],
+        "resource-summary:script:size": [
+          "error",
+          {
+            "maxNumericValue": 190000
+          }
+        ],
+        "resource-summary:total:size": [
+          "error",
+          {
+            "maxNumericValue": 300000
           }
         ]
       }
