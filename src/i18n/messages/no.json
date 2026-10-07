@@ -123,19 +123,11 @@
         },
         {
           "name": "Backend",
-          "items": ["C#", ".NET", "REST/OpenAPI", "Java", "Python"]
-        },
-        {
-          "name": "Databaser",
-          "items": ["SQL-databaser", "Azure Cosmos DB", "MongoDB"]
+          "items": ["C#", ".NET", "REST/OpenAPI", "SQL/NoSQL (MongoDB, Cosmos DB, SQL Server, PostgreSQL)"]
         },
         {
           "name": "Cloud & DevOps",
           "items": ["Azure", "Kubernetes", "Docker", "CI/CD (GitHub Actions, CircleCI)"]
-        },
-        {
-          "name": "Ledelse",
-          "items": ["Teamledelse", "Teknologistrategi", "Teknisk arkitektur"]
         }
       ]
     }
