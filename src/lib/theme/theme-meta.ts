@@ -1,11 +1,8 @@
 import {
   DARK_STATUS_BAR_STYLE,
   DARK_THEME_COLOR,
-  DEFAULT_THEME_PREFERENCE,
   LIGHT_STATUS_BAR_STYLE,
   LIGHT_THEME_COLOR,
-  THEME_CHANGE_EVENT,
-  THEME_PREFERENCE_ATTRIBUTE,
   THEME_STORAGE_KEY,
 } from "./theme-constants";
 
@@ -13,15 +10,11 @@ import {
  * Runs inline in <head> before first paint, serialized with toString(), so it
  * must be self-contained: everything it needs comes in through its arguments.
  *
- * It applies the stored preference, keeps following the OS while the
- * preference is "system", syncs other tabs, and installs `window.__theme`
- * for the toggle button.
+ * Until the visitor picks light or dark, the site follows the OS (live). The
+ * choice is remembered, synced across tabs, and set through `window.__theme`.
  */
 function themeScript(
   storageKey: string,
-  attribute: string,
-  changeEvent: string,
-  fallback: string,
   light: [string, string],
   dark: [string, string],
 ) {
@@ -29,16 +22,17 @@ function themeScript(
   const root = doc.documentElement;
   const media = window.matchMedia("(prefers-color-scheme: dark)");
 
-  function read() {
+  function readStored(): string | null {
     try {
       const value = localStorage.getItem(storageKey);
-      return value === "light" || value === "dark" || value === "system"
-        ? value
-        : fallback;
+      return value === "light" || value === "dark" ? value : null;
     } catch {
-      return fallback;
+      return null;
     }
   }
+
+  // Kept in memory too, so the toggle still works when storage is blocked.
+  let choice = readStored();
 
   function meta(name: string) {
     let node = doc.head.querySelector<HTMLMetaElement>(
@@ -52,9 +46,8 @@ function themeScript(
     return node;
   }
 
-  function apply(preference: string, isChange: boolean) {
-    const isDark =
-      preference === "dark" || (preference === "system" && media.matches);
+  function apply(isChange: boolean) {
+    const isDark = choice ? choice === "dark" : media.matches;
     const [themeColor, statusBarStyle] = isDark ? dark : light;
 
     // Swap the palette in one frame instead of animating every colour.
@@ -68,7 +61,6 @@ function themeScript(
     root.classList.toggle("dark", isDark);
     root.style.colorScheme = isDark ? "dark" : "light";
     root.style.backgroundColor = themeColor;
-    root.setAttribute(attribute, preference);
 
     doc.head
       .querySelectorAll('meta[name="theme-color"][media]')
@@ -82,24 +74,26 @@ function themeScript(
       void getComputedStyle(doc.body).opacity;
       setTimeout(() => style.remove(), 1);
     }
-
-    doc.dispatchEvent(new Event(changeEvent));
   }
 
-  apply(read(), false);
+  apply(false);
 
   media.addEventListener("change", () => {
-    if (read() === "system") apply("system", true);
+    if (!choice) apply(true);
   });
   window.addEventListener("storage", (event) => {
-    if (event.key === storageKey) apply(read(), true);
+    if (event.key === storageKey) {
+      choice = readStored();
+      apply(true);
+    }
   });
   window.__theme = {
-    set(preference) {
+    set(theme) {
+      choice = theme;
       try {
-        localStorage.setItem(storageKey, preference);
+        localStorage.setItem(storageKey, theme);
       } catch {}
-      apply(preference, true);
+      apply(true);
     },
   };
 }
@@ -107,9 +101,6 @@ function themeScript(
 export function getThemeBootstrapScript(): string {
   const args = [
     THEME_STORAGE_KEY,
-    THEME_PREFERENCE_ATTRIBUTE,
-    THEME_CHANGE_EVENT,
-    DEFAULT_THEME_PREFERENCE,
     [LIGHT_THEME_COLOR, LIGHT_STATUS_BAR_STYLE],
     [DARK_THEME_COLOR, DARK_STATUS_BAR_STYLE],
   ];

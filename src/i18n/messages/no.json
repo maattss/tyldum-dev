@@ -18,9 +18,6 @@
     "github": "GitHub"
   },
   "theme": {
-    "light": "Lys",
-    "dark": "Mørk",
-    "system": "System",
     "toggle": "Bytt tema"
   },
   "language": {
