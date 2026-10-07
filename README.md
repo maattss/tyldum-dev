@@ -6,8 +6,7 @@ Personal site and CV for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.dev)
 
 - **Framework:** Next.js 16 with App Router and Cache Components — every page is
   prerendered, and `ensureStatic` fails the build if one stops being static
-- **Styling:** Tailwind CSS 4 plus custom animations
-- **UI components:** Radix UI primitives
+- **Styling:** Tailwind CSS 4, IBM Plex Sans + Mono; no component library
 - **i18n:** next-intl — Norwegian and English
 - **Deployment:** Vercel
 
@@ -25,12 +24,12 @@ src/
 │   ├── robots.ts          # robots.txt
 │   └── sitemap.ts         # sitemap.xml
 ├── components/
-│   ├── ui/                # Radix-based UI primitives
-│   ├── brand-icons.tsx    # GitHub/LinkedIn marks, vendored from lucide 0.577
-│   ├── hero.tsx           # Main hero section
+│   ├── hero.tsx           # Home intro: avatar, "# name", tagline
+│   ├── home-overview.tsx  # Home "## experience" / "## skills" from the CV messages
+│   ├── section-heading.tsx # The markdown-style "## heading"
 │   ├── header.tsx         # Site header
 │   ├── footer.tsx         # Site footer
-│   └── ...                # Theme/language toggles, social links
+│   └── ...                # Theme toggle, "no / en" switch, CV entries
 ├── i18n/
 │   ├── config.ts          # Locale config
 │   ├── messages/          # Translation JSON files
@@ -38,8 +37,8 @@ src/
 ├── lib/
 │   ├── content-schemas.ts # Runtime validation of CV content
 │   ├── site.ts            # Canonical URLs and profile links
+│   ├── layout.ts          # The shared 720px reading column
 │   ├── theme/             # Theme colour tokens + no-flash bootstrap
-│   └── utils.ts           # cn() helper
 └── proxy.ts               # next-intl middleware
 ```
 

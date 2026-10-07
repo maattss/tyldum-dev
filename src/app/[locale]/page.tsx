@@ -3,6 +3,7 @@ import { HomeOverview } from "@/components/home-overview";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import { locales } from "@/i18n/config";
+import { COLUMN } from "@/lib/layout";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -30,7 +31,7 @@ export default async function Home({
   setRequestLocale(locale);
 
   return (
-    <div className="container mx-auto max-w-6xl px-4">
+    <div className={COLUMN}>
       <Hero />
       <HomeOverview locale={locale} />
     </div>

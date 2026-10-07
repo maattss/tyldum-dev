@@ -25,7 +25,7 @@ for (const theme of ["dark", "light"] as const) {
     await page.emulateMedia({ media: "print" });
 
     // Site chrome does not belong on a CV.
-    await expect(page.locator("header.sticky")).toBeHidden();
+    await expect(page.locator("#site-header")).toBeHidden();
     await expect(page.locator("footer")).toBeHidden();
     await expect(
       page.getByRole("button", { name: noMessages.cv.experience.showMore }),

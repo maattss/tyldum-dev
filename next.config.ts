@@ -13,12 +13,11 @@ const nextConfig: NextConfig = {
   // No reason to advertise the framework and version to scanners.
   poweredByHeader: false,
   images: {
-    // The only images are the profile avatar at 112px (CV) and 144/176px
-    // (hero). Generate just those at 1x-3x DPI rather than the defaults, which
-    // go up to 3840px and bloat every srcset and preload tag. The source is
-    // 384px, so nothing larger is ever useful.
+    // The only image is the 88px profile avatar (home and CV). Generate it at
+    // 1x-3x DPI rather than the defaults, which go up to 3840px and bloat
+    // every srcset and preload tag. The source is 384px.
     deviceSizes: [384],
-    imageSizes: [112, 144, 176, 224, 288, 336, 352],
+    imageSizes: [88, 176, 264],
     formats: ["image/avif", "image/webp"],
   },
   // Compression and caching headers

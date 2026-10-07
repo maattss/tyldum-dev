@@ -35,23 +35,31 @@ for (const { locale, messages } of locales) {
     await expect(
       page.getByRole("heading", { level: 1, name: messages.hero.name }),
     ).toBeVisible();
-    await expect(page.getByText(messages.hero.tagline)).toBeVisible();
-    await expect(page.getByText(messages.hero.description)).toBeVisible();
+    // Exact: the same words also open the first experience line.
+    await expect(page.getByText(`${messages.hero.tagline}.`, { exact: true })).toBeVisible();
+    // The intro is rich text; its links are checked separately below.
+    const intro = messages.hero.description.replace(/<\/?\w+>/g, "");
+    await expect(page.getByText(intro)).toBeVisible();
 
-    // The overview mirrors the three most recent CV roles and links to the CV.
-    for (const job of messages.cv.experience.items.slice(0, 3)) {
-      const heading = page.getByRole("heading", { level: 3, name: job.role, exact: false });
-      await expect(heading.filter({ hasText: job.company }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/mtyldum/",
+    );
+    await expect(page.getByRole("link", { name: "GitHub" })).toHaveAttribute(
+      "href",
+      "https://github.com/maattss",
+    );
+
+    // The overview mirrors the four most recent CV roles and links to the CV.
+    const roles = page.locator("#home-experience + ul > li");
+    const items = messages.cv.experience.items.slice(0, 4);
+    await expect(roles).toHaveCount(items.length);
+    for (const [index, job] of items.entries()) {
+      await expect(roles.nth(index)).toContainText(job.role);
+      await expect(roles.nth(index)).toContainText(job.company);
     }
     await page.getByRole("link", { name: messages.home.fullCv }).click();
     await expect(page).toHaveURL(new RegExp(`/${locale}/cv$`));
-
-    await expect(
-      page.getByRole("link", { name: messages.social.linkedin }),
-    ).toHaveAttribute("href", "https://www.linkedin.com/in/mtyldum/");
-    await expect(
-      page.getByRole("link", { name: messages.social.github }),
-    ).toHaveAttribute("href", "https://github.com/maattss");
   });
 
   test(`cv renders every experience and education entry (${locale})`, async ({
@@ -62,7 +70,10 @@ for (const { locale, messages } of locales) {
     await expect(
       page.getByRole("heading", { level: 1, name: messages.cv.name }),
     ).toBeVisible();
-    await expect(page.getByText(messages.cv.subtitle)).toBeVisible();
+    // Scoped to the CV's own header: the first role reads the same words.
+    await expect(
+      page.locator("main header").getByText(messages.cv.subtitle, { exact: true }),
+    ).toBeVisible();
     await expect(page.getByText(messages.cv.summary)).toBeVisible();
 
     // Earlier roles live behind a toggle; expand it before asserting on them.
@@ -80,11 +91,11 @@ for (const { locale, messages } of locales) {
       expectEntryContaining(entries, edu.degree, edu.school);
     }
 
+    const skills = page.locator('section[aria-labelledby="cv-skills"]');
     for (const category of messages.cv.skills.categories) {
+      await expect(skills).toContainText(category.name);
       for (const skill of category.items) {
-        await expect(
-          page.getByText(skill, { exact: true }).first(),
-        ).toBeVisible();
+        await expect(skills).toContainText(skill);
       }
     }
   });

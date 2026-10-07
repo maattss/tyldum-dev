@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -16,115 +15,35 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-ring: var(--ring);
   --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
 }
 
+/* Flat palette: one ground, one text colour, one muted, hairline borders and
+ * a single blue accent. Keep in step with src/lib/theme/theme-constants.ts. */
 :root {
-  --radius: 0.625rem;
-  --background: #f7f9fd;
-  --foreground: #0f1523;
-  --card: #ffffff;
-  --card-foreground: #0f1523;
-  --popover: #ffffff;
-  --popover-foreground: #0f1523;
-  --primary: #2b7fff;
-  --primary-foreground: #f7fbff;
-  --secondary: #ebf0f9;
-  --secondary-foreground: #1e2e49;
-  --muted: #eef3fb;
-  --muted-foreground: #4b5a72;
-  --accent: #dff7fb;
-  --accent-foreground: #0f5060;
-  --destructive: #b42318;
-  --border: #dbe3f1;
-  --input: #dbe3f1;
-  --ring: #2fb9ff;
-  --chart-1: #2b7fff;
-  --chart-2: #2fb9ff;
-  --chart-3: #5d95ff;
-  --chart-4: #7faafc;
-  --chart-5: #a9c3fd;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #0f1523;
-  --sidebar-primary: #2b7fff;
-  --sidebar-primary-foreground: #f7fbff;
-  --sidebar-accent: #ebf0f9;
-  --sidebar-accent-foreground: #0f1523;
-  --sidebar-border: #dbe3f1;
-  --sidebar-ring: #2fb9ff;
-  --surface-top-wash: rgb(247 249 253 / 0.88);
+  --background: #ffffff;
+  --foreground: #111418;
+  --muted: #f3f4f6;
+  --muted-foreground: #5a616d;
+  --border: #e3e6eb;
+  --primary: #1f6fe5;
+  --ring: #1f6fe5;
 }
 
 .dark {
-  --background: #08090a;
-  --foreground: #f4f7ff;
-  --card: #111318;
-  --card-foreground: #f4f7ff;
-  --popover: #111318;
-  --popover-foreground: #f4f7ff;
+  --background: #0a0b0d;
+  --foreground: #eef1f6;
+  --muted: #15181d;
+  --muted-foreground: #969fae;
+  --border: #22262e;
   --primary: #4ea7fc;
-  --primary-foreground: #02060f;
-  --secondary: #171b23;
-  --secondary-foreground: #d6deee;
-  --muted: #161b25;
-  --muted-foreground: #94a0b6;
-  --accent: #132234;
-  --accent-foreground: #d6e9ff;
-  --destructive: #ef4444;
-  --border: #242933;
-  --input: #242933;
   --ring: #4ea7fc;
-  --chart-1: #4ea7fc;
-  --chart-2: #2fb9ff;
-  --chart-3: #7fbfff;
-  --chart-4: #7ad6c4;
-  --chart-5: #afc8f1;
-  --sidebar: #111318;
-  --sidebar-foreground: #f4f7ff;
-  --sidebar-primary: #4ea7fc;
-  --sidebar-primary-foreground: #02060f;
-  --sidebar-accent: #171b23;
-  --sidebar-accent-foreground: #d6deee;
-  --sidebar-border: #242933;
-  --sidebar-ring: #4ea7fc;
-  --surface-top-wash: rgb(8 9 10 / 0.65);
 }
 
 @layer base {
@@ -139,62 +58,7 @@
   body {
     @apply bg-background text-foreground;
     min-height: 100dvh;
-    background-image: linear-gradient(180deg, var(--surface-top-wash), transparent 30rem);
-    background-attachment: fixed;
   }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in-up 0.5s ease-out both;
-}
-
-.gradient-text {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 95%, white 5%) 0%, color-mix(in srgb, var(--foreground) 72%, #7faafc 28%) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.bg-gradient-blur {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.16) 0%, transparent 38%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.1) 0%, transparent 42%);
-}
-
-.dark .bg-gradient-blur {
-  background-image:
-    radial-gradient(circle at 82% 16%, rgb(78 167 252 / 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 18% 84%, rgb(47 185 255 / 0.14) 0%, transparent 42%);
-}
-
-/* Theme toggle: the inline theme script sets data-theme-pref before first
- * paint, so CSS shows the right icon without waiting for hydration. */
-.theme-icon {
-  display: none;
-}
-
-html[data-theme-pref="light"] .theme-icon-light,
-html[data-theme-pref="dark"] .theme-icon-dark,
-html[data-theme-pref="system"] .theme-icon-system,
-html:not([data-theme-pref]) .theme-icon-dark {
-  display: block;
 }
 
 /* Print styles for the CV.
@@ -207,14 +71,10 @@ html:not([data-theme-pref]) .theme-icon-dark {
   .dark {
     --background: #ffffff;
     --foreground: #101828;
-    --card: #ffffff;
-    --card-foreground: #101828;
     --muted: #ffffff;
     --muted-foreground: #3d4756;
-    --secondary: #ffffff;
-    --secondary-foreground: #101828;
     --border: #c2cbd9;
-    --surface-top-wash: transparent;
+    --primary: #101828;
   }
 
   @page {
@@ -224,12 +84,6 @@ html:not([data-theme-pref]) .theme-icon-dark {
   html,
   body {
     background: #ffffff !important;
-    background-image: none !important;
-  }
-
-  /* Decorative gradients waste toner and print as grey boxes. */
-  .bg-gradient-blur {
-    display: none !important;
   }
 
   a {

@@ -1,64 +1,76 @@
 import { expect, test } from "@playwright/test";
 
 const themeState = () =>
-  document.documentElement.getAttribute("data-theme-pref") +
-  "|" +
-  document.documentElement.classList.contains("dark") +
+  (document.documentElement.classList.contains("dark") ? "dark" : "light") +
   "|" +
   localStorage.getItem("theme");
 
-test("defaults to dark when nothing is stored, even with a light OS", async ({ page }) => {
-  await page.emulateMedia({ colorScheme: "light" });
-  await page.goto("/en");
+for (const os of ["light", "dark"] as const) {
+  test(`follows the OS (${os}) when nothing is stored`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: os });
+    await page.goto("/en");
 
-  expect(await page.evaluate(themeState)).toBe("dark|true|null");
-});
-
-test("theme toggle cycles light, dark, system and persists the choice", async ({ page }) => {
-  await page.emulateMedia({ colorScheme: "dark" });
-  await page.addInitScript(() => {
-    if (!sessionStorage.getItem("seeded")) {
-      sessionStorage.setItem("seeded", "1");
-      localStorage.setItem("theme", "light");
-    }
+    expect(await page.evaluate(themeState)).toBe(`${os}|null`);
   });
+}
+
+test("keeps following the OS until the visitor picks a theme", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/en");
 
-  const toggle = page.getByRole("button", { name: /^Toggle theme/ });
-  await expect(toggle).toHaveAccessibleName("Toggle theme: Light");
-
-  await toggle.click();
-  await expect(toggle).toHaveAccessibleName("Toggle theme: Dark");
-  expect(await page.evaluate(themeState)).toBe("dark|true|dark");
-
-  await toggle.click();
-  await expect(toggle).toHaveAccessibleName("Toggle theme: System");
-  // The OS is dark, so "system" resolves to dark.
-  expect(await page.evaluate(themeState)).toBe("system|true|system");
-
-  // "system" keeps following the OS after the page has loaded.
-  await page.emulateMedia({ colorScheme: "light" });
-  await expect.poll(() => page.evaluate(themeState)).toBe("system|false|system");
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect.poll(() => page.evaluate(themeState)).toBe("dark|null");
   await expect
     .poll(() =>
       page.evaluate(
         () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.content,
       ),
     )
-    .toBe("#f7f9fd");
-
-  await page.reload();
-  await expect(toggle).toHaveAccessibleName("Toggle theme: System");
+    .toBe("#0a0b0d");
 });
 
-test("language toggle links to the same page in the other locale", async ({ page }) => {
+test("a legacy stored 'system' choice still follows the OS", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.addInitScript(() => localStorage.setItem("theme", "system"));
+  await page.goto("/en");
+
+  expect(await page.evaluate(themeState)).toBe("dark|system");
+});
+
+test("theme toggle flips between light and dark and remembers it", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/en");
+
+  const toggle = page.getByRole("button", { name: "Toggle theme" });
+
+  await toggle.click();
+  expect(await page.evaluate(themeState)).toBe("light|light");
+
+  // An explicit choice wins over the OS from now on.
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.emulateMedia({ colorScheme: "dark" });
+  expect(await page.evaluate(themeState)).toBe("light|light");
+
+  await toggle.click();
+  expect(await page.evaluate(themeState)).toBe("dark|dark");
+
+  await page.reload();
+  expect(await page.evaluate(themeState)).toBe("dark|dark");
+});
+
+test("language switch shows both locales and links to the same page in the other", async ({ page }) => {
   await page.goto("/en/cv");
 
-  const link = page.getByRole("link", { name: "Les på norsk" });
+  const group = page.getByRole("group", { name: "Language" });
+  await expect(group.locator('[aria-current="true"]')).toHaveText("en");
+
+  const link = group.getByRole("link", { name: "Norsk" });
   await expect(link).toHaveAttribute("hreflang", "no");
   await link.click();
 
   await expect(page).toHaveURL(/\/no\/cv$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "no");
-  await expect(page.getByRole("link", { name: "Read in English" })).toBeVisible();
+  const norwegian = page.getByRole("group", { name: "Språk" });
+  await expect(norwegian.locator('[aria-current="true"]')).toHaveText("no");
+  await expect(norwegian.getByRole("link", { name: "English" })).toBeVisible();
 });
