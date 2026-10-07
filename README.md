@@ -126,4 +126,6 @@ Decisions that are easy to undo by accident:
 
 ## Deployment
 
-Every push to `main` deploys automatically to Vercel.
+Every push to `main` deploys automatically to Vercel. Every pull request gets
+its own preview deployment, linked from the PR, so changes can be checked on a
+real URL before they merge.
