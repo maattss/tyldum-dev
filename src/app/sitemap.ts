@@ -1,37 +1,24 @@
 import { MetadataRoute } from "next";
-import { cacheLife } from "next/cache";
 import { locales } from "@/i18n/config";
 import { absoluteUrl } from "@/lib/site";
 
-// Blog is intentionally excluded until there is content to publish.
-const staticPages = [
-  { path: "", changeFrequency: "weekly" as const, priority: 1.0 },
-  { path: "/cv", changeFrequency: "monthly" as const, priority: 0.8 },
-];
+// No lastModified, changeFrequency or priority: there is no real modification
+// date to report (a generated "now" claims every page changed), and Google
+// ignores the other two.
+const paths = ["", "/cv"];
 
-// Captured when the sitemap is (re)generated, refreshed daily like the pages.
-async function getLastModified(): Promise<Date> {
-  "use cache";
-  cacheLife("days");
-  return new Date();
-}
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = await getLastModified();
-
+export default function sitemap(): MetadataRoute.Sitemap {
   return locales.flatMap((locale) =>
-    staticPages.map(({ path, changeFrequency, priority }) => ({
+    paths.map((path) => ({
       url: absoluteUrl(`/${locale}${path}`),
-      lastModified,
-      changeFrequency,
-      priority,
       alternates: {
-        languages: Object.fromEntries(
-          locales.map((alternate) => [
-            alternate,
-            absoluteUrl(`/${alternate}${path}`),
-          ]),
-        ),
+        languages: {
+          ...Object.fromEntries(
+            locales.map((alternate) => [alternate, absoluteUrl(`/${alternate}${path}`)]),
+          ),
+          // The unprefixed path picks the visitor's language (see proxy.ts).
+          "x-default": absoluteUrl(path || "/"),
+        },
       },
     })),
   );

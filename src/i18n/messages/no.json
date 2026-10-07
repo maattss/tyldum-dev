@@ -13,7 +13,7 @@
     "fullCv": "Les hele CV-en"
   },
   "theme": {
-    "toggle": "Bytt tema"
+    "dark": "Mørkt tema"
   },
   "language": {
     "label": "Språk"

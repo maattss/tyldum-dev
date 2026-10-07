@@ -13,7 +13,7 @@
     "fullCv": "Read the full CV"
   },
   "theme": {
-    "toggle": "Toggle theme"
+    "dark": "Dark theme"
   },
   "language": {
     "label": "Language"
