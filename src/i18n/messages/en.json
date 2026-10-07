@@ -31,6 +31,7 @@
     "title": "tyldum.dev | CV",
     "subtitle": "CTO, Outlet Group",
     "downloadCV": "Download PDF",
+    "onlineVersion": "Latest version: {url}",
     "summary": "Technology leader with a developer background. Enjoy combining strategy, leadership, and technical work.",
     "contact": {
       "location": "Bergen, Norway"

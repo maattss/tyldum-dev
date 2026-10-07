@@ -63,6 +63,32 @@ for (const theme of ["dark", "light"] as const) {
   });
 }
 
+test("the printed CV fits on one A4 page in both languages", async ({ page }) => {
+  for (const locale of ["no", "en"]) {
+    await page.goto(`/${locale}/cv`);
+    await page.evaluate(() => document.fonts.ready);
+    const pdf = await page.pdf({ format: "A4", preferCSSPageSize: true });
+    const pages = pdf.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? [];
+    expect(pages.length, `${locale}: printed pages`).toBe(1);
+  }
+});
+
+test("printing suggests a clean PDF file name and restores the tab title", async ({ page }) => {
+  await page.goto("/no/cv");
+  const tabTitle = await page.title();
+
+  // The listener is attached on hydration; retry until it is in place.
+  await expect
+    .poll(async () => {
+      await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
+      return page.title();
+    })
+    .toBe(`${noMessages.cv.name} – CV`);
+
+  await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
+  expect(await page.title()).toBe(tabTitle);
+});
+
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
