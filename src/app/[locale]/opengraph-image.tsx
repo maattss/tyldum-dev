@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getTranslations } from "next-intl/server";
@@ -10,20 +10,20 @@ import { PERSON_NAME, SITE_NAME } from "@/lib/site";
 export const alt = `${PERSON_NAME} · ${SITE_NAME}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// Literal paths keep build tracing to exactly these files.
+// Literal paths keep build tracing to exactly these files. Synchronous reads:
+// with Cache Components, async I/O during render marks the route dynamic.
 const readAsset = {
   // Satori reads TTF/OTF/WOFF only, so these are the static Plex files rather
   // than the variable woff2 the site itself serves.
-  regular: () => readFile(join(process.cwd(), "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff")),
-  semibold: () => readFile(join(process.cwd(), "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff")),
-  photo: () => readFile(join(process.cwd(), "public/images/profile.jpg")),
-  mark: () => readFile(join(process.cwd(), "public/favicon.svg")),
+  regular: () => readFileSync(join(process.cwd(), "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff")),
+  semibold: () => readFileSync(join(process.cwd(), "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff")),
+  photo: () => readFileSync(join(process.cwd(), "public/images/profile.jpg")),
+  mark: () => readFileSync(join(process.cwd(), "public/favicon.svg")),
 };
 
 function dataUrl(data: Buffer, type: string): string {
@@ -35,12 +35,10 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ loc
   const hero = await getTranslations({ locale, namespace: "hero" });
   const cv = await getTranslations({ locale, namespace: "cv" });
 
-  const [regular, semibold, photo, mark] = await Promise.all([
-    readAsset.regular(),
-    readAsset.semibold(),
-    readAsset.photo().then((data) => dataUrl(data, "image/jpeg")),
-    readAsset.mark().then((data) => dataUrl(data, "image/svg+xml")),
-  ]);
+  const regular = readAsset.regular();
+  const semibold = readAsset.semibold();
+  const photo = dataUrl(readAsset.photo(), "image/jpeg");
+  const mark = dataUrl(readAsset.mark(), "image/svg+xml");
 
   return new ImageResponse(
     (

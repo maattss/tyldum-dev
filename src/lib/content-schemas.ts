@@ -1,5 +1,3 @@
-const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -44,58 +42,6 @@ function ensureOptionalString(value: unknown, fieldPath: string): string | undef
   }
 
   return ensureString(value, fieldPath, { allowEmpty: true });
-}
-
-function parseIsoDateString(dateString: string, fieldPath: string): {
-  date: string;
-  dateValue: number;
-} {
-  if (!ISO_DATE_RE.test(dateString)) {
-    throw new Error(`${fieldPath} must be in ISO format YYYY-MM-DD.`);
-  }
-
-  const parsedDate = new Date(`${dateString}T00:00:00.000Z`);
-  const timestamp = parsedDate.getTime();
-
-  if (Number.isNaN(timestamp)) {
-    throw new Error(`${fieldPath} must be a valid date.`);
-  }
-
-  return {
-    date: dateString,
-    dateValue: timestamp,
-  };
-}
-
-export interface BlogFrontmatterSchema {
-  title: string;
-  description: string;
-  date: string;
-  dateValue: number;
-}
-
-export function parseBlogFrontmatter(
-  raw: unknown,
-  context: string,
-): BlogFrontmatterSchema {
-  const record = ensureRecord(raw, `${context} frontmatter`);
-  const title = ensureString(record.title, `${context} frontmatter.title`, {
-    allowEmpty: false,
-  });
-  const description = ensureString(
-    record.description,
-    `${context} frontmatter.description`,
-    { allowEmpty: false },
-  );
-  const rawDate = ensureString(record.date, `${context} frontmatter.date`, {
-    allowEmpty: false,
-  });
-  const { date, dateValue } = parseIsoDateString(
-    rawDate,
-    `${context} frontmatter.date`,
-  );
-
-  return { title, description, date, dateValue };
 }
 
 export interface CVExperienceItem {

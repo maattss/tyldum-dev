@@ -8,7 +8,6 @@ import {
 
 // Generated from the English CV messages at build time, so it cannot fall out
 // of step with the CV page the way a hand-copied public/llms.txt did.
-export const dynamic = "force-static";
 
 function entry(title: string, period: string, description: string): string {
   const line = `- ${title} (${period})`;

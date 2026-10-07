@@ -36,7 +36,7 @@ for (const { locale, messages } of locales) {
       page.getByRole("heading", { level: 1, name: messages.hero.name }),
     ).toBeVisible();
     await expect(page.getByText(messages.hero.tagline)).toBeVisible();
-    await expect(page.getByText(messages.cv.summary)).toBeVisible();
+    await expect(page.getByText(messages.hero.description)).toBeVisible();
 
     // The overview mirrors the three most recent CV roles and links to the CV.
     for (const job of messages.cv.experience.items.slice(0, 3)) {
@@ -147,5 +147,12 @@ test("llms.txt is generated from the CV messages", async ({ request }) => {
   }
   for (const edu of enMessages.cv.education.items) {
     expect(body).toContain(`${edu.degree}, ${edu.school} (${edu.period})`);
+  }
+});
+
+test("removed and unknown routes are 404s, not on-demand renders", async ({ request }) => {
+  for (const path of ["/no/blog", "/en/blog/some-post", "/de", "/no/does-not-exist"]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(404);
   }
 });

@@ -1,14 +1,14 @@
 # tyldum.dev 🌐
 
-Personal site and blog for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.dev)**.
+Personal site and CV for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.dev)**.
 
 ## Tech stack
 
-- **Framework:** Next.js 16 with App Router
+- **Framework:** Next.js 16 with App Router and Cache Components — every page is
+  prerendered, and `ensureStatic` fails the build if one stops being static
 - **Styling:** Tailwind CSS 4 plus custom animations
 - **UI components:** Radix UI primitives
 - **i18n:** next-intl — Norwegian and English
-- **Blog:** MDX with gray-matter
 - **Deployment:** Vercel
 
 ## Project structure
@@ -17,9 +17,9 @@ Personal site and blog for Mats Tyldum. Live at **[tyldum.dev](https://tyldum.de
 src/
 ├── app/
 │   ├── [locale]/          # Locale-based routing (no, en)
-│   │   ├── blog/          # Blog index and post pages
 │   │   ├── cv/            # CV page — also the print/PDF layout
 │   │   ├── layout.tsx     # Root layout with providers
+│   │   ├── opengraph-image.tsx # Link-preview image per locale
 │   │   └── page.tsx       # Home page
 │   ├── globals.css        # Theme tokens + custom animations
 │   ├── robots.ts          # robots.txt
@@ -36,17 +36,11 @@ src/
 │   ├── messages/          # Translation JSON files
 │   └── ...                # next-intl setup
 ├── lib/
-│   ├── blog.ts            # Blog post utilities
-│   ├── content-schemas.ts # Runtime validation of CV/blog content
+│   ├── content-schemas.ts # Runtime validation of CV content
 │   ├── site.ts            # Canonical URLs and profile links
 │   ├── theme/             # Theme colour tokens + no-flash bootstrap
 │   └── utils.ts           # cn() helper
 └── proxy.ts               # next-intl middleware
-
-content/
-└── blog/
-    ├── en/                # English blog posts (.mdx)
-    └── no/                # Norwegian blog posts (.mdx)
 ```
 
 ## Development
@@ -98,20 +92,6 @@ Baselines are platform specific. CI compares the `chromium-linux` set, which
 cannot be produced on macOS — run the **Refresh UI Snapshots** workflow
 (`workflow_dispatch`), download the artifact, and commit the PNGs. Regenerate
 the `chromium-darwin` set locally with `pnpm test:ui:update`.
-
-## Adding blog posts
-
-Drop an `.mdx` file in `content/blog/{locale}/` with this frontmatter:
-
-```mdx
----
-title: "Post Title"
-description: "Short description"
-date: "2026-01-09"
----
-
-Your thoughts here.
-```
 
 ## Deployment
 

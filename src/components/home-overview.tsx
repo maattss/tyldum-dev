@@ -60,7 +60,7 @@ export async function HomeOverview({ locale }: { locale: string }) {
 
       <section aria-labelledby="home-toolbox" className={`${panel} md:col-span-2`}>
         <h2 id="home-toolbox" className={heading}>
-          {t("toolboxTitle")}
+          {cv("skills.title")}
         </h2>
 
         <dl className="mt-6 space-y-5">

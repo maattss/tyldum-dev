@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { NextIntlClientProvider } from "next-intl";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { notFound } from "next/navigation";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/header";
@@ -12,9 +13,9 @@ import { SITE_NAME, SITE_URL, PERSON_NAME, absoluteUrl } from "@/lib/site";
 import { getThemeBootstrapScript } from "@/lib/theme/theme-meta";
 import "../globals.css";
 
-// Revalidate daily so statically prerendered pages (e.g. the footer year)
-// stay current without requiring a deploy.
-export const revalidate = 86400;
+// The whole site is static: fail the build if anything would make a page
+// render per request.
+export const ensureStatic = "navigation";
 
 // Export viewport for optimal initial render
 export const viewport: Viewport = {
@@ -128,6 +129,9 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  if (!hasLocale(locales, locale)) {
+    notFound();
+  }
   // Required for static rendering with next-intl; without it every page
   // opts into dynamic (per-request) rendering.
   setRequestLocale(locale);

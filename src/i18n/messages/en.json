@@ -6,11 +6,11 @@
   },
   "hero": {
     "name": "Mats Tyldum",
-    "tagline": "CTO at Outlet Group"
+    "tagline": "CTO at Outlet Group",
+    "description": "Curious about what I'm working on or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
   },
   "home": {
     "experienceTitle": "Recent experience",
-    "toolboxTitle": "Toolbox",
     "fullCv": "View full CV"
   },
   "social": {
@@ -28,12 +28,6 @@
   },
   "footer": {
     "copyright": "© {year} Mats Tyldum"
-  },
-  "blog": {
-    "title": "tyldum.dev | Blog",
-    "noPosts": "No posts yet.",
-    "backToBlog": "Back to blog",
-    "notFound": "Post not found"
   },
   "nav": {
     "cv": "CV",
