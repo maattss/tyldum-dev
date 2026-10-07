@@ -2,18 +2,29 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 const CONFETTI_CLICKS = 3;
 
+// The theme lives on <html> (set by the inline theme script), not in React.
+function subscribe(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
+
+const isDarkNow = () => document.documentElement.classList.contains("dark");
+// Prerendered HTML cannot know the theme; the client corrects it on hydration.
+const isDarkOnServer = () => false;
+
 export function ThemeToggle() {
   const t = useTranslations("theme");
+  const isDark = useSyncExternalStore(subscribe, isDarkNow, isDarkOnServer);
   const clickCountRef = useRef(0);
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleClick = () => {
-    const isDark = document.documentElement.classList.contains("dark");
-    window.__theme?.set(isDark ? "light" : "dark");
+    window.__theme?.set(isDarkNow() ? "light" : "dark");
 
     // Easter egg: flip the theme three times within two seconds.
     clickCountRef.current += 1;
@@ -43,8 +54,10 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={handleClick}
-      aria-label={t("toggle")}
-      title={t("toggle")}
+      // A toggle button: the name stays fixed, aria-pressed carries the state.
+      aria-label={t("dark")}
+      aria-pressed={isDark}
+      title={t("dark")}
       className="grid h-11 w-11 place-items-center rounded-md text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {/* The icon shows the current theme; CSS picks it, so it never flashes. */}

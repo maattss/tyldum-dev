@@ -41,7 +41,7 @@ test("theme toggle flips between light and dark and remembers it", async ({ page
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/en");
 
-  const toggle = page.getByRole("button", { name: "Toggle theme" });
+  const toggle = page.getByRole("button", { name: "Dark theme" });
 
   await toggle.click();
   expect(await page.evaluate(themeState)).toBe("light|light");
@@ -79,7 +79,7 @@ test("switching language keeps the chosen theme", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/no");
 
-  await page.getByRole("button", { name: "Bytt tema" }).click();
+  await page.getByRole("button", { name: "Mørkt tema" }).click();
   expect(await page.evaluate(themeState)).toBe("dark|dark");
 
   // A client-side navigation: the inline theme script does not run again.
@@ -94,4 +94,14 @@ test("switching language keeps the chosen theme", async ({ page }) => {
       () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])')?.content,
     ),
   ).toBe("#0a0b0d");
+});
+
+test("theme toggle reports its state to assistive technology", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/en");
+
+  const toggle = page.getByRole("button", { name: "Dark theme" });
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
 });

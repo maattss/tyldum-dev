@@ -108,7 +108,7 @@ export async function generateMetadata({
       languages: {
         no: absoluteUrl("/no"),
         en: absoluteUrl("/en"),
-        "x-default": absoluteUrl("/no"),
+        "x-default": absoluteUrl("/"),
       },
     },
     appleWebApp: {
@@ -163,7 +163,6 @@ export default async function LocaleLayout({
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
         <ThemeSync />
         <NextIntlClientProvider messages={clientMessages}>
-          <div className="bg-gradient-blur" aria-hidden="true" />
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"

@@ -13,7 +13,7 @@
     "fullCv": "Read the full CV"
   },
   "theme": {
-    "toggle": "Toggle theme"
+    "dark": "Dark theme"
   },
   "language": {
     "label": "Language"
@@ -123,11 +123,11 @@
         },
         {
           "name": "Backend",
-          "items": [".NET", "C#", "REST/OpenAPI", "MongoDB"]
+          "items": ["C#", ".NET", "REST/OpenAPI", "SQL/NoSQL"]
         },
         {
           "name": "Cloud & DevOps",
-          "items": ["Azure", "Kubernetes", "Docker", "GitHub Actions"]
+          "items": ["Azure", "Kubernetes", "Docker", "CI/CD"]
         },
         {
           "name": "Leadership",

@@ -11,7 +11,7 @@ import {
 // English CV messages so it cannot drift from what the CV page renders.
 const cv = enMessages.cv;
 
-const OG_IMAGE = absoluteUrl("/android-chrome-512x512.png");
+const PROFILE_IMAGE = absoluteUrl("/images/profile.jpg");
 const SOCIAL_PROFILES = [LINKEDIN_URL, GITHUB_URL];
 const JOB_TITLE = "Chief Technology Officer";
 const EMPLOYER = cv.experience.items[0].company;
@@ -34,7 +34,7 @@ function schoolName(school: string): string {
 const personBase = {
   "@type": "Person",
   name: PERSON_NAME,
-  image: OG_IMAGE,
+  image: PROFILE_IMAGE,
   jobTitle: JOB_TITLE,
   description: cv.summary,
   address: ADDRESS,
@@ -117,7 +117,7 @@ export function WebsiteJsonLd() {
         "@type": "WebSite",
         name: PERSON_NAME,
         url: SITE_URL,
-        image: OG_IMAGE,
+        image: PROFILE_IMAGE,
         description: enMessages.metadata.description,
         author: {
           "@type": "Person",
