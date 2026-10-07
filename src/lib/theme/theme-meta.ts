@@ -12,6 +12,7 @@ import {
  *
  * Until the visitor picks light or dark, the site follows the OS (live). The
  * choice is remembered, synced across tabs, and set through `window.__theme`.
+ * `reapply()` restores it after React resets <html> (see ThemeSync).
  */
 function themeScript(
   storageKey: string,
@@ -88,6 +89,9 @@ function themeScript(
     }
   });
   window.__theme = {
+    reapply() {
+      apply(false);
+    },
     set(theme) {
       choice = theme;
       try {

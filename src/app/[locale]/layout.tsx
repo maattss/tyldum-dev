@@ -8,6 +8,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { SpeedInsightsClient } from "@/components/speed-insights-client";
+import { ThemeSync } from "@/components/theme-sync";
 import { locales } from "@/i18n/config";
 import { SITE_NAME, SITE_URL, PERSON_NAME, absoluteUrl } from "@/lib/site";
 import { getThemeBootstrapScript } from "@/lib/theme/theme-meta";
@@ -160,6 +161,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
+        <ThemeSync />
         <NextIntlClientProvider messages={clientMessages}>
           <div className="bg-gradient-blur" aria-hidden="true" />
           <a

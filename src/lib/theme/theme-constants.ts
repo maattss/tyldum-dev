@@ -31,6 +31,6 @@ export function getThemeMetaValues(isDark: boolean): ThemeMetaValues {
 declare global {
   interface Window {
     /** Installed by the inline theme script in the root layout. */
-    __theme?: { set: (theme: ResolvedTheme) => void };
+    __theme?: { set: (theme: ResolvedTheme) => void; reapply: () => void };
   }
 }
