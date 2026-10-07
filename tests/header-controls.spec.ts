@@ -74,3 +74,24 @@ test("language switch shows both locales and links to the same page in the other
   await expect(norwegian.locator('[aria-current="true"]')).toHaveText("no");
   await expect(norwegian.getByRole("link", { name: "English" })).toBeVisible();
 });
+
+test("switching language keeps the chosen theme", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/no");
+
+  await page.getByRole("button", { name: "Bytt tema" }).click();
+  expect(await page.evaluate(themeState)).toBe("dark|dark");
+
+  // A client-side navigation: the inline theme script does not run again.
+  await page.evaluate(() => ((window as unknown as { __marker: boolean }).__marker = true));
+  await page.getByRole("group", { name: "Språk" }).getByRole("link", { name: "English" }).click();
+  await expect(page).toHaveURL(/\/en$/);
+  expect(await page.evaluate(() => (window as unknown as { __marker?: boolean }).__marker)).toBe(true);
+
+  await expect.poll(() => page.evaluate(themeState)).toBe("dark|dark");
+  expect(
+    await page.evaluate(
+      () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]:not([media])')?.content,
+    ),
+  ).toBe("#0a0b0d");
+});
