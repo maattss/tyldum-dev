@@ -1,12 +1,34 @@
 "use client";
 
 import { Printer } from "lucide-react";
+import { useEffect } from "react";
 
 interface PrintButtonProps {
   label: string;
+  /** Used as the document title while printing, so "Save as PDF" suggests it as the file name. */
+  pdfTitle: string;
 }
 
-export function PrintButton({ label }: PrintButtonProps) {
+export function PrintButton({ label, pdfTitle }: PrintButtonProps) {
+  // Covers Ctrl/Cmd+P too, not just this button.
+  useEffect(() => {
+    let previousTitle = document.title;
+    const before = () => {
+      // Guard against a repeated beforeprint overwriting the saved tab title.
+      if (document.title !== pdfTitle) previousTitle = document.title;
+      document.title = pdfTitle;
+    };
+    const after = () => {
+      document.title = previousTitle;
+    };
+    window.addEventListener("beforeprint", before);
+    window.addEventListener("afterprint", after);
+    return () => {
+      window.removeEventListener("beforeprint", before);
+      window.removeEventListener("afterprint", after);
+    };
+  }, [pdfTitle]);
+
   return (
     <button
       type="button"

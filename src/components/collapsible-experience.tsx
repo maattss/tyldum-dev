@@ -36,8 +36,8 @@ export function CollapsibleExperience({
             : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden pl-1 print:overflow-visible">
-          <div className="space-y-7 pb-7">
+        <div className="overflow-hidden print:overflow-visible">
+          <div className="space-y-7 pb-7 print:space-y-2.5 print:pb-0">
             {items.map((job) => (
               <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
