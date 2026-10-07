@@ -1,9 +1,18 @@
+import { cacheLife } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { Separator } from "@/components/ui/separator";
 
+// Prerendered with the page and refreshed daily, so the year rolls over on
+// 1 January without a deploy.
+async function getCurrentYear(): Promise<number> {
+  "use cache";
+  cacheLife("days");
+  return new Date().getFullYear();
+}
+
 export async function Footer() {
   const t = await getTranslations("footer");
-  const year = new Date().getFullYear();
+  const year = await getCurrentYear();
 
   return (
     <footer className="mt-auto print:hidden">

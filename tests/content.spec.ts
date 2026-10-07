@@ -149,3 +149,10 @@ test("llms.txt is generated from the CV messages", async ({ request }) => {
     expect(body).toContain(`${edu.degree}, ${edu.school} (${edu.period})`);
   }
 });
+
+test("removed and unknown routes are 404s, not on-demand renders", async ({ request }) => {
+  for (const path of ["/no/blog", "/en/blog/some-post", "/de", "/no/does-not-exist"]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(404);
+  }
+});

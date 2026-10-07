@@ -29,12 +29,6 @@
   "footer": {
     "copyright": "© {year} Mats Tyldum"
   },
-  "blog": {
-    "title": "tyldum.dev | Blog",
-    "noPosts": "No posts yet.",
-    "backToBlog": "Back to blog",
-    "notFound": "Post not found"
-  },
   "nav": {
     "cv": "CV",
     "skipToContent": "Skip to content",

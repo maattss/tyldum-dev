@@ -4,6 +4,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  // Cache Components: caching is explicit ('use cache') and every page is
+  // prerendered unless it opts out. The default from Next.js 17.
+  cacheComponents: true,
+  partialPrefetching: true,
   // Disabled for build stability across restricted CI/build environments.
   reactCompiler: false,
   // No reason to advertise the framework and version to scanners.
