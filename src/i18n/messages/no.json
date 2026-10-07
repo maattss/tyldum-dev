@@ -13,7 +13,7 @@
     "fullCv": "Les hele CV-en"
   },
   "theme": {
-    "toggle": "Bytt tema"
+    "dark": "Mørkt tema"
   },
   "language": {
     "label": "Språk"
@@ -124,11 +124,11 @@
         },
         {
           "name": "Backend",
-          "items": [".NET", "C#", "REST/OpenAPI", "MongoDB"]
+          "items": ["C#", ".NET", "REST/OpenAPI", "SQL/NoSQL"]
         },
         {
           "name": "Cloud & DevOps",
-          "items": ["Azure", "Kubernetes", "Docker", "GitHub Actions"]
+          "items": ["Azure", "Kubernetes", "Docker", "CI/CD"]
         },
         {
           "name": "Ledelse",

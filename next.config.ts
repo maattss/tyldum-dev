@@ -20,21 +20,38 @@ const nextConfig: NextConfig = {
     imageSizes: [88, 176, 264],
     formats: ["image/avif", "image/webp"],
   },
-  // Compression and caching headers
   async headers() {
-    return [
+    // Files in /public keep their names when they change, so they must not be
+    // cached as immutable (a new favicon or photo would be stuck for a year).
+    // A day plus a week of stale-while-revalidate keeps repeat visits instant.
+    // Hashed build output under /_next/static is already immutable via Next.
+    const publicAssetCaching = [
       {
-        source: "/:all*(svg|jpg|jpeg|png|webp|avif|ico|woff|woff2)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
+        key: "Cache-Control",
+        value: "public, max-age=86400, stale-while-revalidate=604800",
+      },
+    ];
+
+    return [
+      { source: "/images/:path*", headers: publicAssetCaching },
+      {
+        source:
+          "/:file(favicon\\.ico|favicon\\.svg|favicon-16x16\\.png|favicon-32x32\\.png|apple-touch-icon\\.png|android-chrome-192x192\\.png|android-chrome-512x512\\.png|site\\.webmanifest)",
+        headers: publicAssetCaching,
       },
       {
         source: "/:path*",
         headers: [
+          {
+            // A baseline CSP without script-src: a strict script policy needs a
+            // per-request nonce, which would make every page dynamic and break
+            // ensureStatic. These directives still shut off common injection
+            // and framing vectors at no cost. (No upgrade-insecure-requests: HSTS
+            // already covers production, and it would break http://localhost.)
+            key: "Content-Security-Policy",
+            value:
+              "base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'",
+          },
           {
             key: "X-DNS-Prefetch-Control",
             value: "on",

@@ -44,7 +44,7 @@ export async function generateMetadata({
       languages: {
         no: absoluteUrl("/no/cv"),
         en: absoluteUrl("/en/cv"),
-        "x-default": absoluteUrl("/no/cv"),
+        "x-default": absoluteUrl("/cv"),
       },
     },
   };
