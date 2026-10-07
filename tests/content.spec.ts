@@ -36,7 +36,7 @@ for (const { locale, messages } of locales) {
       page.getByRole("heading", { level: 1, name: messages.hero.name }),
     ).toBeVisible();
     await expect(page.getByText(messages.hero.tagline)).toBeVisible();
-    await expect(page.getByText(messages.cv.summary)).toBeVisible();
+    await expect(page.getByText(messages.hero.description)).toBeVisible();
 
     // The overview mirrors the three most recent CV roles and links to the CV.
     for (const job of messages.cv.experience.items.slice(0, 3)) {

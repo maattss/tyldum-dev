@@ -31,8 +31,8 @@ export async function Hero() {
           <p className="text-xl font-medium text-foreground/90 sm:text-2xl">{heroT("tagline")}</p>
           <p className="text-sm text-muted-foreground">{cvT("contact.location")}</p>
         </div>
-        <p className="mx-auto max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          {cvT("summary")}
+        <p className="mx-auto max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          {heroT("description")}
         </p>
       </div>
 

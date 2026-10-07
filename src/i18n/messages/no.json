@@ -6,11 +6,11 @@
   },
   "hero": {
     "name": "Mats Tyldum",
-    "tagline": "CTO, Outlet Group"
+    "tagline": "CTO, Outlet Group",
+    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på GitHub-profilen min, eller send meg en melding på LinkedIn."
   },
   "home": {
     "experienceTitle": "Siste erfaring",
-    "toolboxTitle": "Verktøykasse",
     "fullCv": "Se hele CV-en"
   },
   "social": {
