@@ -4,6 +4,9 @@ import Image from "next/image";
 import { CollapsibleExperience } from "@/components/collapsible-experience";
 import { ExperienceEntry } from "@/components/experience-entry";
 import { PrintButton } from "@/components/print-button";
+import { SectionHeading } from "@/components/section-heading";
+import { SkillList } from "@/components/skill-list";
+import { COLUMN } from "@/lib/layout";
 import { CvProfileJsonLd } from "@/components/json-ld";
 import { locales } from "@/i18n/config";
 import {
@@ -66,70 +69,54 @@ export default async function CVPage({
   );
 
   return (
-    <div className="container mx-auto max-w-4xl px-4 py-10 sm:py-14">
+    <div className={`${COLUMN} py-12 sm:py-16`}>
       <CvProfileJsonLd locale={locale} />
       <div className="space-y-12">
-        <header className="border-b border-border pb-8">
-          <div className="flex items-start justify-between gap-6">
-            <div className="min-w-0">
-              <h1 className="text-4xl font-semibold tracking-tight text-foreground">{t("name")}</h1>
-              <p className="mt-1 text-lg text-muted-foreground">{t("subtitle")}</p>
-              <p className="mt-3 text-sm text-muted-foreground">{t("contact.location")}</p>
-              <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <a
-                  href={LINKEDIN_URL}
-                  className="transition-colors hover:text-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {/* A printed CV cannot be clicked, so spell the URL out on paper. */}
-                  <span className="print:hidden">LinkedIn</span>
-                  <span className="hidden print:inline">{LINKEDIN_HANDLE}</span>
-                </a>
-                <span aria-hidden="true">/</span>
-                <a
-                  href={GITHUB_URL}
-                  className="transition-colors hover:text-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="print:hidden">GitHub</span>
-                  <span className="hidden print:inline">{GITHUB_HANDLE}</span>
-                </a>
-              </div>
-
-              <div className="mt-4 hidden print:hidden sm:block">
-                <PrintButton label={t("downloadCV")} />
-              </div>
-            </div>
-
-            <div className="print:hidden shrink-0">
-              <div className="relative h-28 w-28 overflow-hidden rounded-2xl border border-border/90 bg-card ring-1 ring-white/10 shadow-[0_24px_80px_-50px_rgba(47,185,255,0.65)]">
-                <Image
-                  src="/images/profile.jpg"
-                  alt={t("name")}
-                  width={112}
-                  height={112}
-                  sizes="112px"
-                  loading="lazy"
-                  fetchPriority="low"
-                  className="h-full w-full object-cover"
-                />
-              </div>
+        <header className="flex items-start justify-between gap-6">
+          <div className="min-w-0">
+            <h1 className="text-[34px] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[40px]">
+              <span className="mr-3 font-mono font-normal text-primary print:hidden" aria-hidden="true">
+                #
+              </span>
+              {t("name")}
+            </h1>
+            <p className="mt-3 text-lg">{t("subtitle")}</p>
+            <p className="mt-3 flex flex-wrap items-center gap-x-2 font-mono text-[13px] text-muted-foreground">
+              <span>{t("contact.location")}</span>
+              <span aria-hidden="true">·</span>
+              <a href={LINKEDIN_URL} className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                {/* A printed CV cannot be clicked, so spell the URL out on paper. */}
+                <span className="print:hidden">linkedin</span>
+                <span className="hidden print:inline">{LINKEDIN_HANDLE}</span>
+              </a>
+              <span aria-hidden="true">·</span>
+              <a href={GITHUB_URL} className="hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                <span className="print:hidden">github</span>
+                <span className="hidden print:inline">{GITHUB_HANDLE}</span>
+              </a>
+            </p>
+            <div className="mt-4 hidden print:hidden sm:block">
+              <PrintButton label={t("downloadCV")} />
             </div>
           </div>
+
+          <Image
+            src="/images/profile.jpg"
+            alt={t("name")}
+            width={88}
+            height={88}
+            sizes="88px"
+            loading="lazy"
+            fetchPriority="low"
+            className="h-[88px] w-[88px] shrink-0 rounded-[14px] border border-border object-cover print:hidden"
+          />
         </header>
 
-        <section>
-          <p className="max-w-3xl leading-relaxed text-muted-foreground">{t("summary")}</p>
-        </section>
+        <p className="leading-relaxed text-muted-foreground">{t("summary")}</p>
 
-        <section>
-          <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            {t("experience.title")}
-          </h2>
-
-          <div className="space-y-7">
+        <section aria-labelledby="cv-experience">
+          <SectionHeading id="cv-experience">{t("experience.title")}</SectionHeading>
+          <div className="mt-5 space-y-7">
             {recentJobs.map((job) => (
               <ExperienceEntry key={`${job.company}-${job.period}`} job={job} />
             ))}
@@ -144,55 +131,29 @@ export default async function CVPage({
           </div>
         </section>
 
-        <section>
-          <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            {t("education.title")}
-          </h2>
-
-          <div className="space-y-6">
+        <section aria-labelledby="cv-education">
+          <SectionHeading id="cv-education">{t("education.title")}</SectionHeading>
+          <div className="mt-5 space-y-6">
             {education.map((edu) => (
-              <article
-                key={`${edu.school}-${edu.period}`}
-                className="border-l-2 border-border pl-5 print:break-inside-avoid"
-              >
-                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <article key={`${edu.school}-${edu.period}`} className="print:break-inside-avoid">
+                <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                   <div>
-                    <h3 className="font-semibold text-foreground">{edu.degree}</h3>
-                    <p className="text-sm text-muted-foreground">{edu.school}</p>
+                    <h3 className="inline font-semibold">{edu.degree}</h3>
+                    <span>, {edu.school}</span>
                   </div>
-                  <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{edu.period}</p>
+                  <p className="shrink-0 font-mono text-[13px] text-muted-foreground">{edu.period}</p>
                 </div>
-
-                {edu.description && <p className="mt-1 text-sm text-muted-foreground">{edu.description}</p>}
+                {edu.description && (
+                  <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{edu.description}</p>
+                )}
               </article>
             ))}
           </div>
         </section>
 
-        <section>
-          <h2 className="mb-6 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            {t("skills.title")}
-          </h2>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {skillCategories.map((category) => (
-              <article key={category.name} className="print:break-inside-avoid">
-                <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/80">
-                  {category.name}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-md border border-border bg-secondary px-2.5 py-1 text-xs text-secondary-foreground print:bg-transparent"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
+        <section aria-labelledby="cv-skills" className="print:break-inside-avoid">
+          <SectionHeading id="cv-skills">{t("skills.title")}</SectionHeading>
+          <SkillList categories={skillCategories} />
         </section>
       </div>
     </div>

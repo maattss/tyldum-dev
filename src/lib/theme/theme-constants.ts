@@ -1,5 +1,5 @@
-export const LIGHT_THEME_COLOR = "#f7f9fd";
-export const DARK_THEME_COLOR = "#08090a";
+export const LIGHT_THEME_COLOR = "#ffffff";
+export const DARK_THEME_COLOR = "#0a0b0d";
 
 export const LIGHT_STATUS_BAR_STYLE = "default";
 export const DARK_STATUS_BAR_STYLE = "black-translucent";

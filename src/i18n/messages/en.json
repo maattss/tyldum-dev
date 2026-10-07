@@ -7,21 +7,16 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO at Outlet Group",
-    "description": "Curious about what I'm working on or want to chat? Take a look at my GitHub, or send me a message on LinkedIn."
+    "description": "Curious about what I'm working on or want to chat? Take a look at my <github>GitHub</github>, or send me a message on <linkedin>LinkedIn</linkedin>."
   },
   "home": {
-    "experienceTitle": "Recent experience",
-    "fullCv": "View full CV"
-  },
-  "social": {
-    "linkedin": "LinkedIn",
-    "github": "GitHub"
+    "fullCv": "Read the full CV"
   },
   "theme": {
     "toggle": "Toggle theme"
   },
   "language": {
-    "switch": "Les på norsk"
+    "label": "Language"
   },
   "footer": {
     "copyright": "© {year} Mats Tyldum"

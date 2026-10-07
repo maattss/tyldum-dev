@@ -2,26 +2,26 @@ import type { CVExperienceItem } from "@/lib/content-schemas";
 
 export function ExperienceEntry({ job }: { job: CVExperienceItem }) {
   return (
-    <article className="border-l-2 border-border pl-5 print:break-inside-avoid">
-      <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+    <article className="print:break-inside-avoid">
+      <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
         <div>
-          <h3 className="font-semibold text-foreground">{job.role}</h3>
-          <p className="text-sm text-muted-foreground">{job.company}</p>
+          <h3 className="inline font-semibold">{job.role}</h3>
+          <span>, {job.company}</span>
         </div>
-        <p className="shrink-0 min-w-[11ch] font-mono text-xs text-muted-foreground">{job.period}</p>
+        <p className="shrink-0 font-mono text-[13px] text-muted-foreground">{job.period}</p>
       </div>
 
       {job.description && (
-        <p className="text-sm leading-relaxed text-muted-foreground">{job.description}</p>
+        <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{job.description}</p>
       )}
 
       {job.highlights.length > 0 && (
         <ul className="mt-2 space-y-1">
           {job.highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="relative pl-4 text-sm text-muted-foreground before:absolute before:left-0 before:content-['-']"
-            >
+            <li key={highlight} className="flex gap-3 text-[15px] text-muted-foreground">
+              <span className="font-mono" aria-hidden="true">
+                -
+              </span>
               {highlight}
             </li>
           ))}

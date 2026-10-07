@@ -24,6 +24,7 @@ const readAsset = {
   semibold: () => readFileSync(join(process.cwd(), "node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff")),
   photo: () => readFileSync(join(process.cwd(), "public/images/profile.jpg")),
   mark: () => readFileSync(join(process.cwd(), "public/favicon.svg")),
+  mono: () => readFileSync(join(process.cwd(), "node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff")),
 };
 
 function dataUrl(data: Buffer, type: string): string {
@@ -33,13 +34,14 @@ function dataUrl(data: Buffer, type: string): string {
 export default async function OpenGraphImage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const hero = await getTranslations({ locale, namespace: "hero" });
-  const cv = await getTranslations({ locale, namespace: "cv" });
 
   const regular = readAsset.regular();
   const semibold = readAsset.semibold();
+  const mono = readAsset.mono();
   const photo = dataUrl(readAsset.photo(), "image/jpeg");
   const mark = dataUrl(readAsset.mark(), "image/svg+xml");
 
+  // Same flat look as the site: one ground, hairlines, a single blue accent.
   return new ImageResponse(
     (
       <div
@@ -50,39 +52,30 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ loc
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          backgroundColor: "#08090a",
-          backgroundImage:
-            "radial-gradient(circle at 85% 10%, rgba(78,167,252,0.28) 0%, transparent 45%), radial-gradient(circle at 10% 95%, rgba(47,185,255,0.16) 0%, transparent 45%)",
-          color: "#f4f7ff",
+          backgroundColor: "#0a0b0d",
+          color: "#eef1f6",
           fontFamily: "IBM Plex Sans",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <img src={mark} width={56} height={56} style={{ borderRadius: 13, border: "1px solid #242933" }} alt="" />
-          <div style={{ display: "flex", fontSize: 30, fontWeight: 600, letterSpacing: -0.5 }}>
-            tyldum<span style={{ color: "#94a0b6" }}>.dev</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontFamily: "IBM Plex Mono", fontSize: 28 }}>
+          <img src={mark} width={48} height={48} style={{ borderRadius: 11 }} alt="" />
+          <div style={{ display: "flex" }}>
+            <span style={{ color: "#969fae" }}>~/</span>tyldum.dev
           </div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 56 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 700 }}>
-            <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -2.5, lineHeight: 1 }}>{hero("name")}</div>
-            <div style={{ fontSize: 40, color: "#d6deee" }}>{hero("tagline")}</div>
-            <div style={{ fontSize: 26, color: "#94a0b6", lineHeight: 1.4 }}>{cv("summary")}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ display: "flex", alignItems: "baseline", fontSize: 92, fontWeight: 600, letterSpacing: -3, lineHeight: 1 }}>
+              <span style={{ fontFamily: "IBM Plex Mono", fontWeight: 400, color: "#4ea7fc", marginRight: 28 }}>#</span>
+              {hero("name")}
+            </div>
+            <div style={{ fontSize: 40, color: "#969fae" }}>{`${hero("tagline")}.`}</div>
           </div>
-          <img
-            src={photo}
-            width={240}
-            height={240}
-            alt=""
-            style={{ borderRadius: 36, border: "2px solid #242933", boxShadow: "0 30px 80px -30px rgba(47,185,255,0.6)" }}
-          />
+          <img src={photo} width={220} height={220} alt="" style={{ borderRadius: 32, border: "2px solid #22262e" }} />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, color: "#94a0b6" }}>
-          <div style={{ width: 10, height: 10, borderRadius: 999, backgroundColor: "#4ea7fc" }} />
-          {cv("contact.location")}
-        </div>
+        <div style={{ height: 1, backgroundColor: "#22262e" }} />
       </div>
     ),
     {
@@ -90,6 +83,7 @@ export default async function OpenGraphImage({ params }: { params: Promise<{ loc
       fonts: [
         { name: "IBM Plex Sans", data: regular, weight: 400, style: "normal" },
         { name: "IBM Plex Sans", data: semibold, weight: 600, style: "normal" },
+        { name: "IBM Plex Mono", data: mono, weight: 400, style: "normal" },
       ],
     },
   );

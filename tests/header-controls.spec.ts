@@ -26,7 +26,7 @@ test("keeps following the OS until the visitor picks a theme", async ({ page }) 
         () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.content,
       ),
     )
-    .toBe("#08090a");
+    .toBe("#0a0b0d");
 });
 
 test("a legacy stored 'system' choice still follows the OS", async ({ page }) => {
@@ -58,14 +58,19 @@ test("theme toggle flips between light and dark and remembers it", async ({ page
   expect(await page.evaluate(themeState)).toBe("dark|dark");
 });
 
-test("language toggle links to the same page in the other locale", async ({ page }) => {
+test("language switch shows both locales and links to the same page in the other", async ({ page }) => {
   await page.goto("/en/cv");
 
-  const link = page.getByRole("link", { name: "Les på norsk" });
+  const group = page.getByRole("group", { name: "Language" });
+  await expect(group.locator('[aria-current="true"]')).toHaveText("en");
+
+  const link = group.getByRole("link", { name: "Norsk" });
   await expect(link).toHaveAttribute("hreflang", "no");
   await link.click();
 
   await expect(page).toHaveURL(/\/no\/cv$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "no");
-  await expect(page.getByRole("link", { name: "Read in English" })).toBeVisible();
+  const norwegian = page.getByRole("group", { name: "Språk" });
+  await expect(norwegian.locator('[aria-current="true"]')).toHaveText("no");
+  await expect(norwegian.getByRole("link", { name: "English" })).toBeVisible();
 });

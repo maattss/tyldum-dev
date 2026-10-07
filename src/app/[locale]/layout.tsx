@@ -51,7 +51,8 @@ const ibmPlexMono = localFont({
     },
   ],
   display: "swap",
-  preload: false,
+  // Used above the fold (header, section labels), so fetch it early too.
+  preload: true,
   fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
@@ -163,7 +164,7 @@ export default async function LocaleLayout({
           <div className="bg-gradient-blur" aria-hidden="true" />
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-card focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           >
             {t("skipToContent")}
           </a>

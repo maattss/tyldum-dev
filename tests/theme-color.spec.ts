@@ -22,7 +22,7 @@ test.describe("status bar theme color", () => {
 
         return `${themeColor ?? ""}|${statusBarStyle ?? ""}`;
       });
-    }).toBe("#08090a|black-translucent");
+    }).toBe("#0a0b0d|black-translucent");
   });
 
   test("uses light theme color when user theme is light and system is dark", async ({
@@ -46,7 +46,7 @@ test.describe("status bar theme color", () => {
 
         return `${themeColor ?? ""}|${statusBarStyle ?? ""}`;
       });
-    }).toBe("#f7f9fd|default");
+    }).toBe("#ffffff|default");
   });
 
   test("does not keep prefers-color-scheme theme-color tags after bootstrap", async ({
