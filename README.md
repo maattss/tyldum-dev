@@ -123,9 +123,19 @@ Decisions that are easy to undo by accident:
 - **Content.** All CV text lives in `src/i18n/messages/{no,en}.json`. The home
   page, CV, print layout, `llms.txt` and JSON-LD all read from there, and
   `pnpm check:i18n` keeps the two locales in step.
+- **Search.** `sitemap.xml` lists both locales with `hreflang` alternates, and
+  every page sets its own canonical URL and Open Graph `url`. Titles lead with
+  the name, since that is what people search for. A page that sets its own
+  `openGraph` loses the parent segment's image, which is why `cv/` has its own
+  `opengraph-image.tsx`. The JSON-LD `Person`, `WebSite` and `ProfilePage`
+  share `@id`s so Google reads them as one entity.
 
 ## Deployment
 
 Every push to `main` deploys automatically to Vercel. Every pull request gets
 its own preview deployment, linked from the PR, so changes can be checked on a
 real URL before they merge.
+
+Google Search Console: verify the domain with a DNS TXT record (preferred), or
+set `GOOGLE_SITE_VERIFICATION` in Vercel to the token from the HTML-tag method
+and redeploy. Then submit `https://tyldum.dev/sitemap.xml` there.

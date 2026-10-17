@@ -14,6 +14,7 @@ import {
   GITHUB_URL,
   LINKEDIN_HANDLE,
   LINKEDIN_URL,
+  SITE_NAME,
   absoluteUrl,
 } from "@/lib/site";
 import {
@@ -33,14 +34,30 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "cv" });
+  const url = absoluteUrl(`/${locale}/cv`);
 
+  // Open Graph and Twitter are replaced wholesale, not merged, so restate what
+  // the layout sets; otherwise a shared CV link previews as the home page.
   return {
     title: {
       absolute: t("title"),
     },
     description: t("summary"),
+    openGraph: {
+      title: t("title"),
+      description: t("summary"),
+      url,
+      siteName: SITE_NAME,
+      locale: locale === "no" ? "nb_NO" : "en_US",
+      type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("summary"),
+    },
     alternates: {
-      canonical: absoluteUrl(`/${locale}/cv`),
+      canonical: url,
       languages: {
         no: absoluteUrl("/no/cv"),
         en: absoluteUrl("/en/cv"),

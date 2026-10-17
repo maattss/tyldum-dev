@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "tyldum.dev | Mats Tyldum",
-    "description": "Personal website for Mats Tyldum - CTO at Outlet Group",
+    "title": "Mats Tyldum – CTO at Outlet Group",
+    "description": "Mats Tyldum is CTO at Outlet Group in Bergen, Norway. Technology leader with a developer background. CV, experience and skills.",
     "keywords": "Mats Tyldum, CTO, technology leader, developer, Bergen, Outlet Group"
   },
   "hero": {
@@ -28,7 +28,7 @@
   },
   "cv": {
     "name": "Mats Tyldum",
-    "title": "tyldum.dev | CV",
+    "title": "Mats Tyldum – CV",
     "subtitle": "CTO, Outlet Group",
     "downloadCV": "Download PDF",
     "onlineVersion": "Latest version: {url}",
