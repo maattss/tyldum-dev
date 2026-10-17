@@ -68,7 +68,8 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(SITE_URL),
     title: {
-      template: `${SITE_NAME} | %s`,
+      // Name first: "Mats Tyldum" is what people search for.
+      template: `%s – ${PERSON_NAME}`,
       default: t("title"),
     },
     description: t("description"),
@@ -102,7 +103,19 @@ export async function generateMetadata({
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        // Let Google show the full description and a large preview image.
+        "max-snippet": -1,
+        "max-image-preview": "large",
+      },
     },
+    // Search Console's HTML-tag method. A DNS TXT record on the domain does the
+    // same without a deploy; this is here for when that is not an option.
+    ...(process.env.GOOGLE_SITE_VERIFICATION && {
+      verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+    }),
     alternates: {
       canonical: absoluteUrl(`/${locale}`),
       languages: {

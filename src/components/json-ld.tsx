@@ -12,6 +12,10 @@ import {
 const cv = enMessages.cv;
 
 const PROFILE_IMAGE = absoluteUrl("/images/profile.jpg");
+// Stable node ids, so the Person, WebSite and ProfilePage blocks are read as
+// one entity rather than three unrelated ones.
+const PERSON_ID = absoluteUrl("/#person");
+const WEBSITE_ID = absoluteUrl("/#website");
 const SOCIAL_PROFILES = [LINKEDIN_URL, GITHUB_URL];
 const JOB_TITLE = "Chief Technology Officer";
 const EMPLOYER = cv.experience.items[0].company;
@@ -33,6 +37,7 @@ function schoolName(school: string): string {
 
 const personBase = {
   "@type": "Person",
+  "@id": PERSON_ID,
   name: PERSON_NAME,
   image: PROFILE_IMAGE,
   jobTitle: JOB_TITLE,
@@ -90,6 +95,7 @@ export function CvProfileJsonLd({ locale }: { locale: string }) {
         "@type": "ProfilePage",
         url: absoluteUrl(`/${locale}/cv`),
         inLanguage: locale === "no" ? "nb" : "en",
+        isPartOf: { "@id": WEBSITE_ID },
         mainEntity: {
           ...personBase,
           url: SITE_URL,
@@ -115,14 +121,14 @@ export function WebsiteJsonLd() {
       data={{
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": WEBSITE_ID,
         name: PERSON_NAME,
+        inLanguage: ["nb", "en"],
         url: SITE_URL,
         image: PROFILE_IMAGE,
         description: enMessages.metadata.description,
-        author: {
-          "@type": "Person",
-          name: PERSON_NAME,
-        },
+        author: { "@id": PERSON_ID },
+        publisher: { "@id": PERSON_ID },
       }}
     />
   );

@@ -18,7 +18,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "metadata" });
 
   return {
-    title: t("title"),
+    // The full title already names the person, so skip the layout template.
+    title: { absolute: t("title") },
   };
 }
 

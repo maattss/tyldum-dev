@@ -121,6 +121,21 @@ for (const { locale, messages } of locales) {
       expect(await page.title()).not.toMatch(/tyldum\.dev.*tyldum\.dev/);
     }
   });
+
+  test(`each page's link preview points at itself (${locale})`, async ({
+    page,
+  }) => {
+    for (const path of ["", "/cv"]) {
+      await page.goto(`/${locale}${path}`);
+      const og = (property: string) =>
+        page.locator(`meta[property="og:${property}"]`).getAttribute("content");
+
+      expect(await page.title()).toContain("Mats Tyldum");
+      expect(await og("url")).toBe(`https://tyldum.dev/${locale}${path}`);
+      expect(await og("title")).toBe(await page.title());
+      expect(await og("image")).toContain(`/${locale}${path}/opengraph-image`);
+    }
+  });
 }
 
 test("active nav link is marked for assistive technology", async ({ page }) => {
