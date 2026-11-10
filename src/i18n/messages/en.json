@@ -26,6 +26,11 @@
     "skipToContent": "Skip to content",
     "label": "Main"
   },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist, or it has moved.",
+    "home": "Go to the home page"
+  },
   "cv": {
     "name": "Mats Tyldum",
     "title": "Mats Tyldum – CV",

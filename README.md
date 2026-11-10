@@ -21,7 +21,9 @@ src/
 │   │   ├── opengraph-image.tsx # Link-preview image per locale
 │   │   └── page.tsx           # Home page
 │   ├── llms.txt/              # /llms.txt, generated from the CV messages
+│   ├── global-not-found.tsx   # The static 404 page for unmatched URLs
 │   ├── globals.css            # Colour tokens and print styles
+│   ├── manifest.ts            # Web app manifest
 │   ├── robots.ts              # robots.txt
 │   └── sitemap.ts             # sitemap.xml
 ├── components/
@@ -39,6 +41,7 @@ src/
 │   └── ...                    # next-intl setup
 ├── lib/
 │   ├── content-schemas.ts     # Runtime validation of CV content
+│   ├── fonts.ts               # IBM Plex, shared by the layout and the 404 page
 │   ├── layout.ts              # The shared 720px reading column
 │   ├── site.ts                # Canonical URLs and profile links
 │   └── theme/                 # Theme colours + the inline no-flash script
@@ -70,8 +73,8 @@ The Playwright suite:
   large enough to absorb whole lines of changed text, which is how a CV content
   change once passed CI untouched.
 - `content.spec.ts`: asserts the rendered text of the home page and every CV
-  entry in both locales, and that removed or unknown routes are 404s. Catches
-  content drift that screenshots miss.
+  entry in both locales, that removed or unknown routes are 404s, and that the
+  404 page is the site's own. Catches content drift that screenshots miss.
 - `cv-print.spec.ts`: "Download PDF" is `window.print()`, so the print
   stylesheet is the CV's PDF layout. Guards that site chrome is gone, that every
   role prints (including the collapsed "earlier experience" section), that text
@@ -91,6 +94,14 @@ the CV route Next prefetches and the two Vercel analytics scripts (which 404
 outside Vercel). A new client-side dependency will trip the budget unless it
 is loaded on demand, as the theme toggle's confetti is.
 
+Lint, typecheck and the i18n check run in the **UI Regression** workflow only;
+the Performance Budget workflow just builds and runs Lighthouse.
+
+**Dependabot Auto-merge** squash-merges Dependabot's patch and minor updates
+once both CI checks pass on the PR's head commit; majors wait for a human.
+`main` has no branch protection, so the workflow waits for the checks itself
+rather than relying on GitHub's auto-merge, which would merge straight away.
+
 Visual snapshot policy:
 
 - Use `pnpm test:ui:update` only after manual visual review of diffs.
@@ -108,6 +119,12 @@ Decisions that are easy to undo by accident:
 - **Fully static.** `ensureStatic = "navigation"` on the locale layout fails
   the build if any page would render per request. The only time-dependent
   value, the footer year, is a `'use cache'` function refreshed daily.
+- **404 page.** The root layout lives under `[locale]`, so a plain
+  `app/not-found.tsx` has no layout to render in, and a `[locale]/[...rest]`
+  catch-all would render every unknown URL on demand. `app/global-not-found.tsx`
+  (`experimental.globalNotFound`) is one static page instead. It cannot know
+  the visitor's language, so it shows Norwegian and English, and since it sits
+  outside the layout it loads its own fonts, styles and theme script.
 - **Theme.** An inline script in `<head>` (`lib/theme/theme-meta.ts`) sets the
   theme before first paint: the stored choice if there is one, otherwise the
   OS preference, followed live. Switching language is a client-side navigation
@@ -121,7 +138,8 @@ Decisions that are easy to undo by accident:
   page dynamic. It still sets `base-uri`, `object-src`, `frame-ancestors` and
   `form-action`.
 - **Content.** All CV text lives in `src/i18n/messages/{no,en}.json`. The home
-  page, CV, print layout, `llms.txt` and JSON-LD all read from there, and
+  page, CV, print layout, 404 page, `llms.txt`, JSON-LD and web manifest all
+  read from there, and
   `pnpm check:i18n` keeps the two locales in step.
 - **Search.** `sitemap.xml` lists both locales with `hreflang` alternates, and
   every page sets its own canonical URL and Open Graph `url`. Titles lead with

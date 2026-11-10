@@ -1,0 +1,67 @@
+name: Dependabot Auto-merge
+
+# Merges Dependabot's patch and minor updates once CI has passed, so a security
+# patch does not sit waiting for a click (16.4.1's RCE fixes waited weeks).
+# Major updates are left for a human.
+#
+# `main` has no branch protection, so `gh pr merge --auto` would merge at once,
+# before CI finishes. Instead this job waits for the two CI checks on the PR's
+# exact head commit and merges only if both pass.
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    name: Auto-merge Dependabot update
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Read Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+
+      - name: Wait for CI, then merge
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          required=("Lighthouse Budget" "Playwright Visual Regression")
+
+          for attempt in $(seq 1 70); do
+            pending=0
+            for name in "${required[@]}"; do
+              result=$(gh api "repos/$REPO/commits/$HEAD_SHA/check-runs?per_page=100" \
+                --jq "[.check_runs[] | select(.name == \"$name\")] | sort_by(.started_at) | last | \"\(.status // \"missing\") \(.conclusion // \"\")\"")
+              echo "$name: $result"
+              case "$result" in
+                "completed success") ;;
+                completed*) echo "::error::$name did not pass; leaving the PR for review."; exit 1 ;;
+                *) pending=1 ;;
+              esac
+            done
+            if [ "$pending" -eq 0 ]; then
+              gh pr merge "$PR_URL" --squash --match-head-commit "$HEAD_SHA"
+              exit 0
+            fi
+            sleep 30
+          done
+
+          echo "::error::CI did not finish in time; leaving the PR for review."
+          exit 1

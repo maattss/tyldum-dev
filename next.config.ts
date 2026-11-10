@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   // Disabled for build stability across restricted CI/build environments.
   reactCompiler: false,
+  experimental: {
+    // app/global-not-found.tsx: unmatched URLs get one static, styled 404
+    // instead of Next's bare default (the root layout is under [locale], so a
+    // plain app/not-found.tsx has no layout to render in).
+    globalNotFound: true,
+  },
   // No reason to advertise the framework and version to scanners.
   poweredByHeader: false,
   images: {
@@ -36,7 +42,7 @@ const nextConfig: NextConfig = {
       { source: "/images/:path*", headers: publicAssetCaching },
       {
         source:
-          "/:file(favicon\\.ico|favicon\\.svg|favicon-16x16\\.png|favicon-32x32\\.png|apple-touch-icon\\.png|android-chrome-192x192\\.png|android-chrome-512x512\\.png|site\\.webmanifest)",
+          "/:file(favicon\\.ico|favicon\\.svg|favicon-16x16\\.png|favicon-32x32\\.png|apple-touch-icon\\.png|android-chrome-192x192\\.png|android-chrome-512x512\\.png)",
         headers: publicAssetCaching,
       },
       {
