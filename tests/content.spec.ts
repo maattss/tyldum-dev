@@ -182,3 +182,15 @@ test("removed and unknown routes are 404s, not on-demand renders", async ({ requ
     expect(response.status(), path).toBe(404);
   }
 });
+
+test("unknown routes get the site's own 404 page, in both languages", async ({ page }) => {
+  const response = await page.goto("/no/does-not-exist");
+  expect(response?.status()).toBe(404);
+
+  // Not Next's bare default: the site's styles, wordmark and both languages.
+  await expect(page.getByRole("banner").getByRole("link", { name: "tyldum.dev" })).toBeVisible();
+  for (const { locale, messages } of locales) {
+    await expect(page.getByRole("heading", { level: 1, name: messages.notFound.title })).toBeVisible();
+    await expect(page.getByRole("link", { name: messages.notFound.home })).toHaveAttribute("href", `/${locale}`);
+  }
+});

@@ -26,6 +26,11 @@
     "skipToContent": "Hopp til innhold",
     "label": "Hovedmeny"
   },
+  "notFound": {
+    "title": "Fant ikke siden",
+    "description": "Siden du leter etter finnes ikke, eller den har flyttet.",
+    "home": "Gå til forsiden"
+  },
   "cv": {
     "name": "Mats Tyldum",
     "title": "Mats Tyldum – CV",

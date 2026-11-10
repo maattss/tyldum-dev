@@ -17,18 +17,25 @@ const PROFILE_IMAGE = absoluteUrl("/images/profile.jpg");
 const PERSON_ID = absoluteUrl("/#person");
 const WEBSITE_ID = absoluteUrl("/#website");
 const SOCIAL_PROFILES = [LINKEDIN_URL, GITHUB_URL];
-const JOB_TITLE = "Chief Technology Officer";
-const EMPLOYER = cv.experience.items[0].company;
-const KNOWS_ABOUT = cv.skills.categories.flatMap((category) => category.items);
-const ADDRESS = {
-  "@type": "PostalAddress",
-  addressLocality: "Bergen",
-  addressCountry: "Norway",
+// Full forms for structured data; the CV itself uses the short ones.
+const ROLE_NAMES: Record<string, string> = {
+  CTO: "Chief Technology Officer",
 };
-
-// Full institution names; the CV itself uses the short forms.
 const SCHOOL_NAMES: Record<string, string> = {
   NTNU: "NTNU - Norwegian University of Science and Technology",
+};
+
+const currentJob = cv.experience.items[0];
+const JOB_TITLE = ROLE_NAMES[currentJob.role] ?? currentJob.role;
+const EMPLOYER = currentJob.company;
+const KNOWS_ABOUT = cv.skills.categories.flatMap((category) => category.items);
+
+// "Bergen, Norway" in the CV header, split into its schema.org parts.
+const [CITY, COUNTRY] = cv.contact.location.split(",").map((part) => part.trim());
+const ADDRESS = {
+  "@type": "PostalAddress",
+  addressLocality: CITY,
+  ...(COUNTRY ? { addressCountry: COUNTRY } : {}),
 };
 
 function schoolName(school: string): string {
@@ -78,9 +85,9 @@ export function PersonJsonLd() {
           name: JOB_TITLE,
           occupationLocation: {
             "@type": "City",
-            name: "Bergen",
+            name: CITY,
           },
-          description: cv.experience.items[0].description,
+          description: currentJob.description,
         },
       }}
     />

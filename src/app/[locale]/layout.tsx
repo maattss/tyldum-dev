@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -10,6 +9,7 @@ import { PersonJsonLd, WebsiteJsonLd } from "@/components/json-ld";
 import { SpeedInsightsClient } from "@/components/speed-insights-client";
 import { ThemeSync } from "@/components/theme-sync";
 import { locales } from "@/i18n/config";
+import { fontVariables } from "@/lib/fonts";
 import { SITE_NAME, SITE_URL, PERSON_NAME, absoluteUrl } from "@/lib/site";
 import { getThemeBootstrapScript } from "@/lib/theme/theme-meta";
 import "../globals.css";
@@ -24,38 +24,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
 };
-
-// One variable file covers every weight the site uses (400-700), at half the
-// size of the four static files it replaces.
-const ibmPlexSans = localFont({
-  variable: "--font-plex-sans",
-  src: "../../../node_modules/@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2",
-  weight: "100 700",
-  style: "normal",
-  display: "swap",
-  preload: true,
-  fallback: ["system-ui", "sans-serif"],
-});
-
-const ibmPlexMono = localFont({
-  variable: "--font-plex-mono",
-  src: [
-    {
-      path: "../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2",
-      weight: "500",
-      style: "normal",
-    },
-  ],
-  display: "swap",
-  // Used above the fold (header, section labels), so fetch it early too.
-  preload: true,
-  fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
-});
 
 export async function generateMetadata({
   params,
@@ -84,7 +52,6 @@ export async function generateMetadata({
       ],
       apple: [{ url: "/apple-touch-icon.png" }],
     },
-    manifest: "/site.webmanifest",
     openGraph: {
       title: t("title"),
       description: t("description"),
@@ -161,7 +128,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`}
+      className={fontVariables}
       suppressHydrationWarning
     >
       <head>
