@@ -26,8 +26,14 @@
           "source": "https://github.com/maattss/ferjetider"
         },
         {
+          "name": "spionspill.lol",
+          "description": "A social deduction party game for one phone. Everyone learns the location, except the spy.",
+          "url": "https://spionspill.lol",
+          "source": "https://github.com/maattss/spy-game"
+        },
+        {
           "name": "tyldum.app",
-          "description": "My personal AI assistant, gathered in one app.",
+          "description": "My personal all-in-one app: budget, training with an AI coach, golf and a to-do list.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
         }

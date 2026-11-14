@@ -26,8 +26,14 @@
           "source": "https://github.com/maattss/ferjetider"
         },
         {
+          "name": "spionspill.lol",
+          "description": "Et sosialt deduksjonsspill for én telefon. Alle får vite lokasjonen, bortsett fra spionen.",
+          "url": "https://spionspill.lol",
+          "source": "https://github.com/maattss/spy-game"
+        },
+        {
           "name": "tyldum.app",
-          "description": "Min personlige AI-assistent, samlet i én app.",
+          "description": "Min personlige alt-i-ett-app: budsjett, trening med AI-coach, golf og huskeliste.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
         }
