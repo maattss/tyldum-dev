@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 import enMessages from "../src/i18n/messages/en.json";
 import noMessages from "../src/i18n/messages/no.json";
+import { notes } from "../src/content/notes";
 
 /**
  * Screenshot comparisons only cover the viewport and tolerate a small pixel
@@ -49,6 +50,30 @@ for (const { locale, messages } of locales) {
       "href",
       "https://github.com/maattss",
     );
+
+    // The notes are Norwegian in both locales, and marked as such.
+    const noteList = page.locator('section[aria-labelledby="home-notes"] [lang="no"]');
+    await expect(noteList.locator("article")).toHaveCount(notes.length);
+    for (const note of notes) {
+      await expect(noteList).toContainText(note.title);
+      await expect(noteList).toContainText(note.body);
+    }
+    const projects = page.locator('section[aria-labelledby="home-projects"] article');
+    const projectItems = messages.home.projects.items;
+    await expect(projects).toHaveCount(projectItems.length);
+    for (const [index, project] of projectItems.entries()) {
+      await expect(projects.nth(index)).toContainText(project.description);
+      if (project.url) {
+        await expect(
+          projects.nth(index).getByRole("link", { name: project.name }),
+        ).toHaveAttribute("href", project.url);
+      }
+      if (project.source) {
+        await expect(
+          projects.nth(index).getByRole("link", { name: messages.home.projects.source }),
+        ).toHaveAttribute("href", project.source);
+      }
+    }
 
     // The overview mirrors the four most recent CV roles and links to the CV.
     const roles = page.locator("#home-experience + ul > li");

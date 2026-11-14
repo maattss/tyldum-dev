@@ -7,10 +7,38 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO, Outlet Group",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på <github>GitHub</github>-profilen min, eller send meg en melding på <linkedin>LinkedIn</linkedin>."
+    "description": "Leder teknologi i Outlet Group og skriver fortsatt kode. Utvikler i bunn, med bakgrunn fra bank og konsulent. Koden ligger på <github>GitHub</github>, og jeg tar gjerne en prat på <linkedin>LinkedIn</linkedin>."
   },
   "home": {
-    "fullCv": "Les hele CV-en"
+    "fullCv": "Les hele CV-en",
+    "notes": {
+      "title": "Notater",
+      "languageHint": "på norsk"
+    },
+    "projects": {
+      "title": "Prosjekter",
+      "source": "kildekode",
+      "items": [
+        {
+          "name": "ferjetider.fyi",
+          "description": "Reiseplanlegger for ferjene mellom Stavanger og Bergen. Henter avganger, forsinkelser og innstillinger fra Entur, og regner ut hvilken ferje du rekker på neste samband.",
+          "url": "https://ferjetider.fyi",
+          "source": "https://github.com/maattss/ferjetider"
+        },
+        {
+          "name": "spionspill.lol",
+          "description": "Et sosialt deduksjonsspill for én telefon. Alle får vite lokasjonen, bortsett fra spionen.",
+          "url": "https://spionspill.lol",
+          "source": "https://github.com/maattss/spy-game"
+        },
+        {
+          "name": "tyldum.app",
+          "description": "Min personlige alt-i-ett-app: budsjett, trening med AI-coach, golf og huskeliste.",
+          "url": "",
+          "source": "https://github.com/maattss/tyldum-app"
+        }
+      ]
+    }
   },
   "theme": {
     "dark": "Mørkt tema"
@@ -50,15 +78,21 @@
           "role": "CTO",
           "company": "Outlet Group",
           "period": "2026 - Nå",
-          "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group.",
-          "highlights": []
+          "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group, med et team på 11.",
+          "highlights": [
+            "Alle utviklere bruker Claude Code, og agenter tar enkle issues helt frem til ferdig PR.",
+            "Deltaker i Unge ledere, Agenda Vestlandets toårige lederprogram."
+          ]
         },
         {
           "role": "Teknologileder",
           "company": "Sparebanken Norge",
           "period": "2024 - 2026",
-          "description": "Leder et større team med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
-          "highlights": []
+          "description": "Ledet et team på 10 med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
+          "highlights": [
+            "Leverte «den røde knappen» i svindelprosjektet «Et steg foran»: sperrer konto og BankID på sekunder ved varsel om ID-tyveri.",
+            "Pådriver for teknisk oppgradering og utfasing av gamle systemer som forberedelse til sammenslåingen av Sparebanken Vest og Sparebanken Sør."
+          ]
         },
         {
           "role": "Team Lead og Utvikler",
@@ -86,13 +120,6 @@
           "company": "Universitetet i Stavanger",
           "period": "2018",
           "description": "Studentassistent i objektorientert programmering, datamaskinarkitektur samt algoritmer og datastrukturer.",
-          "highlights": []
-        },
-        {
-          "role": "Butikkmedarbeider",
-          "company": "Jysk",
-          "period": "2012 - 2018",
-          "description": "",
           "highlights": []
         }
       ]

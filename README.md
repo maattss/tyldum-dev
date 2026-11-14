@@ -28,7 +28,7 @@ src/
 │   └── sitemap.ts             # sitemap.xml
 ├── components/
 │   ├── hero.tsx               # Home intro: avatar, "# name", tagline
-│   ├── home-overview.tsx      # Home "## experience" / "## skills" from the CV messages
+│   ├── home-overview.tsx      # Home "## notes" / "## projects" / "## experience"
 │   ├── section-heading.tsx    # The markdown-style "## heading"
 │   ├── skill-list.tsx         # Skill rows, shared by home and CV
 │   ├── theme-toggle.tsx       # Light/dark button
@@ -39,6 +39,8 @@ src/
 │   ├── config.ts              # Locales
 │   ├── messages/              # Translations; all CV content lives here
 │   └── ...                    # next-intl setup
+├── content/
+│   └── notes.ts               # The home page notes (Norwegian only)
 ├── lib/
 │   ├── content-schemas.ts     # Runtime validation of CV content
 │   ├── fonts.ts               # IBM Plex, shared by the layout and the 404 page
