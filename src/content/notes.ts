@@ -21,6 +21,6 @@ export const notes: Note[] = [
     slug: "en-teknologileder-bor-bygge",
     title: "En teknologileder bør fortsatt bygge",
     date: "2026-11",
-    body: "Har gått fra utvikler til team lead til CTO på sju år. Mener en teknologileder bør bygge noe selv jevnlig. Ikke for å levere funksjoner, men for å kjenne verktøyene og friksjonen teamet lever med. Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy du aldri har brukt selv. Bygger derfor egne ting ved siden av jobben, som ferjetider.fyi og en privat AI-assistent.",
+    body: "Har gått fra utvikler til team lead til CTO på sju år. Mener en teknologileder bør bygge noe selv jevnlig. Ikke for å levere funksjoner, men for å kjenne verktøyene og friksjonen teamet lever med. Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy du aldri har brukt selv. Bygger derfor egne ting ved siden av jobben, som ferjetider.fyi og min egen AI-assistent.",
   },
 ];

@@ -56,14 +56,10 @@ export async function HomeOverview({ locale }: { locale: string }) {
                     project.name
                   )}
                 </h3>
-                {project.source ? (
+                {project.source && (
                   <a href={project.source} className={`shrink-0 font-mono text-[13px] ${link}`}>
                     {t("projects.source")}
                   </a>
-                ) : (
-                  <p className="shrink-0 font-mono text-[13px] text-muted-foreground">
-                    {t("projects.private")}
-                  </p>
                 )}
               </div>
               <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">

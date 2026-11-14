@@ -18,7 +18,6 @@
     "projects": {
       "title": "Projects",
       "source": "source",
-      "private": "private",
       "items": [
         {
           "name": "ferjetider.fyi",
@@ -28,9 +27,9 @@
         },
         {
           "name": "tyldum.app",
-          "description": "My private AI assistant, gathered in one app.",
+          "description": "My personal AI assistant, gathered in one app.",
           "url": "",
-          "source": ""
+          "source": "https://github.com/maattss/tyldum-app"
         },
         {
           "name": "tyldum.dev",
@@ -91,8 +90,8 @@
           "period": "2024 - 2026",
           "description": "Led a team of 10 responsible for developing and maintaining the bank's payment services.",
           "highlights": [
-            "Delivered the fraud detection service «Et steg foran», which stops identity theft.",
-            "Drove technical upgrades and the retirement of legacy systems ahead of the merger."
+            "Delivered «the red button» in the fraud project «Et steg foran»: it blocks the account and BankID within seconds of an identity theft alert.",
+            "Drove technical upgrades and the retirement of legacy systems in preparation for the merger of Sparebanken Vest and Sparebanken Sør."
           ]
         },
         {
