@@ -30,12 +30,6 @@
           "description": "Min personlige AI-assistent, samlet i én app.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
-        },
-        {
-          "name": "tyldum.dev",
-          "description": "Denne siden. Next.js 16, statisk rendret, på norsk og engelsk. Visuelle regresjonstester og ytelsesbudsjett i CI.",
-          "url": "",
-          "source": "https://github.com/maattss/tyldum-dev"
         }
       ]
     }

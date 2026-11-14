@@ -30,12 +30,6 @@
           "description": "My personal AI assistant, gathered in one app.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
-        },
-        {
-          "name": "tyldum.dev",
-          "description": "This site. Next.js 16, statically rendered, in Norwegian and English. Visual regression tests and a performance budget in CI.",
-          "url": "",
-          "source": "https://github.com/maattss/tyldum-dev"
         }
       ]
     }
