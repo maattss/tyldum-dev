@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { NOTES_LANGUAGE, notes } from "@/content/notes";
 import { parseCvExperienceItems } from "@/lib/content-schemas";
-import { REPO_URL, SITE_NAME } from "@/lib/site";
 import { SectionHeading } from "./section-heading";
 
 const link = "text-primary underline decoration-1 underline-offset-4 hover:decoration-2";
@@ -12,6 +11,12 @@ const link = "text-primary underline decoration-1 underline-offset-4 hover:decor
 export async function HomeOverview({ locale }: { locale: string }) {
   const t = await getTranslations("home");
   const cv = await getTranslations("cv");
+  const projects = t.raw("projects.items") as {
+    name: string;
+    description: string;
+    url: string;
+    source: string;
+  }[];
   const jobs = parseCvExperienceItems(cv.raw("experience.items"), locale).slice(0, 4);
 
   return (
@@ -38,17 +43,35 @@ export async function HomeOverview({ locale }: { locale: string }) {
 
       <section aria-labelledby="home-projects" className="pb-12">
         <SectionHeading id="home-projects">{t("projects.title")}</SectionHeading>
-        <article className="mt-4">
-          <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-            <h3 className="font-semibold">{SITE_NAME}</h3>
-            <a href={REPO_URL} className={`shrink-0 font-mono text-[13px] ${link}`}>
-              {t("projects.site.source")}
-            </a>
-          </div>
-          <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
-            {t("projects.site.description")}
-          </p>
-        </article>
+        <div className="mt-4 space-y-6">
+          {projects.map((project) => (
+            <article key={project.name}>
+              <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                <h3 className="font-semibold">
+                  {project.url ? (
+                    <a href={project.url} className="underline decoration-1 underline-offset-4 hover:decoration-2">
+                      {project.name}
+                    </a>
+                  ) : (
+                    project.name
+                  )}
+                </h3>
+                {project.source ? (
+                  <a href={project.source} className={`shrink-0 font-mono text-[13px] ${link}`}>
+                    {t("projects.source")}
+                  </a>
+                ) : (
+                  <p className="shrink-0 font-mono text-[13px] text-muted-foreground">
+                    {t("projects.private")}
+                  </p>
+                )}
+              </div>
+              <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
+                {project.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section aria-labelledby="home-experience" className="pb-24">

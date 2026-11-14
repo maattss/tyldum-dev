@@ -58,9 +58,22 @@ for (const { locale, messages } of locales) {
       await expect(noteList).toContainText(note.title);
       await expect(noteList).toContainText(note.body);
     }
-    await expect(
-      page.locator('section[aria-labelledby="home-projects"]').getByRole("link"),
-    ).toHaveAttribute("href", "https://github.com/maattss/tyldum-dev");
+    const projects = page.locator('section[aria-labelledby="home-projects"] article');
+    const projectItems = messages.home.projects.items;
+    await expect(projects).toHaveCount(projectItems.length);
+    for (const [index, project] of projectItems.entries()) {
+      await expect(projects.nth(index)).toContainText(project.description);
+      if (project.url) {
+        await expect(
+          projects.nth(index).getByRole("link", { name: project.name }),
+        ).toHaveAttribute("href", project.url);
+      }
+      if (project.source) {
+        await expect(
+          projects.nth(index).getByRole("link", { name: messages.home.projects.source }),
+        ).toHaveAttribute("href", project.source);
+      }
+    }
 
     // The overview mirrors the four most recent CV roles and links to the CV.
     const roles = page.locator("#home-experience + ul > li");

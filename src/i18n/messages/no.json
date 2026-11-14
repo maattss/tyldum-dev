@@ -17,10 +17,28 @@
     },
     "projects": {
       "title": "Prosjekter",
-      "site": {
-        "description": "Denne siden. Next.js 16, statisk rendret, på norsk og engelsk. Visuelle regresjonstester og ytelsesbudsjett i CI.",
-        "source": "kildekode"
-      }
+      "source": "kildekode",
+      "private": "privat",
+      "items": [
+        {
+          "name": "ferjetider.fyi",
+          "description": "Reiseplanlegger for ferjene mellom Stavanger og Bergen. Henter avganger, forsinkelser og innstillinger fra Entur, og regner ut hvilken ferje du rekker på neste samband.",
+          "url": "https://ferjetider.fyi",
+          "source": "https://github.com/maattss/ferjetider"
+        },
+        {
+          "name": "tyldum.app",
+          "description": "Min private AI-assistent, samlet i én app.",
+          "url": "",
+          "source": ""
+        },
+        {
+          "name": "tyldum.dev",
+          "description": "Denne siden. Next.js 16, statisk rendret, på norsk og engelsk. Visuelle regresjonstester og ytelsesbudsjett i CI.",
+          "url": "",
+          "source": "https://github.com/maattss/tyldum-dev"
+        }
+      ]
     }
   },
   "theme": {
@@ -62,14 +80,20 @@
           "company": "Outlet Group",
           "period": "2026 - Nå",
           "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group.",
-          "highlights": []
+          "highlights": [
+            "Leder et teknologiteam på 11.",
+            "Alle utviklere bruker Claude Code, og agenter tar enkle issues helt frem til ferdig PR."
+          ]
         },
         {
           "role": "Teknologileder",
           "company": "Sparebanken Norge",
           "period": "2024 - 2026",
-          "description": "Leder et større team med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
-          "highlights": []
+          "description": "Ledet et team på 10 med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
+          "highlights": [
+            "Leverte svindeldeteksjonen «Et steg foran», som stopper ID-tyveri.",
+            "Pådriver for teknisk oppgradering og utfasing av gamle systemer før fusjonen."
+          ]
         },
         {
           "role": "Team Lead og Utvikler",

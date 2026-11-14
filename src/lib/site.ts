@@ -4,7 +4,6 @@ export const PERSON_NAME = "Mats Tyldum";
 
 export const LINKEDIN_URL = "https://www.linkedin.com/in/mtyldum/";
 export const GITHUB_URL = "https://github.com/maattss";
-export const REPO_URL = "https://github.com/maattss/tyldum-dev";
 
 /** Display form used where the bare handle reads better than the full URL. */
 export const LINKEDIN_HANDLE = "linkedin.com/in/mtyldum";
