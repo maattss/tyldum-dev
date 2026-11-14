@@ -7,10 +7,21 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO, Outlet Group",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på <github>GitHub</github>-profilen min, eller send meg en melding på <linkedin>LinkedIn</linkedin>."
+    "description": "Leder teknologi i Outlet Group og skriver fortsatt kode. Utvikler i bunn, med bakgrunn fra bank og konsulent. Koden ligger på <github>GitHub</github>, og jeg tar gjerne en prat på <linkedin>LinkedIn</linkedin>."
   },
   "home": {
-    "fullCv": "Les hele CV-en"
+    "fullCv": "Les hele CV-en",
+    "notes": {
+      "title": "Notater",
+      "languageHint": "på norsk"
+    },
+    "projects": {
+      "title": "Prosjekter",
+      "site": {
+        "description": "Denne siden. Next.js 16, statisk rendret, på norsk og engelsk. Visuelle regresjonstester og ytelsesbudsjett i CI.",
+        "source": "kildekode"
+      }
+    }
   },
   "theme": {
     "dark": "Mørkt tema"
@@ -86,13 +97,6 @@
           "company": "Universitetet i Stavanger",
           "period": "2018",
           "description": "Studentassistent i objektorientert programmering, datamaskinarkitektur samt algoritmer og datastrukturer.",
-          "highlights": []
-        },
-        {
-          "role": "Butikkmedarbeider",
-          "company": "Jysk",
-          "period": "2012 - 2018",
-          "description": "",
           "highlights": []
         }
       ]
