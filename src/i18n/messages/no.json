@@ -7,7 +7,7 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO, Outlet Group",
-    "description": "Leder teknologi i Outlet Group og skriver fortsatt kode. Utvikler i bunn, med bakgrunn fra bank og konsulent. Koden ligger på <github>GitHub</github>, og jeg tar gjerne en prat på <linkedin>LinkedIn</linkedin>."
+    "description": "Jeg leder teknologi i Outlet Group. Før det jobbet jeg i bank og som konsulent, og jeg skriver fortsatt kode. Du finner meg på <github>GitHub</github> og <linkedin>LinkedIn</linkedin>."
   },
   "home": {
     "fullCv": "Les hele CV-en",
@@ -21,19 +21,19 @@
       "items": [
         {
           "name": "ferjetider.fyi",
-          "description": "Ferjeapp for strekningen Stavanger–Bergen som kan installeres på hjemskjermen. Henter avganger, forsinkelser og innstillinger fra Entur, og regner ut hvilken ferje du rekker på neste samband.",
+          "description": "En app for ferjene mellom Stavanger og Bergen. Viser neste avgang med sanntid fra Entur, og hvilken ferje du rekker på neste samband.",
           "url": "https://ferjetider.fyi",
           "source": "https://github.com/maattss/ferjetider"
         },
         {
           "name": "spionspill.lol",
-          "description": "Et sosialt deduksjonsspill for én telefon. Alle får vite lokasjonen, bortsett fra spionen.",
+          "description": "Et festspill på én telefon. Alle vet hvor dere er, bortsett fra spionen.",
           "url": "https://spionspill.lol",
           "source": "https://github.com/maattss/spy-game"
         },
         {
           "name": "tyldum.app",
-          "description": "Min personlige alt-i-ett-app: budsjett, trening med AI-coach, golf og huskeliste.",
+          "description": "Appen jeg bruker til budsjett, trening, golf og huskelister.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
         }

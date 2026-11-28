@@ -12,21 +12,21 @@ export const NOTES_LANGUAGE = "no";
 
 export const notes: Note[] = [
   {
-    slug: "ai-agenter-i-utviklingen",
-    title: "Slik bruker vi AI-agenter i utviklingen",
+    slug: "ai-agenter",
+    title: "Slik bruker vi AI-agenter",
     date: "2026-11",
-    body: "I Outlet Group bruker alle utviklerne Claude Code i det daglige arbeidet. Enkle issues tildeler vi en agent, som oppretter en PR automatisk. Nå lager agentene også PR-er for oppgradering av avhengigheter og sikkerhetsoppdateringer, og skanner koden for sårbarheter. Det som før ble utsatt, blir nå gjort fortløpende.",
+    body: "Alle utviklerne i Outlet Group bruker Claude Code. Enkle issues gir vi til en agent, som lager en PR. Agentene lager nå også PR-er for nye versjoner av avhengigheter og sikkerhetsfikser, og skanner koden for sårbarheter. Det vi før utsatte, blir nå gjort med en gang.",
   },
   {
-    slug: "a-utvikle-seg-som-leder",
-    title: "Å utvikle seg som leder",
+    slug: "unge-ledere",
+    title: "Unge ledere",
     date: "2026-09",
-    body: "Er med i Unge ledere, Agenda Vestlandets toårige lederprogram. Mener det er like viktig å jobbe med seg selv som leder som å holde seg oppdatert teknisk. Programmet gir tid til å reflektere over egen ledelse sammen med andre unge ledere.",
+    body: "I september startet jeg i Unge ledere, Agenda Vestlandets toårige lederprogram. Jeg bruker mye tid på å holde meg oppdatert teknisk, og vil bruke like mye tid på å bli en bedre leder.",
   },
   {
-    slug: "en-teknologileder-bor-bygge",
-    title: "En teknologileder bør fortsatt bygge",
+    slug: "hvorfor-jeg-fortsatt-koder",
+    title: "Hvorfor jeg fortsatt koder",
     date: "2026-03",
-    body: "Mener en teknologileder bør bygge noe selv jevnlig. Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy du aldri har brukt selv.",
+    body: "Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy man aldri har brukt selv. Derfor bygger jeg noe på egen hånd jevnlig.",
   },
 ];

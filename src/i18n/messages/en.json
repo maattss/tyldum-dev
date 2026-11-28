@@ -7,7 +7,7 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO at Outlet Group",
-    "description": "I lead technology at Outlet Group and still write code. A developer at heart, with a background from banking and consulting. The code is on <github>GitHub</github>, and I'm happy to chat on <linkedin>LinkedIn</linkedin>."
+    "description": "I lead technology at Outlet Group. Before that I worked in banking and consulting, and I still write code. You'll find me on <github>GitHub</github> and <linkedin>LinkedIn</linkedin>."
   },
   "home": {
     "fullCv": "Read the full CV",
@@ -21,19 +21,19 @@
       "items": [
         {
           "name": "ferjetider.fyi",
-          "description": "Ferry app for the Stavanger–Bergen route that installs on your home screen. Pulls departures, delays and cancellations from Entur, and works out which ferry you can catch on the next crossing.",
+          "description": "An app for the ferries between Stavanger and Bergen. Shows the next departure with live data from Entur, and which ferry you'll make on the next crossing.",
           "url": "https://ferjetider.fyi",
           "source": "https://github.com/maattss/ferjetider"
         },
         {
           "name": "spionspill.lol",
-          "description": "A social deduction party game for one phone. Everyone learns the location, except the spy.",
+          "description": "A party game played on one phone. Everyone knows the location, except the spy.",
           "url": "https://spionspill.lol",
           "source": "https://github.com/maattss/spy-game"
         },
         {
           "name": "tyldum.app",
-          "description": "My personal all-in-one app: budget, training with an AI coach, golf and a to-do list.",
+          "description": "The app I use for budgeting, training, golf and to-do lists.",
           "url": "",
           "source": "https://github.com/maattss/tyldum-app"
         }
