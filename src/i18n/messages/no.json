@@ -21,7 +21,7 @@
       "items": [
         {
           "name": "ferjetider.fyi",
-          "description": "Reiseplanlegger for ferjene mellom Stavanger og Bergen. Henter avganger, forsinkelser og innstillinger fra Entur, og regner ut hvilken ferje du rekker på neste samband.",
+          "description": "Ferjeapp for strekningen Stavanger–Bergen som kan installeres på hjemskjermen. Henter avganger, forsinkelser og innstillinger fra Entur, og regner ut hvilken ferje du rekker på neste samband.",
           "url": "https://ferjetider.fyi",
           "source": "https://github.com/maattss/ferjetider"
         },
@@ -80,7 +80,7 @@
           "period": "2026 - Nå",
           "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group, med et team på 11.",
           "highlights": [
-            "Alle utviklere bruker Claude Code, og agenter tar enkle issues helt frem til ferdig PR.",
+            "Alle utviklere bruker Claude Code, og agenter lager PR-er for issues og sikkerhetsfikser.",
             "Deltaker i Unge ledere, Agenda Vestlandets toårige lederprogram."
           ]
         },

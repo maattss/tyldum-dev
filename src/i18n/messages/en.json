@@ -21,7 +21,7 @@
       "items": [
         {
           "name": "ferjetider.fyi",
-          "description": "Trip planner for the ferries between Stavanger and Bergen. Pulls departures, delays and cancellations from Entur, and works out which ferry you can catch on the next crossing.",
+          "description": "Ferry app for the Stavanger–Bergen route that installs on your home screen. Pulls departures, delays and cancellations from Entur, and works out which ferry you can catch on the next crossing.",
           "url": "https://ferjetider.fyi",
           "source": "https://github.com/maattss/ferjetider"
         },
@@ -80,7 +80,7 @@
           "period": "2026 - Present",
           "description": "Leading technology strategy, product development, and technical execution across Outlet Group, with a team of 11.",
           "highlights": [
-            "Every developer uses Claude Code, and agents take simple issues all the way to a finished PR.",
+            "Every developer uses Claude Code, and agents open PRs for issues and security updates.",
             "Participant in Unge ledere, Agenda Vestlandet's two-year leadership programme."
           ]
         },
