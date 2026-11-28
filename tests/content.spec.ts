@@ -56,7 +56,13 @@ for (const { locale, messages } of locales) {
     await expect(noteList.locator("article")).toHaveCount(notes.length);
     for (const note of notes) {
       await expect(noteList).toContainText(note.title);
-      await expect(noteList).toContainText(note.body);
+      for (const paragraph of note.body) await expect(noteList).toContainText(paragraph);
+      if (note.link) {
+        await expect(noteList.getByRole("link", { name: note.link.text })).toHaveAttribute(
+          "href",
+          note.link.href,
+        );
+      }
     }
     const projects = page.locator('section[aria-labelledby="home-projects"] article');
     const projectItems = messages.home.projects.items;

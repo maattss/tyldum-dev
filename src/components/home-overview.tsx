@@ -1,10 +1,25 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { NOTES_LANGUAGE, notes } from "@/content/notes";
+import { NOTES_LANGUAGE, notes, type Note } from "@/content/notes";
 import { parseCvExperienceItems } from "@/lib/content-schemas";
 import { SectionHeading } from "./section-heading";
 
 const link = "text-primary underline decoration-1 underline-offset-4 hover:decoration-2";
+
+/** Renders `paragraph` with the first occurrence of `target.text` as a link. */
+function withLink(paragraph: string, target?: Note["link"]) {
+  const at = target ? paragraph.indexOf(target.text) : -1;
+  if (!target || at < 0) return paragraph;
+  return (
+    <>
+      {paragraph.slice(0, at)}
+      <a href={target.href} className={link}>
+        {target.text}
+      </a>
+      {paragraph.slice(at + target.text.length)}
+    </>
+  );
+}
 
 /** Notes and projects, then a short look at the CV, drawn from the same
  *  messages as the CV page so the two never drift. */
@@ -35,7 +50,11 @@ export async function HomeOverview({ locale }: { locale: string }) {
                 <h3 className="font-semibold">{note.title}</h3>
                 <p className="shrink-0 font-mono text-[13px] text-muted-foreground">{note.date}</p>
               </div>
-              <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{note.body}</p>
+              <div className="mt-1 space-y-3 text-[15px] leading-relaxed text-muted-foreground">
+                {note.body.map((paragraph, index) => (
+                  <p key={index}>{withLink(paragraph, note.link)}</p>
+                ))}
+              </div>
             </article>
           ))}
         </div>
@@ -46,7 +65,7 @@ export async function HomeOverview({ locale }: { locale: string }) {
         <div className="mt-4 space-y-6">
           {projects.map((project) => (
             <article key={project.name}>
-              <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+              <div className="flex items-baseline justify-between gap-4">
                 <h3 className="font-semibold">
                   {project.url ? (
                     <a href={project.url} className={link}>
