@@ -27,7 +27,7 @@ export async function Hero() {
         {t("name")}
       </h1>
       <p className="mt-5 text-lg sm:text-xl">{t("tagline")}</p>
-      <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-[17px]">
+      <p className="mt-3 font-mono text-[14px] text-muted-foreground">
         {t.rich("description", {
           github: (chunks) => (
             <a href={GITHUB_URL} className={inlineLink}>
