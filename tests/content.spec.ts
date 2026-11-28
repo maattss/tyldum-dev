@@ -37,7 +37,7 @@ for (const { locale, messages } of locales) {
       page.getByRole("heading", { level: 1, name: messages.hero.name }),
     ).toBeVisible();
     // Exact: the same words also open the first experience line.
-    await expect(page.getByText(`${messages.hero.tagline}.`, { exact: true })).toBeVisible();
+    await expect(page.getByText(messages.hero.tagline, { exact: true })).toBeVisible();
     // The intro is rich text; its links are checked separately below.
     const intro = messages.hero.description.replace(/<\/?\w+>/g, "");
     await expect(page.getByText(intro)).toBeVisible();

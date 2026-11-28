@@ -49,7 +49,7 @@ export async function HomeOverview({ locale }: { locale: string }) {
               <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                 <h3 className="font-semibold">
                   {project.url ? (
-                    <a href={project.url} className="underline decoration-1 underline-offset-4 hover:decoration-2">
+                    <a href={project.url} className={link}>
                       {project.name}
                     </a>
                   ) : (

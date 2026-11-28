@@ -9,7 +9,7 @@ export async function Hero() {
   const t = await getTranslations("hero");
 
   return (
-    <section className="pt-16 pb-14 sm:pt-24">
+    <section className="pt-10 pb-14 sm:pt-14">
       <Image
         src="/images/profile.jpg"
         alt={t("name")}
@@ -26,7 +26,7 @@ export async function Hero() {
         </span>
         {t("name")}
       </h1>
-      <p className="mt-5 text-lg sm:text-xl">{t("tagline")}.</p>
+      <p className="mt-5 text-lg sm:text-xl">{t("tagline")}</p>
       <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-[17px]">
         {t.rich("description", {
           github: (chunks) => (
