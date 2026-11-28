@@ -7,10 +7,38 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO at Outlet Group",
-    "description": "Curious about what I'm working on or want to chat? Take a look at my <github>GitHub</github>, or send me a message on <linkedin>LinkedIn</linkedin>."
+    "description": "<github>GitHub</github> · <linkedin>LinkedIn</linkedin>"
   },
   "home": {
-    "fullCv": "Read the full CV"
+    "fullCv": "Read the full CV",
+    "notes": {
+      "title": "Notes",
+      "languageHint": "in Norwegian"
+    },
+    "projects": {
+      "title": "Projects",
+      "source": "source",
+      "items": [
+        {
+          "name": "ferjetider.fyi",
+          "description": "An app for the ferries between Stavanger and Bergen. Shows the next departure with live data from Entur, and which ferry you'll make on the next crossing.",
+          "url": "https://ferjetider.fyi",
+          "source": "https://github.com/maattss/ferjetider"
+        },
+        {
+          "name": "spionspill.lol",
+          "description": "A party game played on one phone. Everyone knows the location, except the spy.",
+          "url": "https://spionspill.lol",
+          "source": "https://github.com/maattss/spy-game"
+        },
+        {
+          "name": "tyldum.app",
+          "description": "The app I use for budgeting, training, golf and to-do lists.",
+          "url": "",
+          "source": "https://github.com/maattss/tyldum-app"
+        }
+      ]
+    }
   },
   "theme": {
     "dark": "Dark theme"
@@ -49,28 +77,34 @@
         {
           "role": "CTO",
           "company": "Outlet Group",
-          "period": "2026 - Present",
-          "description": "Leading technology strategy, product development, and technical execution across Outlet Group.",
-          "highlights": []
+          "period": "2026–present",
+          "description": "Leading technology strategy, product development, and technical execution across Outlet Group, with a team of 11.",
+          "highlights": [
+            "Every developer uses Claude Code, and agents open PRs for issues and security updates.",
+            "Participant in Unge ledere, Agenda Vestlandet's two-year leadership programme."
+          ]
         },
         {
           "role": "Technology Leader",
           "company": "Sparebanken Norge",
-          "period": "2024 - 2026",
-          "description": "Leading a larger team responsible for developing and maintaining the bank's payment services.",
-          "highlights": []
+          "period": "2024–2026",
+          "description": "Led a team of 10 responsible for developing and maintaining the bank's payment services.",
+          "highlights": [
+            "Delivered «the red button» in the fraud project «Et steg foran»: it blocks the account and BankID within seconds of an identity theft alert.",
+            "Drove technical upgrades and the retirement of legacy systems in preparation for the merger of Sparebanken Vest and Sparebanken Sør."
+          ]
         },
         {
           "role": "Team Lead & Developer",
           "company": "Sparebanken Vest",
-          "period": "2022 - 2024",
+          "period": "2022–2024",
           "description": "Team lead and developer in a team responsible for the bank's payment services.",
           "highlights": []
         },
         {
           "role": "Developer",
           "company": "Bouvet",
-          "period": "2019 - 2022",
+          "period": "2019–2022",
           "description": "Developer. Consulting engagement at Equinor, 2021-2022. Part-time alongside studies, 2019-2021",
           "highlights": []
         },
@@ -87,13 +121,6 @@
           "period": "2018",
           "description": "Teaching assistant in object-oriented programming, computer architecture, and algorithms & data structures.",
           "highlights": []
-        },
-        {
-          "role": "Store Employee",
-          "company": "Jysk",
-          "period": "2012 - 2018",
-          "description": "",
-          "highlights": []
         }
       ]
     },
@@ -103,19 +130,19 @@
         {
           "degree": "MSc in Computer Science",
           "school": "NTNU",
-          "period": "2019 - 2021",
+          "period": "2019–2021",
           "description": "Specialization in software development."
         },
         {
           "degree": "BSc in Computer Science",
           "school": "University of Stavanger",
-          "period": "2017 - 2019",
+          "period": "2017–2019",
           "description": ""
         },
         {
           "degree": "BSc in Petroleum Engineering",
           "school": "University of Stavanger",
-          "period": "2014 - 2017",
+          "period": "2014–2017",
           "description": "Specialization in reservoir technology. Exchange semester at the University of Adelaide, fall 2016."
         }
       ]

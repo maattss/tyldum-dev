@@ -7,10 +7,38 @@
   "hero": {
     "name": "Mats Tyldum",
     "tagline": "CTO, Outlet Group",
-    "description": "Nysgjerrig på hva jeg jobber med – eller lyst til å ta en prat? Ta en titt på <github>GitHub</github>-profilen min, eller send meg en melding på <linkedin>LinkedIn</linkedin>."
+    "description": "<github>GitHub</github> · <linkedin>LinkedIn</linkedin>"
   },
   "home": {
-    "fullCv": "Les hele CV-en"
+    "fullCv": "Les hele CV-en",
+    "notes": {
+      "title": "Notater",
+      "languageHint": "på norsk"
+    },
+    "projects": {
+      "title": "Prosjekter",
+      "source": "kildekode",
+      "items": [
+        {
+          "name": "ferjetider.fyi",
+          "description": "En app for ferjene mellom Stavanger og Bergen. Viser neste avgang med sanntid fra Entur, og hvilken ferje du rekker på neste samband.",
+          "url": "https://ferjetider.fyi",
+          "source": "https://github.com/maattss/ferjetider"
+        },
+        {
+          "name": "spionspill.lol",
+          "description": "Et festspill på én telefon. Alle vet hvor dere er, bortsett fra spionen.",
+          "url": "https://spionspill.lol",
+          "source": "https://github.com/maattss/spy-game"
+        },
+        {
+          "name": "tyldum.app",
+          "description": "Appen jeg bruker til budsjett, trening, golf og huskelister.",
+          "url": "",
+          "source": "https://github.com/maattss/tyldum-app"
+        }
+      ]
+    }
   },
   "theme": {
     "dark": "Mørkt tema"
@@ -49,28 +77,34 @@
         {
           "role": "CTO",
           "company": "Outlet Group",
-          "period": "2026 - Nå",
-          "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group.",
-          "highlights": []
+          "period": "2026–nå",
+          "description": "Leder teknologistrategi, produktutvikling og teknisk gjennomføring på tvers av Outlet Group, med et team på 11.",
+          "highlights": [
+            "Alle utviklere bruker Claude Code, og agenter lager PR-er for issues og sikkerhetsfikser.",
+            "Deltaker i Unge ledere, Agenda Vestlandets toårige lederprogram."
+          ]
         },
         {
           "role": "Teknologileder",
           "company": "Sparebanken Norge",
-          "period": "2024 - 2026",
-          "description": "Leder et større team med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
-          "highlights": []
+          "period": "2024–2026",
+          "description": "Ledet et team på 10 med ansvar for utvikling og forvaltning av bankens betalingstjenester.",
+          "highlights": [
+            "Leverte «den røde knappen» i svindelprosjektet «Et steg foran»: sperrer konto og BankID på sekunder ved varsel om ID-tyveri.",
+            "Pådriver for teknisk oppgradering og utfasing av gamle systemer som forberedelse til sammenslåingen av Sparebanken Vest og Sparebanken Sør."
+          ]
         },
         {
           "role": "Team Lead og Utvikler",
           "company": "Sparebanken Vest",
-          "period": "2022 - 2024",
+          "period": "2022–2024",
           "description": "Team lead og utvikler i et team med ansvar for bankens betalingstjenester.",
           "highlights": []
         },
         {
           "role": "Utvikler",
           "company": "Bouvet",
-          "period": "2019 - 2022",
+          "period": "2019–2022",
           "description": "Utvikler. Konsulentoppdrag hos Equinor 2021–2022. Deltid ved siden av studier 2019–2021.",
           "highlights": []
         },
@@ -87,13 +121,6 @@
           "period": "2018",
           "description": "Studentassistent i objektorientert programmering, datamaskinarkitektur samt algoritmer og datastrukturer.",
           "highlights": []
-        },
-        {
-          "role": "Butikkmedarbeider",
-          "company": "Jysk",
-          "period": "2012 - 2018",
-          "description": "",
-          "highlights": []
         }
       ]
     },
@@ -103,19 +130,19 @@
         {
           "degree": "Master i datateknologi",
           "school": "NTNU",
-          "period": "2019 - 2021",
+          "period": "2019–2021",
           "description": "Spesialisering i programvareutvikling."
         },
         {
           "degree": "Bachelor i datateknologi",
           "school": "Universitetet i Stavanger",
-          "period": "2017 - 2019",
+          "period": "2017–2019",
           "description": ""
         },
         {
           "degree": "Bachelor i petroleum",
           "school": "Universitetet i Stavanger",
-          "period": "2014 - 2017",
+          "period": "2014–2017",
           "description": "Spesialisering i reservoarteknologi. Utveksling ved University of Adelaide, høsten 2016."
         }
       ]
