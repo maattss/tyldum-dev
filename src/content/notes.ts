@@ -18,15 +18,15 @@ export const notes: Note[] = [
     body: "I Outlet Group bruker alle utviklerne Claude Code i det daglige arbeidet. Enkle issues tildeler vi en agent, som oppretter en PR automatisk. Nå lager agentene også PR-er for oppgradering av avhengigheter og sikkerhetsoppdateringer, og skanner koden for sårbarheter. Det som før ble utsatt, blir nå gjort fortløpende.",
   },
   {
-    slug: "en-teknologileder-bor-bygge",
-    title: "En teknologileder bør fortsatt bygge",
-    date: "2026-11",
-    body: "Mener en teknologileder bør bygge noe selv jevnlig. Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy du aldri har brukt selv.",
-  },
-  {
     slug: "a-utvikle-seg-som-leder",
     title: "Å utvikle seg som leder",
-    date: "2026-11",
+    date: "2026-09",
     body: "Er med i Unge ledere, Agenda Vestlandets toårige lederprogram. Mener det er like viktig å jobbe med seg selv som leder som å holde seg oppdatert teknisk. Programmet gir tid til å reflektere over egen ledelse sammen med andre unge ledere.",
+  },
+  {
+    slug: "en-teknologileder-bor-bygge",
+    title: "En teknologileder bør fortsatt bygge",
+    date: "2026-03",
+    body: "Mener en teknologileder bør bygge noe selv jevnlig. Det er vanskelig å vurdere et arkitekturvalg eller et AI-verktøy du aldri har brukt selv.",
   },
 ];
